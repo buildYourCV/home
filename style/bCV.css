@@ -1,0 +1,41 @@
+.bCVContainer {
+    display: grid;    
+    font-family: cursive;
+    grid-template-areas:
+        "bCVHeader bCVHeader"
+        "bCVMenu bCVContent"
+        "bCVFooter bCVFooter";
+    grid-template-columns: 1fr 3fr;
+    gap: 5px;
+    background-color: #E6E6FA;
+    padding: 5px;
+}
+
+.bCVContainer>div {
+    /* background-color: #E6E6FA; */
+    /* background-color: #E0FFFF; */
+    background-color: #f3fcfc;
+    padding: 10px;
+        font-family: cursive;
+}
+
+.bCVContainer>div.bCVHeader {
+    grid-area: bCVHeader;
+    text-align: center;
+        font-family: cursive;
+}
+
+.bCVContainer>div.bCVMenu {
+    grid-area: bCVMenu;    
+    font-family: cursive;
+}
+
+.bCVContainer>div.bCVContent {
+    grid-area: bCVContent;
+        font-family: cursive;
+}
+
+.bCVContainer>div.bCVFooter {
+    grid-area: bCVFooter;
+        font-family: cursive;
+}
