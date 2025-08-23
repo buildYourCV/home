@@ -1,5 +1,58 @@
-.bCVContainer {
-    display: grid;    
+body {
+    background-color: #f3fcfc !important;
+}
+
+a {
+    color: #0a4553 !important;
+    font-weight: 600;
+}
+
+a:hover {
+    color: #1557c8 !important;
+}
+a:focus {
+    text-decoration: underline !important; 
+    /* color: #3f7b5d !important; */
+}
+.active>a {
+    /* text-decoration: underline; */
+    background-color: #E6E6FA !important;
+}
+
+.logo {
+    width: 15vw;
+    height: 8vh;
+}
+
+.navbar-default {
+    background-color: #E6E6FA !important;
+}
+
+.homeContainer {
+    display: block;
+}
+
+.bcvContainer {
+    display: none;
+}
+
+.gmcvContainer {
+    display: none;
+}
+
+.aboutContainer {
+    display: none;
+}
+
+.pdf {
+    width: 100vw;
+    height: 91.02vh;
+    aspect-ratio: 4 / 3;
+    margin-top: -20px;
+}
+
+/* .bCVContainer {
+    display: grid;
     font-family: cursive;
     grid-template-areas:
         "bCVHeader bCVHeader"
@@ -12,30 +65,28 @@
 }
 
 .bCVContainer>div {
-    /* background-color: #E6E6FA; */
-    /* background-color: #E0FFFF; */
     background-color: #f3fcfc;
     padding: 10px;
-        font-family: cursive;
+    font-family: cursive;
 }
 
 .bCVContainer>div.bCVHeader {
     grid-area: bCVHeader;
     text-align: center;
-        font-family: cursive;
+    font-family: cursive;
 }
 
 .bCVContainer>div.bCVMenu {
-    grid-area: bCVMenu;    
+    grid-area: bCVMenu;
     font-family: cursive;
 }
 
 .bCVContainer>div.bCVContent {
     grid-area: bCVContent;
-        font-family: cursive;
+    font-family: cursive;
 }
 
 .bCVContainer>div.bCVFooter {
     grid-area: bCVFooter;
-        font-family: cursive;
-}
+    font-family: cursive;
+} */

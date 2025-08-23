@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500">
+  <defs>
+    <style>
+      .brand-blue { fill: #1557c8; }
+      .brand-stroke { stroke: #1557c8; stroke-width: 18; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .brand-text { fill: #1557c8; font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", "Lucida Handwriting", cursive; font-size: 180px; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <!-- <rect width="1200" height="500" fill="#ffffff"/> -->
+
+  <!-- Icon group (document + pen) on the left -->
+  <g transform="translate(60,60)">
+    <!-- Document with rounded corners -->
+    <rect x="0" y="0" rx="36" ry="36" width="320" height="380" class="brand-stroke"/>
+    <!-- Header box -->
+    <rect x="42" y="42" width="110" height="90" class="brand-blue" rx="12" ry="12"/>
+    <!-- Text lines -->
+    <line x1="42" y1="180" x2="260" y2="180" class="brand-stroke"/>
+    <line x1="42" y1="240" x2="260" y2="240" class="brand-stroke"/>
+    <line x1="42" y1="300" x2="200" y2="300" class="brand-stroke"/>
+
+    <!-- Pen (simple stylized) -->
+    <g transform="translate(190,140) rotate(-35)">
+      <!-- Pen body -->
+      <rect x="0" y="0" width="220" height="42" rx="16" ry="16" class="brand-blue"/>
+      <!-- Nib -->
+      <polygon points="220,0 290,21 220,42" class="brand-blue"/>
+    </g>
+  </g>
+
+  <!-- Brand text on the right -->
+  <text x="430" y="305" class="brand-text">Build Your CV</text>
+</svg>
