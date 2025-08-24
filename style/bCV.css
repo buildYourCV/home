@@ -10,13 +10,16 @@ a {
 a:hover {
     color: #1557c8 !important;
 }
+
 a:focus {
-    text-decoration: underline !important; 
+    text-decoration: underline !important;
     /* color: #3f7b5d !important; */
 }
+
 .active>a {
-    /* text-decoration: underline; */
+    text-decoration: underline !important;
     background-color: #E6E6FA !important;
+    font-weight: 900 !important;
 }
 
 .logo {
@@ -44,6 +47,81 @@ a:focus {
     display: none;
 }
 
+.cvTemplatePreview {
+    height: 80vh;
+    /* width: 100vw; */
+    margin-left: 25rem;
+    margin-right: 25rem;
+    border: solid 7px #E6E6FA;
+    border-radius: 30px;
+    display: -webkit-box;
+}
+
+.previewSection {
+    width: 25%;
+}
+
+.templateBtnDiv {
+    left: calc((100% - 26rem) / 2);
+    position: absolute;
+}
+
+.templateBtn {
+    /* background-color:  rgb(163, 242, 163) !important; */
+}
+
+#template1 {
+    /* margin-left: 4rem; */
+}
+
+.templatePreview {
+    /* width: 20%; */
+    height: 44.2%;
+    margin: 2rem;
+    border: solid 5px #d0d0f8;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.templatePreviewImg {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+}
+
+/* .templatePreview {
+    display: inline-block;
+    margin: 10px;
+} */
+
+.templateRadio {
+    display: none;
+}
+
+.templatePreview label {
+    /* border: 5px solid transparent; */
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border 0.05s ease;
+}
+
+.previewLabel {
+    display: block !important;
+    height: 100%;
+}
+
+.templatePreview label img {
+    /* object-fit: cover;
+    display: block; */
+}
+
+/* Highlight selected image */
+.templatePreview input:checked+label {
+    border: 5px solid rgb(163, 242, 163);
+    box-shadow: 0 0 8px rgba(163, 242, 163, 0.6);
+}
+
 .pdf {
     width: 100vw;
     height: 91.02vh;
@@ -51,42 +129,43 @@ a:focus {
     margin-top: -20px;
 }
 
-/* .bCVContainer {
-    display: grid;
-    font-family: cursive;
-    grid-template-areas:
-        "bCVHeader bCVHeader"
-        "bCVMenu bCVContent"
-        "bCVFooter bCVFooter";
-    grid-template-columns: 1fr 3fr;
-    gap: 5px;
-    background-color: #E6E6FA;
-    padding: 5px;
+.img-box {
+    width: 200px;
+    height: 150px;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    background: url('../images/template1_1.jpg') center/cover no-repeat;
 }
 
-.bCVContainer>div {
-    background-color: #f3fcfc;
-    padding: 10px;
-    font-family: cursive;
+/* Overlay background */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    /* hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
-.bCVContainer>div.bCVHeader {
-    grid-area: bCVHeader;
-    text-align: center;
-    font-family: cursive;
+/* Full image */
+.overlay img {
+    max-width: 90%;
+    max-height: 95%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #000;
 }
 
-.bCVContainer>div.bCVMenu {
-    grid-area: bCVMenu;
-    font-family: cursive;
+/* Close button */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
 }
-
-.bCVContainer>div.bCVContent {
-    grid-area: bCVContent;
-    font-family: cursive;
-}
-
-.bCVContainer>div.bCVFooter {
-    grid-area: bCVFooter;
-    font-family: cursive;
-} */

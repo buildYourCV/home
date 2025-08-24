@@ -1,3 +1,4 @@
+var seletedTemplate = 'radio_template1';
 
 document.addEventListener('DOMContentLoaded', function () {
     // Your JavaScript code here, or call a function
@@ -6,10 +7,20 @@ document.addEventListener('DOMContentLoaded', function () {
         bcvElement.addEventListener('click', handleBCVOnClick);
         let aboutElement = document.getElementById('aboutMenuLink');
         aboutElement.addEventListener('click', handleAboutOnClick);
+
+        const imageRadios = document.querySelectorAll('input[name="image"]');
+
+        imageRadios.forEach(radio => {
+            radio.addEventListener('change', function (event) {
+                if (event.target.checked) {
+                    seletedTemplate = event.target.id;
+                }
+            });
+        });
     })();
 });
 
-const handleHomeOnClick= () => {
+const handleHomeOnClick = () => {
     showHidePage('homeDiv');
 }
 
@@ -21,7 +32,7 @@ const handleGMCVOnClick = () => {
     showHidePage('gmcvDiv')
 }
 
-const handleAboutOnClick = (e)=>  {
+const handleAboutOnClick = (e) => {
     showHidePage('aboutDiv', e);
 }
 
@@ -43,4 +54,21 @@ const showHidePage = (thisPageId, e) => {
 
 const getPagesList = () => {
     return ['homeDiv', 'bcvDiv', 'gmcvDiv', 'aboutDiv'];
+}
+
+
+function openImage() {
+    try {
+        let templateName = seletedTemplate.split('_')[1];
+        let src = './images/' + templateName + '/' + templateName + '_1.jpg';
+        document.getElementById("popupImg").src = src;
+        document.getElementById("overlay").style.display = "flex";
+
+    } catch (err) {
+        console.error('Exception in open image ', err)
+    }
+}
+
+function closeImage() {
+    document.getElementById("overlay").style.display = "none";
 }
