@@ -26,6 +26,7 @@ const handleHomeOnClick = () => {
 
 const handleBCVOnClick = (e) => {
     showHidePage('bcvDiv', e);
+    handleBuildResume();
 }
 
 const handleGMCVOnClick = () => {
@@ -59,8 +60,13 @@ const getPagesList = () => {
 
 function openImage() {
     try {
-        let templateName = seletedTemplate.split('_')[1];
-        let src = './images/' + templateName + '/' + templateName + '_1.jpg';
+        let src;
+        if (!seletedTemplate.split('_')[1]) {
+            src = './images/NoPreview.jpg';
+        } else {
+            let templateName = seletedTemplate.split('_')[1];
+            src = './images/' + templateName + '/' + templateName + '_1.jpg';
+        }
         document.getElementById("popupImg").src = src;
         document.getElementById("overlay").style.display = "flex";
 
@@ -71,4 +77,21 @@ function openImage() {
 
 function closeImage() {
     document.getElementById("overlay").style.display = "none";
+}
+
+const handleBuildResume = () => {
+    try {
+        if (['radio_template1', 'radio_template2'].includes(seletedTemplate)) {
+            let templateName = seletedTemplate.split('_')[1];
+            document.getElementById('bCVMenuLink').click();
+            src = './images/' + templateName + '/' + templateName + '_1.jpg';
+            document.getElementById('selectedTemplateImg').src = src;
+        }
+        else {
+            alert('Please choose another template.');
+        }
+    } catch (err) {
+        console.error('Exception error ', err);
+
+    }
 }

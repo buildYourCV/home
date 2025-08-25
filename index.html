@@ -83,8 +83,8 @@
         </div> <br />
 
         <div class="templateBtnDiv">
-            <button class="btn btn-success" onclick="openImage('./images/template1/template1_1.jpg')">Preview template</button> &nbsp; &nbsp; &nbsp;
-            <button class="btn btn-success">Create resume</button>
+            <button class="btn btn-success" onclick="openImage()">Preview template</button> &nbsp; &nbsp; &nbsp;
+            <button class="btn btn-success" onclick="handleBuildResume()">Create resume</button>
         </div>
     </div>
     <!-- Overlay -->
@@ -95,52 +95,29 @@
 
     <div class="bcvContainer" id="bcvDiv">
         <div class="d-flex justify-content-center align-items-center vh-100">
-            <div>
-                <p>This div is centered both vertically and horizontally.</p>
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="fullname" class="form-label">Full Name</label>
-            <input type="text" class="form-control" id="fullname" placeholder="Enter your full name" required>
-        </div>
+            <div class="bcvForm">
+                 <div class="templatePreview" id="template1">
+                    <img src="./images/template1/template1_1.jpg" id = "selectedTemplateImg" class="templatePreviewImg">
+                </div>
+                <div class="bcvFormSection">
+                    
+                    <div class="bcvFormDiv">
+                        <input placeholder="First Name" class="form-control" id="fnField"/><br>
+                        <input placeholder="Last Name" class="form-control" id="lnField"/><br/>
+                        <input placeholder="Mobile No" class="form-control" id="mobField"/><br/>
+                        <input placeholder="Email Address" class="form-control" id="emailField"/><br/>
+                        <input placeholder="Summary" class="form-control" id="summaryField1"/>
+                        <button class = 'btn btn-link' title="Click to create another summary field">Add another point tosummary  </button>
+                    </div>
+                </div>
+            </div> <br />
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Gender</label><br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="male" value="male">
-                <label class="form-check-label" for="male">Male</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                <label class="form-check-label" for="female">Female</label>
+            <div class="templateBtnDiv">
+                <button class="btn btn-success" onclick="">Close</button> &nbsp; &nbsp; &nbsp;
+                <button class="btn btn-success" onclick="">Continue</button>
             </div>
         </div>
 
-        <div class="mb-3">
-            <label for="country" class="form-label">Country</label>
-            <select class="form-select" id="country">
-                <option selected disabled>Choose...</option>
-                <option value="india">India</option>
-                <option value="usa">USA</option>
-                <option value="uk">UK</option>
-            </select>
-        </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="terms" required>
-            <label class="form-check-label" for="terms">I agree to the Terms & Conditions</label>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
-        </form>
     </div>
     <div class="gmcvContainer" id="gmcvDiv">
         <object class="pdf" data="./images/myCV.pdf">
