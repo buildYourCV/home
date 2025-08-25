@@ -32,13 +32,13 @@ a:focus {
 }
 
 .homeContainer {
-    /* display: block; */
-    display: none;
+    display: block;
+    /* display: none; */
 }
 
 .bcvContainer {
-    /* display: none; */
-    display: block;
+    display: none;
+    /* display: block; */
 }
 
 .gmcvContainer {
