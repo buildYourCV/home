@@ -32,13 +32,13 @@ a:focus {
 }
 
 .homeContainer {
-    display: block;
-    /* display: none; */
+    /* display: block; */
+    display: none;
 }
 
 .bcvContainer {
-    display: none;
-    /* display: block; */
+    /* display: none; */
+    display: block;
 }
 
 .gmcvContainer {
@@ -58,6 +58,9 @@ a:focus {
     border: solid 7px #E6E6FA;
     border-radius: 30px;
     display: -webkit-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
 }
 
 .previewSection {
@@ -75,7 +78,7 @@ a:focus {
 }
 
 .templateBtnDiv {
-    left: calc((100% - 26rem) / 2);
+    left: calc((100% - 15rem) / 2);
     position: absolute;
 }
 
