@@ -1,152 +1,309 @@
-<!DOCTYPE html>
-<html>
-
+<!doctype html>
+<html lang="en">
 <head>
-    <style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Resume Builder</title>
+  <style>
+    :root{--accent:#1f6feb;--muted:#6b7280;--bg:#f7f9fc}
+    *{box-sizing:border-box}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; margin:0; background:var(--bg); color:#0f172a}
+    .app{display:grid; grid-template-columns:420px 1fr; gap:20px; padding:24px; min-height:100vh}
+    .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(15,23,42,0.08)}
+    h2{margin:0 0 12px;font-size:18px}
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input[type=text], input[type=email], input[type=tel], textarea, select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-size:14px}
+    textarea{min-height:80px;resize:vertical}
+    .row{display:flex;gap:10px}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+    .btn.secondary{background:#fff;color:var(--accent);border:1px solid #d6e4ff}
+    .small{font-size:13px;padding:6px 8px}
+    .muted{color:var(--muted);font-size:13px}
 
-    </style>
-    <title>Build CV</title>
-    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-    <link rel="stylesheet" href="./style/bCV.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    /* left column form */
+    .controls{overflow:auto;max-height:calc(100vh - 64px)}
+    .section{margin-bottom:16px}
+    .list{display:flex;flex-direction:column;gap:10px}
+    .item{border:1px dashed #e6e9ef;padding:10px;border-radius:8px}
+    .item .meta{display:flex;gap:8px;align-items:center}
+
+    /* preview */
+    .preview-wrap{padding:18px}
+    .preview{background:#fff;padding:28px;border-radius:10px;max-width:800px;margin:18px auto;box-shadow:0 8px 30px rgba(2,6,23,0.06)}
+    .resume-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .name{font-size:28px;font-weight:700}
+    .contact{font-size:13px;color:var(--muted)}
+    .section-title{font-weight:700;margin-top:12px;margin-bottom:8px;color:var(--accent)}
+    .skill-pill{display:inline-block;padding:6px 8px;border-radius:999px;border:1px solid #e6e9ef;margin:4px 6px 4px 0;font-size:13px}
+
+    /* responsive */
+    @media (max-width:900px){.app{grid-template-columns:1fr;padding:12px}.controls{max-height:none}}
+  </style>
 </head>
-
 <body>
-    <script src="./js/bCV.js"></script>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <!-- <a class="navbar-brand" href="#">Build Your CV</a> -->
-                <img src="./images/build-your-cv-logo.svg" class="logo" />
-            </div>
-            <ul class="nav navbar-nav">
-                <li onclick="handleHomeOnClick()"><a href="#">Home</a></li>
-                <li><a href="#" id="bCVMenuLink">Build Your CV</a></li>
-                <li><a href="#" onclick="handleGMCVOnClick()">Get My CV</a></li>
-                <li><a href="#" id="aboutMenuLink">About</a></li>
-            </ul>
+  <div class="app">
+    <div class="card controls">
+      <h2>Build your resume</h2>
+
+      <div class="section">
+        <label>Full name</label>
+        <input id="fullName" type="text" value="Your Name" />
+      </div>
+
+      <div class="section row">
+        <div style="flex:1">
+          <label>Email</label>
+          <input id="email" type="email" placeholder="you@example.com" />
         </div>
-    </nav>
-
-    <div class="homeContainer" id="homeDiv">
-        <div class="cvTemplatePreview">
-            <div class="previewSection">
-                <div class="templatePreview" id="template1">
-                    <input type="radio" class="templateRadio" id="radio_template1" name="image" checked>
-                    <label class="previewLabel" for="radio_template1"><img src="./images/template1/template1_1.jpg"
-                            class="templatePreviewImg"></label>
-                </div>
-                <div class="templatePreview" id="template2">
-                    <input type="radio" class="templateRadio" id="radio_template2" name="image">
-                    <label class="previewLabel" for="radio_template2"><img src="./images/template2/template2_1.jpg"
-                            class="templatePreviewImg"></label>
-                </div>
-            </div>
-            <div class="previewSection">
-                <div class="templatePreview" id="template3">
-                    <input type="radio" class="templateRadio" id="radio_template3" name="image">
-                    <label class="previewLabel" for="radio_template3"><img src="./images/template1/template1_1.jpg"
-                            class="templatePreviewImg"></label>
-                </div>
-                <div class="templatePreview" id="template4">
-                    <input type="radio" class="templateRadio" id="radio_template4" name="image">
-                    <label class="previewLabel" for="radio_template4"><img src="./images/template1/template1_1.jpg"
-                            class="templatePreviewImg"></label>
-                </div>
-            </div>
-            <div class="previewSection">
-                <div class="templatePreview" id="template5">
-                    <input type="radio" class="templateRadio" id="radio_template5" name="image">
-                    <label class="previewLabel" for="radio_template5"><img src="./images/template1/template1_1.jpg"
-                            class="templatePreviewImg"></label>
-                </div>
-                <div class="templatePreview" id="template6">
-                    <input type="radio" class="templateRadio" id="radio_template6" name="image">
-                    <label class="previewLabel" for="radio_template6"><img src="./images/template1/template1_1.jpg"
-                            class="templatePreviewImg"></label>
-                </div>
-            </div>
-            <div class="previewSection">
-                <div class="templatePreview" id="template7">
-                    <input type="radio" class="templateRadio" id="radio_template7" name="image">
-                    <label class="previewLabel" for="radio_template7"><img src="./images/template1/template1_1.jpg"
-                            class="templatePreviewImg"></label>
-                </div>
-                <div class="templatePreview" id="template8">
-                    <input type="radio" class="templateRadio" id="radio_template8" name="image">
-                    <label class="previewLabel" for="radio_template8"><img src="./images/template1/template1_1.jpg"
-                            class="templatePreviewImg"></label>
-                </div>
-            </div>
-        </div> <br />
-
-        <div class="templateBtnDiv">
-            <button class="btn btn-success" onclick="openImage()">Preview template</button> &nbsp; &nbsp; &nbsp;
-            <button class="btn btn-success" onclick="handleBuildResume()">Create resume</button>
+        <div style="width:140px">
+          <label>Phone</label>
+          <input id="phone" type="tel" placeholder="+91 9xxxx" />
         </div>
-    </div>
-    <!-- Overlay -->
-    <div class="overlay" id="overlay">
-        <span class="close-btn" onclick="closeImage()">&times;</span>
-        <img id="popupImg" src="">
-    </div>
+      </div>
 
-    <div class="bcvContainer" id="bcvDiv">
-        <div class="d-flex justify-content-center align-items-center vh-100">
-            <div class="bcvForm">
-                <div class="templatePreview" id="template1">
-                    <img src="./images/template1/template1_1.jpg" id="selectedTemplateImg" class="templatePreviewImg"
-                        onclick="openImage()" />
-                </div>
-                <div class="bcvFormSection">
+      <div class="section">
+        <label>Professional title</label>
+        <input id="title" type="text" placeholder="Frontend Developer" />
+      </div>
 
-                    <div class="bcvFormDiv">
-                        <div id="bcvForm1">
-                            <input placeholder="First Name" class="form-control" id="fnField" /><br>
-                            <input placeholder="Last Name" class="form-control" id="lnField" /><br />
-                            <input placeholder="Mobile No" class="form-control" id="mobField" /><br />
-                            <input placeholder="Email Address" class="form-control" id="emailField" /><br />
-                            <div id="summaryContainer"><input placeholder="Summary" class="form-control"
-                                    id="summaryField1" /></div>
-                            <button class='btn btn-link' title="Click to create another summary field"
-                                onclick="handleAddSummary()">
-                                Add another point to summary </button>
-                        </div>
-                        <div id="bcvForm2" style="display: none;">
-                            <div id ='cSummaryForm'>
-                                <section id ='1'>
-                                    <label for="fromDate1">From Date (Select Month and Year):</label>
-                                    <input type="month" id="fromDate1" name="fromDate1" class="form-control"><br />
-                                    <label for="toDate1">To Date (Select Month and Year): &nbsp; &nbsp;<input id="tillDateChk_1" type="checkbox" onclick="handleTillPresentCheck('toDate1', 'tillDateChk_1')"> till present</input></label>
-                                    <input type="month" class="form-control" id="toDate1" name="toDate1"><br />
-                                    <input placeholder="Enter Designation and Company Name" class="form-control" id="designationAndCompany1" />
-                                </section>
-                            </div>
-                            <button class='btn btn-link' title="Click to create another summary field" id="cSummaryAddLink" onclick="handleAddCareerSummary()">
-                                Add another point to career summary
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div> <br />
+      <div class="section">
+        <label>Summary</label>
+        <textarea id="summary" placeholder="Short professional summary"></textarea>
+      </div>
 
-            <div class="templateBtnDiv">
-                <button class="btn btn-success" onclick="">Clear</button> &nbsp; &nbsp; &nbsp;
-                <button class="btn btn-success" onclick="handleContinue()">Continue</button>
-            </div>
+      <div class="section">
+        <label>Skills (comma separated)</label>
+        <input id="skills" type="text" placeholder="React, JavaScript, SQL" />
+      </div>
+
+      <div class="section">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 style="margin:0;font-size:15px">Experience</h3>
+          <button id="addExp" class="btn small">+ Add</button>
         </div>
+        <div id="expList" class="list"></div>
+      </div>
 
-    </div>
-    <div class="gmcvContainer" id="gmcvDiv">
-        <object class="pdf" data="./images/myCV.pdf">
-        </object>
-    </div>
-    <div class="aboutContainer" id="aboutDiv">
-        <h3>about</h3>
+      <div class="section">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 style="margin:0;font-size:15px">Education</h3>
+          <button id="addEdu" class="btn small">+ Add</button>
+        </div>
+        <div id="eduList" class="list"></div>
+      </div>
+
+      <div class="section row">
+        <button id="updateBtn" class="btn">Update Preview</button>
+        <button id="downloadJson" class="btn secondary">Download JSON</button>
+      </div>
+
+      <div class="section row" style="margin-top:12px">
+        <button id="printBtn" class="btn">Export / Print</button>
+        <button id="resetBtn" class="btn secondary">Reset</button>
+      </div>
+
+      <p class="muted" style="margin-top:12px">Tip: Click "Add" to create multiple experience or education entries. Use Export/Print to save as PDF.</p>
     </div>
 
+    <div class="preview-wrap">
+      <div class="card preview" id="preview">
+        <!-- Preview content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <template id="expTpl">
+    <div class="item">
+      <div class="meta">
+        <input class="exp-role" type="text" placeholder="Role / Title" style="flex:2" />
+        <input class="exp-company" type="text" placeholder="Company" style="flex:1" />
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input class="exp-from" type="text" placeholder="From (e.g. 2021)" />
+        <input class="exp-to" type="text" placeholder="To (e.g. Present)" />
+      </div>
+      <textarea class="exp-desc" placeholder="Short description"></textarea>
+      <div style="text-align:right;margin-top:6px">
+        <button class="removeExp btn secondary small">Remove</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="eduTpl">
+    <div class="item">
+      <div style="display:flex;gap:8px;align-items:center">
+        <input class="edu-degree" type="text" placeholder="Degree / Course" style="flex:1" />
+        <input class="edu-school" type="text" placeholder="Institute" style="flex:1" />
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input class="edu-year" type="text" placeholder="Year" />
+        <input class="edu-grade" type="text" placeholder="Grade / CGPA" />
+      </div>
+      <div style="text-align:right;margin-top:6px">
+        <button class="removeEdu btn secondary small">Remove</button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    // Utility helpers
+    const qs = s => document.querySelector(s);
+    const qsa = s => document.querySelectorAll(s);
+
+    const fullName = qs('#fullName');
+    const email = qs('#email');
+    const phone = qs('#phone');
+    const title = qs('#title');
+    const summary = qs('#summary');
+    const skills = qs('#skills');
+    const expList = qs('#expList');
+    const eduList = qs('#eduList');
+    const addExp = qs('#addExp');
+    const addEdu = qs('#addEdu');
+    const updateBtn = qs('#updateBtn');
+    const preview = qs('#preview');
+    const printBtn = qs('#printBtn');
+    const resetBtn = qs('#resetBtn');
+    const downloadJson = qs('#downloadJson');
+
+    function createFromTemplate(tplId){
+      const tpl = document.getElementById(tplId);
+      return tpl.content.firstElementChild.cloneNode(true);
+    }
+
+    function addExperience(data){
+      const node = createFromTemplate('expTpl');
+      if(data){ node.querySelector('.exp-role').value = data.role || '';
+                node.querySelector('.exp-company').value = data.company || '';
+                node.querySelector('.exp-from').value = data.from || '';
+                node.querySelector('.exp-to').value = data.to || '';
+                node.querySelector('.exp-desc').value = data.desc || ''; }
+      node.querySelector('.removeExp').addEventListener('click', () => node.remove());
+      expList.appendChild(node);
+    }
+    function addEducation(data){
+      const node = createFromTemplate('eduTpl');
+      if(data){ node.querySelector('.edu-degree').value = data.degree || '';
+                node.querySelector('.edu-school').value = data.school || '';
+                node.querySelector('.edu-year').value = data.year || '';
+                node.querySelector('.edu-grade').value = data.grade || ''; }
+      node.querySelector('.removeEdu').addEventListener('click', () => node.remove());
+      eduList.appendChild(node);
+    }
+
+    // initial sample
+    addExperience({role:'Frontend Developer',company:'Acme Corp',from:'2021',to:'Present',desc:'Built UI components using React and improved performance.'});
+    addEducation({degree:'B.Tech Computer Science',school:'State University',year:'2017',grade:'7.8 CGPA'});
+
+    function collectData(){
+      const exps = Array.from(expList.children).map(item=>({
+        role: item.querySelector('.exp-role').value,
+        company: item.querySelector('.exp-company').value,
+        from: item.querySelector('.exp-from').value,
+        to: item.querySelector('.exp-to').value,
+        desc: item.querySelector('.exp-desc').value
+      }));
+      const edus = Array.from(eduList.children).map(item=>({
+        degree: item.querySelector('.edu-degree').value,
+        school: item.querySelector('.edu-school').value,
+        year: item.querySelector('.edu-year').value,
+        grade: item.querySelector('.edu-grade').value
+      }));
+
+      return {
+        name: fullName.value,
+        title: title.value,
+        email: email.value,
+        phone: phone.value,
+        summary: summary.value,
+        skills: skills.value.split(',').map(s=>s.trim()).filter(Boolean),
+        experience: exps,
+        education: edus
+      };
+    }
+
+    function renderPreview(){
+      const d = collectData();
+      preview.innerHTML = `
+        <div class="resume-head">
+          <div>
+            <div class="name">${escapeHtml(d.name || '')}</div>
+            <div style="font-weight:600;color:#111">${escapeHtml(d.title || '')}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="contact">${escapeHtml(d.email || '')}</div>
+            <div class="contact">${escapeHtml(d.phone || '')}</div>
+          </div>
+        </div>
+        <div>
+          <div class="section-title">Summary</div>
+          <div style="margin-bottom:8px">${escapeHtml(d.summary || '')}</div>
+
+          <div class="section-title">Skills</div>
+          <div>${d.skills.map(s=>`<span class="skill-pill">${escapeHtml(s)}</span>`).join('')}</div>
+
+          <div class="section-title">Experience</div>
+          ${d.experience.map(e=>`
+            <div style="margin-bottom:10px">
+              <div style="font-weight:700">${escapeHtml(e.role)} — <span style="font-weight:600;color:var(--muted)">${escapeHtml(e.company)}</span></div>
+              <div class="muted" style="font-size:13px;margin-bottom:6px">${escapeHtml(e.from)} — ${escapeHtml(e.to)}</div>
+              <div style="font-size:14px">${escapeHtml(e.desc)}</div>
+            </div>
+          `).join('')}
+
+          <div class="section-title">Education</div>
+          ${d.education.map(u=>`
+            <div style="margin-bottom:8px">
+              <div style="font-weight:700">${escapeHtml(u.degree)} — <span style="font-weight:600;color:var(--muted)">${escapeHtml(u.school)}</span></div>
+              <div class="muted" style="font-size:13px">${escapeHtml(u.year)} • ${escapeHtml(u.grade)}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function escapeHtml(str){
+      if(!str) return '';
+      return String(str).replace(/[&<>"']/g, s=>({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      })[s]);
+    }
+
+    addExp.addEventListener('click', ()=>addExperience());
+    addEdu.addEventListener('click', ()=>addEducation());
+    updateBtn.addEventListener('click', renderPreview);
+
+    // live update on change (debounced)
+    let timer; document.querySelectorAll('input,textarea').forEach(el=>el.addEventListener('input', ()=>{ clearTimeout(timer); timer=setTimeout(renderPreview,300);}));
+
+    printBtn.addEventListener('click', ()=>{
+      // open a new window with only the resume content for printing
+      const w = window.open('', '_blank');
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>Resume</title><style>body{font-family:Inter,Arial;margin:40px;color:#0f172a}.name{font-size:28px;font-weight:700}.muted{color:#6b7280}</style></head><body>${preview.innerHTML}</body></html>`;
+      w.document.write(html); w.document.close();
+      w.focus();
+      setTimeout(()=>{ w.print(); }, 300);
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      if(!confirm('Reset all fields?')) return;
+      fullName.value=''; email.value=''; phone.value=''; title.value=''; summary.value=''; skills.value='';
+      expList.innerHTML=''; eduList.innerHTML='';
+      renderPreview();
+    });
+
+    downloadJson.addEventListener('click', ()=>{
+      const data = collectData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = (data.name||'resume').replace(/\s+/g,'_').toLowerCase()+'.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    // initial render
+    renderPreview();
+  </script>
 </body>
-
 </html>
