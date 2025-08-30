@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Build CV</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
   <style>
     .color-box {
       display: flex;
@@ -66,10 +66,25 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#" onclick="showHidePage('bcvHome')">Home</a></li>
         <li><a href="#" onclick="showHidePage('gmcvDiv')">Gey My CV</a></li>
-        <li><a href="#">About</a></li>
+        <li><a href="#" onclick="showHidePage('bcvAbout')">About</a></li>
       </ul>
     </div>
   </nav>
+  <div  id="bcvAbout" style="display: none; margin-left: 10rem;">
+    <p><strong>www.buildcv.co.in</strong> is your fast, free, and powerful online CV builder. With a range of beautifully designed, ATS-friendly templates, our platform helps you:</p>
+
+    <ul>
+      <li><strong>Create professional, eye-catching resumes quickly</strong> — no formatting hassle required.</li>
+      <li><strong>Leverage smart tools to guide your content</strong> — our intuitive interface ensures clarity and relevance.</li>
+      <li><strong>Download your CV instantly as a polished PDF</strong> — ready to apply for jobs right away.</li>
+      <li><strong>Save time and reduce stress</strong> — focus on your experiences, not the layout.</li>
+    </ul>
+
+    <p>
+      Whether you're a recent graduate, a mid-career professional, or looking to shift industries, 
+      <strong>buildcv.co.in</strong> equips you with a standout resume that gets noticed.
+    </p>
+  </div>
   <div class="gmcvContainer" id="gmcvDiv" style="display: none;">
          <iframe src="./images/myCV.pdf" style="width:100%; height:100vh;" frameborder="0"></iframe>
   </div>
@@ -290,13 +305,13 @@
           </div>
         </div>
         <div>
-          <div class="section-title" style="color: ${getCVThemeColor()}">Summary</div>
+          <div class="section-title" style="font-weight: 600; color: ${getCVThemeColor()}">Summary</div>
           <div style="margin-bottom:8px">${escapeHtml(d.summary || '')}</div><br/>
 
-          <div class="section-title" style="color: ${getCVThemeColor()}">Skills</div>
+          <div class="section-title" style="font-weight: 600; color: ${getCVThemeColor()}">Skills</div>
           <div>${d.skills.map(s=>`<span class="skill-pill">${escapeHtml(s)}</span>`).join('')}</div><br/>
 
-          <div class="section-title" style="color: ${getCVThemeColor()}">Experience</div>
+          <div class="section-title" style="font-weight: 600; color: ${getCVThemeColor()}">Experience</div>
           ${d.experience.map(e=>`
             <div style="margin-bottom:10px">
               <div style="font-weight:700">${escapeHtml(e.role)} — <span style="font-weight:600;color:var(--muted)">${escapeHtml(e.company)}</span></div>
@@ -305,7 +320,7 @@
             </div>
           `).join('')}
           <br/>
-          <div class="section-title" style="color: ${getCVThemeColor()}">Education</div>
+          <div class="section-title" style="font-weight: 600; color: ${getCVThemeColor()}">Education</div>
           ${d.education.map(u=>`
             <div style="margin-bottom:8px">
               <div style="font-weight:700">${escapeHtml(u.degree)} — <span style="font-weight:600;color:var(--muted)">${escapeHtml(u.school)}</span></div>
@@ -325,7 +340,7 @@
     }
 
     const getPagesList = () => {
-        return ['bcvHome', 'gmcvDiv'];
+        return ['bcvHome', 'gmcvDiv', 'bcvAbout'];
     }
 
     const showHidePage = (thisPageId) =>{
