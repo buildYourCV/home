@@ -3,9 +3,24 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Resume Builder</title>
+  <title>Build CV</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
   <style>
-    :root{--accent:#1f6feb;--muted:#6b7280;--bg:#f7f9fc}
+    .color-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    /* Fallback for Bootstrap 3 (no gap) */
+    .color-box > * {
+      margin-right: 15px;
+    }
+    .color-box > *:last-child {
+      margin-right: 0;
+    }
+    :root{--accent:#7a7af0;--muted:#6b7280;--bg:#f7f9fc}
     *{box-sizing:border-box}
     body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; margin:0; background:var(--bg); color:#0f172a}
     .app{display:grid; grid-template-columns:420px 1fr; gap:20px; padding:24px; min-height:100vh}
@@ -41,7 +56,24 @@
   </style>
 </head>
 <body>
-  <div class="app">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Build CV</a>
+        <!-- <img src="./images/build-your-cv-logo.svg" class="navbar-brand" /> -->
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#" onclick="showHidePage('bcvHome')">Home</a></li>
+        <li><a href="#" onclick="showHidePage('gmcvDiv')">Gey My CV</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="gmcvContainer" id="gmcvDiv" style="display: none;">
+         <iframe src="./images/myCV.pdf" style="width:100%; height:100vh;" frameborder="0"></iframe>
+  </div>
+  <div class="app" id="bcvHome">
     <div class="card controls">
       <h2>Build your resume</h2>
 
@@ -104,8 +136,14 @@
 
       <p class="muted" style="margin-top:12px">Tip: Click "Add" to create multiple experience or education entries. Use Export/Print to save as PDF.</p>
     </div>
-
     <div class="preview-wrap">
+      <div id="colorPreview" class="center-block" style="background-color: #009999;"></div>
+      <div class="color-box">
+        <span class="fw-bold">🎨 Choose CV Theme Color</span>
+        <input type="color" id="colorPicker" value="#009999" class="form-control" style="width:60px; padding:0; border:none;">
+        <span id="colorCode" class="label label-primary">#009999</span>
+      </div>
+      
       <div class="card preview" id="preview">
         <!-- Preview content injected by JS -->
       </div>
@@ -222,6 +260,22 @@
       };
     }
 
+    function getCVThemeColor(){
+      return document.getElementById("colorPreview").style.backgroundColor;
+    }
+
+    function applyTagStyle(className) {
+      let elements = document.getElementsByClassName(className);
+      Array.from(elements).map(element=>{
+        element.style.display = "inline-block";
+        element.style.padding = "6px 8px";
+        element.style.borderRadius = "999px";
+        element.style.border = "1px solid #e6e9ef";
+        element.style.margin = "4px 6px 4px 0";
+        element.style.fontSize = "13px";
+      });
+    }
+
     function renderPreview(){
       const d = collectData();
       preview.innerHTML = `
@@ -236,13 +290,13 @@
           </div>
         </div>
         <div>
-          <div class="section-title">Summary</div>
-          <div style="margin-bottom:8px">${escapeHtml(d.summary || '')}</div>
+          <div class="section-title" style="color: ${getCVThemeColor()}">Summary</div>
+          <div style="margin-bottom:8px">${escapeHtml(d.summary || '')}</div><br/>
 
-          <div class="section-title">Skills</div>
-          <div>${d.skills.map(s=>`<span class="skill-pill">${escapeHtml(s)}</span>`).join('')}</div>
+          <div class="section-title" style="color: ${getCVThemeColor()}">Skills</div>
+          <div>${d.skills.map(s=>`<span class="skill-pill">${escapeHtml(s)}</span>`).join('')}</div><br/>
 
-          <div class="section-title">Experience</div>
+          <div class="section-title" style="color: ${getCVThemeColor()}">Experience</div>
           ${d.experience.map(e=>`
             <div style="margin-bottom:10px">
               <div style="font-weight:700">${escapeHtml(e.role)} — <span style="font-weight:600;color:var(--muted)">${escapeHtml(e.company)}</span></div>
@@ -250,8 +304,8 @@
               <div style="font-size:14px">${escapeHtml(e.desc)}</div>
             </div>
           `).join('')}
-
-          <div class="section-title">Education</div>
+          <br/>
+          <div class="section-title" style="color: ${getCVThemeColor()}">Education</div>
           ${d.education.map(u=>`
             <div style="margin-bottom:8px">
               <div style="font-weight:700">${escapeHtml(u.degree)} — <span style="font-weight:600;color:var(--muted)">${escapeHtml(u.school)}</span></div>
@@ -260,6 +314,7 @@
           `).join('')}
         </div>
       `;
+      applyTagStyle('skill-pill');
     }
 
     function escapeHtml(str){
@@ -267,6 +322,26 @@
       return String(str).replace(/[&<>"']/g, s=>({
         '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
       })[s]);
+    }
+
+    const getPagesList = () => {
+        return ['bcvHome', 'gmcvDiv'];
+    }
+
+    const showHidePage = (thisPageId) =>{
+      try {
+          let thisPage = document.getElementById(thisPageId)
+          thisPage.style.display = 'grid';
+          // e && e.target && e.target.classList.add('active');
+          let allPagesList = getPagesList();
+          allPagesList.map((item) => {
+            if (item !== thisPageId) {
+              document.getElementById(item).style.display = 'none';
+            }
+          });
+        } catch (err) {
+          console.error('Exception error', err);
+        }
     }
 
     addExp.addEventListener('click', ()=>addExperience());
@@ -279,7 +354,7 @@
     printBtn.addEventListener('click', ()=>{
       // open a new window with only the resume content for printing
       const w = window.open('', '_blank');
-      const html = `<!doctype html><html><head><meta charset="utf-8"><title>Resume</title><style>body{font-family:Inter,Arial;margin:40px;color:#0f172a}.name{font-size:28px;font-weight:700}.muted{color:#6b7280}</style></head><body>${preview.innerHTML}</body></html>`;
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>www.buildcv.co.in</title><style>body{font-family:Inter,Arial;margin:40px;color:#0f172a}.name{font-size:28px;font-weight:700;}.muted{color:#6b7280}</style></head><body>${preview.innerHTML}</body></html>`;
       w.document.write(html); w.document.close();
       w.focus();
       setTimeout(()=>{ w.print(); }, 300);
@@ -304,6 +379,21 @@
 
     // initial render
     renderPreview();
+  </script>
+  <script>
+    const picker = document.getElementById("colorPicker");
+    const cPreview = document.getElementById("colorPreview");
+    const code = document.getElementById("colorCode");
+
+    // Set initial color
+    cPreview.style.backgroundColor = picker.value;
+
+    // Update preview when user picks a color
+    picker.addEventListener("input", function () {
+      const color = picker.value;
+      cPreview.style.backgroundColor = color;
+      code.textContent = color;
+    });
   </script>
 </body>
 </html>
