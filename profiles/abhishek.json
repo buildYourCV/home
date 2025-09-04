@@ -1,30 +1,197 @@
 {
-  "name": "John Doe",
-  "headline": "Full Stack Developer",
-  "location": "Bangalore, India",
-  "email": "johndoe@example.com",
-  "phone": "+91 9876543210",
-  "skills": ["JavaScript", "React", "Node.js"],
-  "summary": "Experienced developer with 5+ years in building scalable web apps.",
-  "experience": [
+  "name": {
+    "first": "Abhishek",
+    "last": "Kumar"
+  },
+  "contact": {
+    "phone": "+91-9154826149",
+    "email": "abhishek.kumar2025@yahoo.com",
+    "website": "https://www.buildcv.co.in/",
+    "address": {
+      "street": "",
+      "city": "",
+      "state": "",
+      "zip": ""
+    }
+  },
+  "summary": [
+    "IT Professional with 11 years of experience, including 7+ years in React.js/Redux and 4 years in Micro Frontend (Module Federation). Skilled in building scalable applications, reusable components, and backend solutions with C#, ASP.Net MVC, Web API, SQL.",
+    "Strong expertise in JavaScript/TypeScript, KafkaJS, Redis, AngularJS and Agile delivery with Git/SVN, Jenkins, and JIRA, Rally."
+  ],
+  "career_summary": [
+    {
+      "role": "Software Engineer II",
+      "company": "Concentrix Catalyst Technologies Private Limited",
+      "location": "",
+      "duration": "03/2021 to Current",
+      "description": ""
+    },
+    {
+      "role": "Principal Software Developer",
+      "company": "Hexagon Capability Centre India",
+      "location": "Hyderabad",
+      "duration": "03/2018 to 03/2021",
+      "description": ""
+    },
     {
       "role": "Software Engineer",
-      "company": "TechCorp",
-      "years": "2020 - Present",
-      "details": "Working on full stack applications using React and Node.js."
+      "company": "Rockwell Collins India Pvt Ltd",
+      "location": "Hyderabad",
+      "duration": "02/2016 to 03/2018",
+      "description": ""
+    },
+    {
+      "role": "Programmer",
+      "company": "Kantar GDC",
+      "location": "Hyderabad",
+      "duration": "12/2013 to 07/2015",
+      "description": ""
+    }
+  ],
+  "skills": [
+    "React.JS",
+    "Redux",
+    "JavaScript",
+    "TypeScript",
+    "RxJS",
+    "KafksJS",
+    "Node-redis",
+    "Mediapipe",
+    "TesorFlow.js",
+    "C#",
+    "ASP.NET MVC",
+    "ASP.NET",
+    "ADO.NET",
+    "Entity Framework",
+    "SQL Server",
+    "Oracle",
+    "MySQL",
+    "Visual studio code",
+    "Unit testing",
+    "API integration",
+    "Agile methodologies",
+    "Version control",
+    "Problem solving",
+    "Critical thinking",
+    "Client communication",
+    "Team leadership",
+    "Team player",
+    "Code reviews",
+    "Agile and scrum frameworks",
+    "Machine learning basics"
+  ],
+  "projects": [
+    {
+      "title": "Video Visit",
+      "duration": "Mar 2021 – Present",
+      "technologies": [
+        "React.JS",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "client": "Kaiser Permanente",
+      "description": "Developed virtual consultation applications (VVM for patients, VVP for clinicians), enabling video-based doctor appointments.",
+      "responsibilities": [
+        "Developed reusable React components and optimized rendering performance.",
+        "Implemented Redux state management for seamless data flow.",
+        "Integrated video call APIs for real-time virtual consultations.",
+        "Collaborated with doctors and stakeholders to refine UI/UX requirements.",
+        "Conducted unit testing and participated in code reviews for quality assurance."
+      ]
+    },
+    {
+      "title": "PIM (Product Information Management)",
+      "duration": "Mar 2018 – Mar 2021",
+      "technologies": [
+        "React.JS",
+        "Redux",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "C#",
+        "Web API",
+        "SQL Server"
+      ],
+      "client": "Hexagon",
+      "description": "Designed and implemented scalable PIM solutions, integrating React.js frontend with C# and SQL backend to manage product information efficiently.",
+      "responsibilities": [
+        "Developed micro frontend modules using React.js and Redux.",
+        "Built APIs with C# and Web API to manage product data.",
+        "Worked closely with product teams to define requirements.",
+        "Optimized SQL queries for better system performance.",
+        "Improved application accessibility and responsiveness."
+      ]
+    },
+    {
+      "title": "Pro Line Fusion",
+      "duration": "Feb 2016 – Mar 2018",
+      "technologies": [
+        "AngularJS",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "C#",
+        "ASP.NET MVC",
+        "SQL Server"
+      ],
+      "client": "Rockwell Collins",
+      "description": "Worked on avionics display systems with AngularJS-based UI and backend APIs in C# ASP.NET MVC, focusing on real-time data visualization.",
+      "responsibilities": [
+        "Developed AngularJS components for avionics dashboards.",
+        "Built backend modules in C# ASP.NET MVC.",
+        "Ensured real-time data updates using optimized APIs.",
+        "Collaborated with QA team for rigorous testing cycles.",
+        "Participated in Agile ceremonies and sprint planning."
+      ]
+    },
+    {
+      "title": "Kantar Analytics",
+      "duration": "Dec 2013 – Jul 2015",
+      "technologies": [
+        "C#",
+        "ASP.NET",
+        "ADO.NET",
+        "SQL Server"
+      ],
+      "client": "Kantar GDC",
+      "description": "Developed and maintained analytics dashboards for client reporting, optimizing SQL queries and improving system performance.",
+      "responsibilities": [
+        "Created ASP.NET web forms for reporting dashboards.",
+        "Implemented ADO.NET for data access and manipulation.",
+        "Improved SQL queries and stored procedures for faster results.",
+        "Supported clients by troubleshooting and resolving issues.",
+        "Documented technical workflows for internal teams."
+      ]
     }
   ],
   "education": [
     {
-      "degree": "B.Tech in Computer Science",
-      "institution": "XYZ University",
-      "years": "2015 - 2019"
+      "degree": "Bachelor of Technology (B.Tech)",
+      "field": "Computer Science and Engineering",
+      "university": "Uttar Pradesh Technical University",
+      "year_of_passing": "2013"
     }
   ],
-  "projects": [
+  "languages": [
     {
-      "title": "Resume Builder Platform",
-      "description": "Built a resume builder app for job seekers."
+      "language": "English",
+      "proficiency": "Professional"
+    },
+    {
+      "language": "Hindi",
+      "proficiency": "Native"
     }
-  ]
+  ],
+  "personal_information": {
+    "date_of_birth": "",
+    "gender": "Male",
+    "marital_status": "",
+    "nationality": "Indian",
+    "hobbies": [
+      "Reading Tech Blogs",
+      "Problem Solving",
+      "Cricket"
+    ]
+  }
 }
