@@ -1,0 +1,46 @@
+.color-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    /* Fallback for Bootstrap 3 (no gap) */
+    .color-box > * {
+      margin-right: 15px;
+    }
+    .color-box > *:last-child {
+      margin-right: 0;
+    }
+    :root{--accent:#7a7af0;--muted:#6b7280;--bg:#f7f9fc}
+    *{box-sizing:border-box}
+    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; margin:0; background:var(--bg); color:#0f172a}
+    .app{display:grid; grid-template-columns:420px 1fr; gap:20px; padding:24px; min-height:100vh}
+    .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(15,23,42,0.08)}
+    h2{margin:0 0 12px;font-size:18px}
+    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    input[type=text], input[type=email], input[type=tel], textarea, select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-size:14px}
+    textarea{min-height:80px;resize:vertical}
+    .row{display:flex;gap:10px}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+    .btn.secondary{background:#fff;color:var(--accent);border:1px solid #d6e4ff}
+    .small{font-size:13px;padding:6px 8px}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* left column form */
+    .controls{overflow:auto;max-height:calc(100vh - 64px)}
+    .section{margin-bottom:16px}
+    .list{display:flex;flex-direction:column;gap:10px}
+    .item{border:1px dashed #e6e9ef;padding:10px;border-radius:8px}
+    .item .meta{display:flex;gap:8px;align-items:center}
+
+    /* preview */
+    .preview-wrap{padding:18px}
+    .preview{background:#fff;padding:28px;border-radius:10px;max-width:800px;margin:18px auto;box-shadow:0 8px 30px rgba(2,6,23,0.06)}
+    .resume-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .name{font-size:28px;font-weight:700;}
+    .contact{font-size:13px;color:var(--muted)}
+    .section-title{font-weight:700;margin-top:12px;margin-bottom:8px;color:var(--accent)}
+    .skill-pill{display:inline-block;padding:6px 8px;border-radius:999px;border:1px solid #e6e9ef;margin:4px 6px 4px 0;font-size:13px}
+
+    /* responsive */
+    @media (max-width:900px){.app{grid-template-columns:1fr;padding:12px}.controls{max-height:none}}

@@ -6,57 +6,16 @@
   <title>Build CV</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+  <link rel="stylesheet" href="./style/jsonToHtml.css">
+  <link rel="stylesheet" href="./style/bcv.css">
   <style>
-    .color-box {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-    }
-    /* Fallback for Bootstrap 3 (no gap) */
-    .color-box > * {
-      margin-right: 15px;
-    }
-    .color-box > *:last-child {
-      margin-right: 0;
-    }
-    :root{--accent:#7a7af0;--muted:#6b7280;--bg:#f7f9fc}
-    *{box-sizing:border-box}
-    body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial; margin:0; background:var(--bg); color:#0f172a}
-    .app{display:grid; grid-template-columns:420px 1fr; gap:20px; padding:24px; min-height:100vh}
-    .card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(15,23,42,0.08)}
-    h2{margin:0 0 12px;font-size:18px}
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
-    input[type=text], input[type=email], input[type=tel], textarea, select{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ef;font-size:14px}
-    textarea{min-height:80px;resize:vertical}
-    .row{display:flex;gap:10px}
-    .btn{display:inline-block;padding:8px 12px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
-    .btn.secondary{background:#fff;color:var(--accent);border:1px solid #d6e4ff}
-    .small{font-size:13px;padding:6px 8px}
-    .muted{color:var(--muted);font-size:13px}
+    
 
-    /* left column form */
-    .controls{overflow:auto;max-height:calc(100vh - 64px)}
-    .section{margin-bottom:16px}
-    .list{display:flex;flex-direction:column;gap:10px}
-    .item{border:1px dashed #e6e9ef;padding:10px;border-radius:8px}
-    .item .meta{display:flex;gap:8px;align-items:center}
-
-    /* preview */
-    .preview-wrap{padding:18px}
-    .preview{background:#fff;padding:28px;border-radius:10px;max-width:800px;margin:18px auto;box-shadow:0 8px 30px rgba(2,6,23,0.06)}
-    .resume-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-    .name{font-size:28px;font-weight:700}
-    .contact{font-size:13px;color:var(--muted)}
-    .section-title{font-weight:700;margin-top:12px;margin-bottom:8px;color:var(--accent)}
-    .skill-pill{display:inline-block;padding:6px 8px;border-radius:999px;border:1px solid #e6e9ef;margin:4px 6px 4px 0;font-size:13px}
-
-    /* responsive */
-    @media (max-width:900px){.app{grid-template-columns:1fr;padding:12px}.controls{max-height:none}}
   </style>
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
     <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -66,11 +25,38 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#" onclick="showHidePage('bcvHome')">Home</a></li>
         <li><a href="#" onclick="showHidePage('gmcvDiv')">Gey My CV</a></li>
+        <li><a href="#" onclick="showHidePage('bcvWithJSON')">Build CV Using JSON</a></li>
         <li><a href="#" onclick="showHidePage('bcvAbout')">About</a></li>
       </ul>
     </div>
   </nav>
-  <div  id="bcvAbout" style="display: none; margin-left: 10rem;">
+  <div id ='bcvWithJSON' style="display: none;">
+    <div class="container">
+    <div class="panel">
+      <h3>JSON Editor</h3>
+      <div class="toolbar">
+        <button class="btn" id="btnRender">Render Resume</button>
+        <button class="btn gray" id="btnFormat">Prettify</button>
+        <button class="btn gray" id="btnMinify">Minify</button>
+        <button class="btn secondary" id="btnDownload">Download JSON</button>
+        <label class="btn gray small" for="fileInput" style="cursor:pointer">Upload JSON</label>
+        <input type="file" id="fileInput" accept="application/json,text/json">
+        <button class="btn gray" id="btnReset">Reset to Sample</button>
+      </div>
+      <div id="error" class="error" role="alert" aria-live="polite"></div>
+      <textarea id="jsonEditor" spellcheck="false"></textarea>
+    </div>
+
+    <div class="panel">
+      <h3>Preview Generated From JSON</h3>
+      <button id="btnPrintPreview" class="btn">Export / Print</button>
+      <div class="jsonPreview" id="jsonPreview">
+        <!-- Rendered resume appears here -->
+      </div>
+    </div>
+  </div>
+  </div>
+  <div  id="bcvAbout" style="display: none; margin-left: 5rem;">
     <p><strong>www.buildcv.co.in</strong> is your fast, free, and powerful online CV builder. With a range of beautifully designed, ATS-friendly templates, our platform helps you:</p>
 
     <ul>
@@ -97,7 +83,7 @@
         <input id="fullName" type="text" value="Your Name" />
       </div>
 
-      <div class="section row">
+      <div class="section row" style="padding-left: 0px;">
         <div style="flex:1">
           <label>Email</label>
           <input id="email" type="email" placeholder="you@example.com" />
@@ -296,7 +282,7 @@
       preview.innerHTML = `
         <div class="resume-head">
           <div>
-            <div class="name">${escapeHtml(d.name || '')}</div>
+            <div class="name" style="color: ${getCVThemeColor()}">${escapeHtml(d.name || '')}</div>
             <div style="font-weight:600;color:#111">${escapeHtml(d.title || '')}</div>
           </div>
           <div style="text-align:right">
@@ -324,7 +310,7 @@
           ${d.education.map(u=>`
             <div style="margin-bottom:8px">
               <div style="font-weight:700">${escapeHtml(u.degree)} — <span style="font-weight:600;color:var(--muted)">${escapeHtml(u.school)}</span></div>
-              <div class="muted" style="font-size:13px">${escapeHtml(u.year)} • ${escapeHtml(u.grade)}</div>
+              <div class="muted" style="font-size:13px">${escapeHtml(u.year)}  ${escapeHtml(u.grade)}</div>
             </div>
           `).join('')}
         </div>
@@ -340,7 +326,7 @@
     }
 
     const getPagesList = () => {
-        return ['bcvHome', 'gmcvDiv', 'bcvAbout'];
+        return ['bcvHome', 'gmcvDiv', 'bcvWithJSON', 'bcvAbout'];
     }
 
     const showHidePage = (thisPageId) =>{
@@ -369,7 +355,7 @@
     printBtn.addEventListener('click', ()=>{
       // open a new window with only the resume content for printing
       const w = window.open('', '_blank');
-      const html = `<!doctype html><html><head><meta charset="utf-8"><title>www.buildcv.co.in</title><style>body{font-family:Inter,Arial;margin:40px;color:#0f172a}.name{font-size:28px;font-weight:700;}.muted{color:#6b7280}</style></head><body>${preview.innerHTML}</body></html>`;
+      const html = `<!doctype html><html><head><meta charset="utf-8"><title>www.buildcv.co.in</title><link rel="stylesheet" href="./style/jsonToHtml.css"><link rel="stylesheet" href="./style/bcv.css"><style>body{font-family:Inter,Arial;margin:40px;color:#0f172a}.name{font-size:28px;font-weight:700;}.muted{color:#6b7280}</style></head><body>${preview.innerHTML}</body></html>`;
       w.document.write(html); w.document.close();
       w.focus();
       setTimeout(()=>{ w.print(); }, 300);
@@ -409,6 +395,218 @@
       cPreview.style.backgroundColor = color;
       code.textContent = color;
     });
+  </script>
+   <script>
+    // Sample resume JSON (initial)
+    const sample = {
+      "name": {"first": "Abhishek", "last": "Kumar"},
+      "contact": {"phone": "+91-9154826149","email": "abhishek.kumar2025@yahoo.com","website":"https://www.buildcv.co.in/","address": {"street": "","city": "","state": "","zip": ""}},
+      "summary": [
+        "IT Professional with 11 years of experience, including 7+ years in React.js/Redux and 4 years in Micro Frontend (Module Federation). Skilled in building scalable applications, reusable components, and backend solutions with C#, ASP.Net MVC, Web API, SQL.",
+        "Strong expertise in JavaScript/TypeScript, KafkaJS, Redis, AngularJS and Agile delivery with Git/SVN, Jenkins, and JIRA, Rally."
+      ],
+      "career_summary": [
+        {"role":"Software Engineer II","company":"Concentrix Catalyst Technologies Private Limited","location":"","duration":"03/2021 to Current","description":""},
+        {"role":"Principal Software Developer","company":"Hexagon Capability Centre India","location":"Hyderabad","duration":"03/2018 to 03/2021","description":""},
+        {"role":"Software Engineer","company":"Rockwell Collins India Pvt Ltd","location":"Hyderabad","duration":"02/2016 to 03/2018","description":""},
+        {"role":"Programmer","company":"Kantar GDC","location":"Hyderabad","duration":"12/2013 to 07/2015","description":""}
+      ],
+      "skills":["React.JS","Redux","JavaScript","TypeScript","RxJS","KafksJS","Node-redis","Mediapipe","TesorFlow.js","C#","ASP.NET MVC","ASP.NET","ADO.NET","Entity Framework","SQL Server","Oracle","MySQL","Visual studio code","Unit testing","API integration","Agile methodologies","Version control","Problem solving","Critical thinking","Client communication","Team leadership","Team player","Code reviews","Agile and scrum frameworks","Machine learning basics"],
+      "projects":[
+        {"title":"Video Visit","duration":"Mar 2021 – Present","technologies":["React.JS","JavaScript","HTML","CSS"],"client":"Kaiser Permanente","description":"Developed virtual consultation applications (VVM for patients, VVP for clinicians), enabling video-based doctor appointments.","responsibilities":["Developed reusable React components and optimized rendering performance.","Implemented Redux state management for seamless data flow.","Integrated video call APIs for real-time virtual consultations.","Collaborated with doctors and stakeholders to refine UI/UX requirements.","Conducted unit testing and participated in code reviews for quality assurance."]},
+        {"title":"PIM (Product Information Management)","duration":"Mar 2018 – Mar 2021","technologies":["React.JS","Redux","JavaScript","HTML","CSS","C#","Web API","SQL Server"],"client":"Hexagon","description":"Designed and implemented scalable PIM solutions, integrating React.js frontend with C# and SQL backend to manage product information efficiently.","responsibilities":["Developed micro frontend modules using React.js and Redux.","Built APIs with C# and Web API to manage product data.","Worked closely with product teams to define requirements.","Optimized SQL queries for better system performance.","Improved application accessibility and responsiveness."]},
+        {"title":"Pro Line Fusion","duration":"Feb 2016 – Mar 2018","technologies":["AngularJS","JavaScript","HTML","CSS","C#","ASP.NET MVC","SQL Server"],"client":"Rockwell Collins","description":"Worked on avionics display systems with AngularJS-based UI and backend APIs in C# ASP.NET MVC, focusing on real-time data visualization.","responsibilities":["Developed AngularJS components for avionics dashboards.","Built backend modules in C# ASP.NET MVC.","Ensured real-time data updates using optimized APIs.","Collaborated with QA team for rigorous testing cycles.","Participated in Agile ceremonies and sprint planning."]},
+        {"title":"Kantar Analytics","duration":"Dec 2013 – Jul 2015","technologies":["C#","ASP.NET","ADO.NET","SQL Server"],"client":"Kantar GDC","description":"Developed and maintained analytics dashboards for client reporting, optimizing SQL queries and improving system performance.","responsibilities":["Created ASP.NET web forms for reporting dashboards.","Implemented ADO.NET for data access and manipulation.","Improved SQL queries and stored procedures for faster results.","Supported clients by troubleshooting and resolving issues.","Documented technical workflows for internal teams."]}
+      ],
+      "education":[{"degree":"Bachelor of Technology (B.Tech)","field":"Computer Science and Engineering","university":"Uttar Pradesh Technical University","year_of_passing":"2013"}],
+      "languages":[{"language":"English","proficiency":"Professional"},{"language":"Hindi","proficiency":"Native"}],
+      "personal_information":{"date_of_birth":"","gender":"Male","marital_status":"","nationality":"Indian","hobbies":["Reading Tech Blogs","Problem Solving","Cricket"]}
+    };
+
+    const editor = document.getElementById('jsonEditor');
+    const jsonPreview = document.getElementById('jsonPreview');
+    const errorEl = document.getElementById('error');
+    const fileInput = document.getElementById('fileInput');
+
+    function setEditor(obj){
+      editor && (editor.value = JSON.stringify(obj, null, 2));
+      errorEl && (errorEl.textContent = '');
+    }
+
+    function showError(msg){ errorEl.textContent = msg; }
+
+    function parseEditor(){
+      try{
+        const v = editor.value.trim();
+        if(!v) throw new Error('Editor is empty');
+        const obj = JSON.parse(v);
+        errorEl.textContent = '';
+        return obj;
+      }catch(err){ showError('Invalid JSON: ' + err.message); return null; }
+    }
+
+    // Renderer (same as before)
+    const $ = (tag, props={}, ...children) => {
+      const el = document.createElement(tag);
+      for (const [k,v] of Object.entries(props||{})){
+        if (k === 'class') el.className = v; 
+        else if (k === 'html') el.innerHTML = v; 
+        else if (k.startsWith('on') && typeof v === 'function') el[k.toLowerCase()] = v;
+        else el.setAttribute(k, v);
+      }
+      for (const c of children.flat()){
+        if (c==null) continue;
+        el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+      }
+      return el;
+    };
+
+    function renderContact(c){
+      const parts = [];
+      if (c?.website) parts.push($('div',{}, $('a',{href:c.website, target:'_blank'}, c.website)));
+      if (c?.email) parts.push($('div',{}, $('a',{href:`mailto:${c.email}`}, c.email)));
+      if (c?.phone) parts.push($('div',{}, $('a',{href:`tel:${c.phone}`}, c.phone)));
+      const addr = c?.address || {};
+      const addrStr = [addr.street, addr.city, addr.state, addr.zip].filter(Boolean).join(', ');
+      if (addrStr) parts.push($('div', {class:'muted'}, addrStr));
+      return $('div',{class:'contact'}, parts);
+    }
+
+    function renderResume(obj){
+      if(!obj) return;
+      jsonPreview && (jsonPreview.innerHTML = '');
+      const fullName = [obj?.name?.first, obj?.name?.last].filter(Boolean).join(' ');
+      const header = $('header',{}, $('div',{}, $('div',{class:'name'}, fullName)), renderContact(obj.contact));
+      jsonPreview && jsonPreview.appendChild($('div',{class:'page'}, header));
+
+      if (obj.summary?.length) {
+        const sec = $('section',{class:'section summary'}, $('h2',{},'Summary'));
+        obj.summary.forEach(p => sec.appendChild($('p',{},p)));
+        jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+      }
+
+      if (obj.career_summary?.length){
+        const sec = $('section',{class:'section career'}, $('h2',{},'Career Summary'));
+        obj.career_summary.forEach(j => {
+          const job = $('div',{class:'job'});
+          job.appendChild($('div',{class:'row'}, $('div',{class:'role'}, j.role||''), j.company? $('div',{class:'company'}, ` ${j.company}`):null, j.location? $('div',{class:'location'}, ` ${j.location}`):null, j.duration? $('div',{class:'duration'}, ` ${j.duration}`):null));
+          if (j.description) job.appendChild($('p',{}, j.description));
+          sec.appendChild(job);
+        });
+        jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+      }
+
+      if (obj.skills?.length){
+        const sec = $('section',{class:'section skills'}, $('h2',{},'Skills'), $('div',{}, ...obj.skills.map(s=>$('span',{class:'chip'}, s))));
+        jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+      }
+
+      if (obj.projects?.length){
+        const sec = $('section',{class:'section projects'}, $('h2',{},'Projects'));
+        obj.projects.forEach(p => {
+          const pr = $('div',{class:'project'});
+          pr.appendChild($('div',{class:'row'}, $('div',{class:'role'}, p.title||''), p.client? $('div',{class:'company'}, ` ${p.client}`):null, p.duration? $('div',{class:'duration'}, ` ${p.duration}`):null));
+          if (p.technologies?.length) pr.appendChild($('div',{class:'muted'}, `Tech: ${p.technologies.join(', ')}`));
+          if (p.description) pr.appendChild($('p',{}, p.description));
+          if (p.responsibilities?.length) pr.appendChild($('ul',{class:'resp'}, ...p.responsibilities.map(r=>$('li',{},r))));
+          sec.appendChild(pr);
+        });
+        jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+      }
+
+      if (obj.education?.length){
+        const sec = $('section',{class:'section education'}, $('h2',{},'Education'));
+        obj.education.forEach(e => sec.appendChild($('div',{class:'edu-item'}, $('div',{class:'row'}, $('div',{class:'role'}, e.degree||''), e.field? $('div',{class:'company'}, ` ${e.field}`):null, e.university? $('div',{class:'location'}, ` ${e.university}`):null, e.year_of_passing? $('div',{class:'duration'}, ` ${e.year_of_passing}`):null))));
+        jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+      }
+
+      if (obj.languages?.length){
+        const sec = $('section',{class:'section languages'}, $('h2',{},'Languages'), $('table',{class:'lang-table'}, ...obj.languages.map(l => $('tr',{}, $('td',{}, l.language||''), $('td',{}, $('span',{class:'badge'}, l.proficiency||''))))));
+        jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+      }
+
+      if (obj.personal_information){
+        const sec = $('section',{class:'section personal'}, $('h2',{},'Personal Information'));
+        const info = obj.personal_information;
+        if (info.date_of_birth) sec.appendChild($('p',{}, $('strong',{},'Date of birth: '), info.date_of_birth));
+        if (info.gender) sec.appendChild($('p',{}, $('strong',{},'Gender: '), info.gender));
+        if (info.marital_status) sec.appendChild($('p',{}, $('strong',{},'Marital status: '), info.marital_status));
+        if (info.nationality) sec.appendChild($('p',{}, $('strong',{},'Nationality: '), info.nationality));
+        if (info.hobbies?.length) sec.appendChild($('p',{}, $('strong',{},'Hobbies: '), info.hobbies.join(', ')));
+        jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+      }
+
+      // jsonPreview && jsonPreview.querySelector('.page').appendChild($('footer',{}, 'Generated from JSON'));
+    }
+
+    // Controls
+     document.getElementById('btnRender') && document.getElementById('btnRender').addEventListener('click', () => {
+      const obj = parseEditor(); if(obj) renderResume(obj);
+    });
+
+    document.getElementById('btnFormat') && document.getElementById('btnFormat').addEventListener('click', () => {
+      const obj = parseEditor(); if(!obj) return; editor.value = JSON.stringify(obj, null, 2);
+    });
+
+    document.getElementById('btnMinify') && document.getElementById('btnMinify').addEventListener('click', () => {
+      const obj = parseEditor(); if(!obj) return; editor.value = JSON.stringify(obj);
+    });
+
+    document.getElementById('btnReset') && document.getElementById('btnReset').addEventListener('click', () => { setEditor(sample); renderResume(sample); });
+
+     document.getElementById('btnDownload') && document.getElementById('btnDownload').addEventListener('click', () => {
+      const v = editor.value; if(!v) return showError('Editor is empty');
+      const blob = new Blob([v], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'resume.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    fileInput && fileInput.addEventListener('change', (e)=>{
+      const f = e.target.files && e.target.files[0]; if(!f) return;
+      const reader = new FileReader();
+      reader.onload = () => { editor.value = reader.result; errorEl.textContent = ''; };
+      reader.onerror = () => showError('Failed to read file');
+      reader.readAsText(f);
+      fileInput.value = '';
+    });
+
+    // initialize
+    setEditor(sample);
+    renderResume(sample);
+    document.getElementById("btnPrintPreview").addEventListener("click", () => {
+  const preview = document.getElementById("jsonPreview");
+
+  if (!preview || !preview.innerHTML.trim()) {
+    alert("Nothing to print! Please render the resume first.");
+    return;
+  }
+
+    const w = window.open("", "_blank");
+    const html = `
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Resume Preview</title>
+        <link rel="stylesheet" href="./style/jsonToHtml.css">
+        <link rel="stylesheet" href="./style/bcv.css">
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; color: #111; }
+          h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+          .chip { display:inline-block; padding:4px 8px; margin:3px; border:1px solid #ddd; border-radius:999px; font-size:12px; }
+        </style>
+      </head>
+      <body>
+        ${preview.innerHTML}
+      </body>
+      </html>
+    `;
+
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    setTimeout(() => w.print(), 300);
+  });
   </script>
 </body>
 </html>
