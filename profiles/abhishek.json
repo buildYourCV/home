@@ -1,0 +1,30 @@
+{
+  "name": "John Doe",
+  "headline": "Full Stack Developer",
+  "location": "Bangalore, India",
+  "email": "johndoe@example.com",
+  "phone": "+91 9876543210",
+  "skills": ["JavaScript", "React", "Node.js"],
+  "summary": "Experienced developer with 5+ years in building scalable web apps.",
+  "experience": [
+    {
+      "role": "Software Engineer",
+      "company": "TechCorp",
+      "years": "2020 - Present",
+      "details": "Working on full stack applications using React and Node.js."
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Tech in Computer Science",
+      "institution": "XYZ University",
+      "years": "2015 - 2019"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Resume Builder Platform",
+      "description": "Built a resume builder app for job seekers."
+    }
+  ]
+}
