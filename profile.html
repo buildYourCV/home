@@ -8,17 +8,6 @@
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="stylesheet" href="./style/jsonToHtml.css">
     <link rel="stylesheet" href="./style/bcv.css">
-    <style>
-        /* body { font-family: Arial, sans-serif; background:#f5f7fa; padding:20px; }
-    .container { max-width:800px; margin:auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-    h1 { color:#0b69ff; margin-bottom:5px; }
-    h2 { margin-top:30px; }
-    .skills span { display:inline-block; background:#e6f0ff; padding:6px 10px; border-radius:15px; margin:4px; font-size:14px; }
-    .section { margin-top:20px; }
-    .exp-item, .edu-item, .proj-item { margin-bottom:15px; }
-    .headline { font-weight:bold; color:#444; margin-bottom:10px; }
-    .summary { background:#fafafa; padding:10px; border-radius:8px; } */
-    </style>
 </head>
 
 <body style="overflow: hidden;">
@@ -31,11 +20,11 @@
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="https://www.buildcv.co.in/">Home</a></li>
-                <li><a href="#">Gey My CV</a></li>
+                <!-- <li><a href="#">Gey My CV</a></li>
                 <li><a href="#">Build CV Using JSON</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="#">About</a></li> -->
             </ul>
-            <div class="contact">
+            <div class="profileContact contact">
                 <a href="mailto:contact@buildcv.co.in">📧buildcv.co.in@gmail.com</a>
             </div>
         </div>
@@ -55,8 +44,8 @@
         if (!username) {
             document.body.innerHTML = "<h2>No user specified in the link.</h2>";
         } else {
-            //   fetch(`profiles/${username}.json`)
-            fetch(`https://www.buildcv.co.in/profiles/abhishek.json`)
+              fetch(`profiles/${username}.json`)
+            // fetch(`https://www.buildcv.co.in/profiles/abhishek.json`)
                 .then(res => {
                     if (!res.ok) throw new Error("Profile not found");
                     return res.json();
