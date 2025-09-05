@@ -68,7 +68,7 @@
    <div class="popup-overlay" id="popupOverlay">
     <div class="popup">
       <h2>Hello 👋</h2>
-      <p>Email your JSON file to <b>buildcv.co.in@gmail.com</b>.<br/> You will get your live link in within 24 hours, like below.</p>
+      <p>Email your JSON file to <b>buildcv.co.in@gmail.com</b>.<br/> You will get your live link within 24 hours, like below.</p>
       <a href="https://www.buildcv.co.in/profile.html?user=abhishek" target="_blank">https://www.buildcv.co.in/profile.html?user=abhishek</a><br/>
       <button onclick="closePopup()">Close</button>
     </div>
@@ -82,6 +82,7 @@
       <li><strong>Leverage smart tools to guide your content</strong> — our intuitive interface ensures clarity and relevance.</li>
       <li><strong>Download your CV instantly as a polished PDF</strong> — ready to apply for jobs right away.</li>
       <li><strong>Save time and reduce stress</strong> — focus on your experiences, not the layout.</li>
+      <li style="color: #009999;"><strong>Generate a live CV link</strong> — share your resume online with a single URL, no need for attachments.</li>
     </ul>
 
     <p>
@@ -89,6 +90,7 @@
       <strong>buildcv.co.in</strong> equips you with a standout resume that gets noticed.
     </p>
   </div>
+  
   <div class="gmcvContainer" id="gmcvDiv" style="display: none;">
          <iframe src="./images/myCV.pdf" style="width:100%; height:100vh;" frameborder="0"></iframe>
   </div>
@@ -141,6 +143,14 @@
           <button id="addEdu" class="btn small">+ Add</button>
         </div>
         <div id="eduList" class="list"></div>
+      </div>
+      <div class="section">
+        <label>Languages (comma separated)</label>
+        <input id="languages" type="text" placeholder="English, Hindi, Telgu" />
+      </div>
+      <div class="section">
+        <label>Personal Information</label>
+        <input id="personalInfo" type="text" placeholder="Date of Birth (DD-MM-YYYY)" />
       </div>
 
       <div class="section row">
@@ -217,6 +227,8 @@
     const eduList = qs('#eduList');
     const addExp = qs('#addExp');
     const addEdu = qs('#addEdu');
+    const languages = qs('#languages');
+    const personalInfo = qs('#personalInfo');
     const updateBtn = qs('#updateBtn');
     const preview = qs('#preview');
     const printBtn = qs('#printBtn');
@@ -275,7 +287,9 @@
         summary: summary.value,
         skills: skills.value.split(',').map(s=>s.trim()).filter(Boolean),
         experience: exps,
-        education: edus
+        education: edus,
+        languages: languages.value.split(',').map(s=>s.trim()).filter(Boolean),
+        personalInformation: personalInfo.value
       };
     }
 
@@ -331,6 +345,11 @@
               <div class="muted" style="font-size:13px">${escapeHtml(u.year)}  ${escapeHtml(u.grade)}</div>
             </div>
           `).join('')}
+          <br/>
+          <div class="section-title" style="font-weight: 600; color: ${getCVThemeColor()}">Languages</div>
+          <div>${d.languages.map(s=>`<span class="skill-pill">${escapeHtml(s)}</span>`).join('')}</div><br/>
+          <div class="section-title" style="font-weight: 600; color: ${getCVThemeColor()}">Personal Information</div>
+          <div>Date of birth: ${escapeHtml(d.personalInformation || '')}</div>
         </div>
       `;
       applyTagStyle('skill-pill');
