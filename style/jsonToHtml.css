@@ -36,3 +36,47 @@
     .row::before { content: none !important;}
 
     @media (max-width:980px){.container{grid-template-columns:1fr;}.page{padding:12px}.name{font-size:28px}}
+
+    /* The popup overlay */
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none; /* hidden by default */
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* The popup box */
+    .popup {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Close button */
+    .popup button {
+      margin-top: 15px;
+      padding: 8px 15px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .popup button:hover {
+      background: var(--accent);
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }

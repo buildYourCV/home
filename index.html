@@ -57,13 +57,23 @@
 
     <div class="panel">
       <h3>Preview Generated From JSON</h3>
-      <button id="btnPrintPreview" class="btn">Export / Print</button>
+      <button id="btnPrintPreview" class="btn">Export / Print</button> &nbsp;&nbsp;
+      <button id="btnGetCVUrl" onclick="openPopup()" class="btn" title="Create your own shareable CV link. It can be accessed anywhere.">Get Your Own CV URL</button>
       <div class="jsonPreview" id="jsonPreview">
         <!-- Rendered resume appears here -->
       </div>
     </div>
   </div>
   </div>
+   <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <h2>Hello 👋</h2>
+      <p>Email your JSON file to <b>buildcv.co.in@gmail.com</b>.<br/> You will get your live link in within 24 hours, like below.</p>
+      <a href="https://www.buildcv.co.in/profile.html?user=abhishek" target="_blank">https://www.buildcv.co.in/profile.html?user=abhishek</a><br/>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
   <div  id="bcvAbout" style="display: none; margin-left: 5rem;">
     <p><strong>www.buildcv.co.in</strong> is your fast, free, and powerful online CV builder. With a range of beautifully designed, ATS-friendly templates, our platform helps you:</p>
 
@@ -615,6 +625,15 @@
     w.focus();
     setTimeout(() => w.print(), 300);
   });
+  </script>
+  <script>
+    function openPopup() {
+      document.getElementById("popupOverlay").style.display = "flex";
+    }
+
+    function closePopup() {
+      document.getElementById("popupOverlay").style.display = "none";
+    }
   </script>
 </body>
 </html>

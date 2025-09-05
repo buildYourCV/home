@@ -1,10 +1,15 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <title>User Profile</title>
-  <style>
-    body { font-family: Arial, sans-serif; background:#f5f7fa; padding:20px; }
+    <meta charset="utf-8" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="stylesheet" href="./style/jsonToHtml.css">
+    <link rel="stylesheet" href="./style/bcv.css">
+    <style>
+        /* body { font-family: Arial, sans-serif; background:#f5f7fa; padding:20px; }
     .container { max-width:800px; margin:auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
     h1 { color:#0b69ff; margin-bottom:5px; }
     h2 { margin-top:30px; }
@@ -12,104 +17,244 @@
     .section { margin-top:20px; }
     .exp-item, .edu-item, .proj-item { margin-bottom:15px; }
     .headline { font-weight:bold; color:#444; margin-bottom:10px; }
-    .summary { background:#fafafa; padding:10px; border-radius:8px; }
-  </style>
+    .summary { background:#fafafa; padding:10px; border-radius:8px; } */
+    </style>
 </head>
-<body>
-  <div class="container">
-    <h1 id="name">Loading...</h1>
-    <p class="headline" id="headline"></p>
-    <p id="location"></p>
-    <p id="contact"></p>
 
-    <div class="section">
-      <h2>Summary</h2>
-      <p id="summary" class="summary"></p>
+<body style="overflow: hidden;">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header active">
+                <a class="navbar-brand" href="#" style="background-color: #dff3f5;"
+                    onclick="showHidePage('bcvHome')">Build CV</a>
+                <!-- <img src="./images/build-your-cv-logo.svg" class="navbar-brand" /> -->
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="https://www.buildcv.co.in/">Home</a></li>
+                <li><a href="#">Gey My CV</a></li>
+                <li><a href="#">Build CV Using JSON</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+            <div class="contact">
+                <a href="mailto:contact@buildcv.co.in">📧buildcv.co.in@gmail.com</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="height: 85vh; gap:100px">
+        <div class="jsonPreview" id="jsonPreview">
+            <!-- Rendered resume appears here -->
+        </div>
+
     </div>
 
-    <div class="section">
-      <h2>Skills</h2>
-      <div id="skills" class="skills"></div>
-    </div>
+    <script>
+        // Get username from URL query (e.g. ?user=johndoe)
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get("user");
 
-    <div class="section">
-      <h2>Experience</h2>
-      <div id="experience"></div>
-    </div>
+        if (!username) {
+            document.body.innerHTML = "<h2>No user specified in the link.</h2>";
+        } else {
+            //   fetch(`profiles/${username}.json`)
+            fetch(`https://www.buildcv.co.in/profiles/abhishek.json`)
+                .then(res => {
+                    if (!res.ok) throw new Error("Profile not found");
+                    return res.json();
+                })
+                .then(sample => {
+                    const editor = document.getElementById('jsonEditor');
+                    const jsonPreview = document.getElementById('jsonPreview');
+                    const errorEl = document.getElementById('error');
+                    const fileInput = document.getElementById('fileInput');
 
-    <div class="section">
-      <h2>Education</h2>
-      <div id="education"></div>
-    </div>
+                    function setEditor(obj) {
+                        editor && (editor.value = JSON.stringify(obj, null, 2));
+                        errorEl && (errorEl.textContent = '');
+                    }
 
-    <div class="section">
-      <h2>Projects</h2>
-      <div id="projects"></div>
-    </div>
-  </div>
+                    function showError(msg) { errorEl.textContent = msg; }
 
-  <script>
-    // Get username from URL query (e.g. ?user=johndoe)
-    const params = new URLSearchParams(window.location.search);
-    const username = params.get("user");
+                    function parseEditor() {
+                        try {
+                            const v = editor.value.trim();
+                            if (!v) throw new Error('Editor is empty');
+                            const obj = JSON.parse(v);
+                            errorEl.textContent = '';
+                            return obj;
+                        } catch (err) { showError('Invalid JSON: ' + err.message); return null; }
+                    }
 
-    if(!username){
-      document.body.innerHTML = "<h2>No user specified in the link.</h2>";
-    } else {
-      fetch(`profiles/${username}.json`)
-        .then(res => {
-          if (!res.ok) throw new Error("Profile not found");
-          return res.json();
-        })
-        .then(data => {
-          // Fill fields
-          document.getElementById("name").textContent = data.name || "";
-          document.getElementById("headline").textContent = data.headline || "";
-          document.getElementById("location").textContent = data.location || "";
-          document.getElementById("contact").textContent = 
-            [data.email, data.phone].filter(Boolean).join(" | ");
+                    // Renderer (same as before)
+                    const $ = (tag, props = {}, ...children) => {
+                        const el = document.createElement(tag);
+                        for (const [k, v] of Object.entries(props || {})) {
+                            if (k === 'class') el.className = v;
+                            else if (k === 'html') el.innerHTML = v;
+                            else if (k.startsWith('on') && typeof v === 'function') el[k.toLowerCase()] = v;
+                            else el.setAttribute(k, v);
+                        }
+                        for (const c of children.flat()) {
+                            if (c == null) continue;
+                            el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+                        }
+                        return el;
+                    };
 
-          document.getElementById("summary").textContent = data.summary || "";
+                    function renderContact(c) {
+                        const parts = [];
+                        if (c?.website) parts.push($('div', {}, $('a', { href: c.website, target: '_blank' }, c.website)));
+                        if (c?.email) parts.push($('div', {}, $('a', { href: `mailto:${c.email}` }, c.email)));
+                        if (c?.phone) parts.push($('div', {}, $('a', { href: `tel:${c.phone}` }, c.phone)));
+                        const addr = c?.address || {};
+                        const addrStr = [addr.street, addr.city, addr.state, addr.zip].filter(Boolean).join(', ');
+                        if (addrStr) parts.push($('div', { class: 'muted' }, addrStr));
+                        return $('div', { class: 'contact' }, parts);
+                    }
 
-          // Skills
-          const skillsDiv = document.getElementById("skills");
-          (data.skills || []).forEach(skill => {
-            const span = document.createElement("span");
-            span.textContent = skill;
-            skillsDiv.appendChild(span);
-          });
+                    function renderResume(obj) {
+                        if (!obj) return;
+                        jsonPreview && (jsonPreview.innerHTML = '');
+                        const fullName = [obj?.name?.first, obj?.name?.last].filter(Boolean).join(' ');
+                        const header = $('header', {}, $('div', {}, $('div', { class: 'name' }, fullName)), renderContact(obj.contact));
+                        jsonPreview && jsonPreview.appendChild($('div', { class: 'page' }, header));
 
-          // Experience
-          const expDiv = document.getElementById("experience");
-          (data.experience || []).forEach(exp => {
-            const div = document.createElement("div");
-            div.className = "exp-item";
-            div.innerHTML = `<strong>${exp.role}</strong> at ${exp.company} (${exp.years})<br>${exp.details || ""}`;
-            expDiv.appendChild(div);
-          });
+                        if (obj.summary?.length) {
+                            const sec = $('section', { class: 'section summary' }, $('h2', {}, 'Summary'));
+                            obj.summary.forEach(p => sec.appendChild($('p', {}, p)));
+                            jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+                        }
 
-          // Education
-          const eduDiv = document.getElementById("education");
-          (data.education || []).forEach(edu => {
-            const div = document.createElement("div");
-            div.className = "edu-item";
-            div.innerHTML = `<strong>${edu.degree}</strong> - ${edu.institution} (${edu.years})`;
-            eduDiv.appendChild(div);
-          });
+                        if (obj.career_summary?.length) {
+                            const sec = $('section', { class: 'section career' }, $('h2', {}, 'Career Summary'));
+                            obj.career_summary.forEach(j => {
+                                const job = $('div', { class: 'job' });
+                                job.appendChild($('div', { class: 'row' }, $('div', { class: 'role' }, j.role || ''), j.company ? $('div', { class: 'company' }, ` ${j.company}`) : null, j.location ? $('div', { class: 'location' }, ` ${j.location}`) : null, j.duration ? $('div', { class: 'duration' }, ` ${j.duration}`) : null));
+                                if (j.description) job.appendChild($('p', {}, j.description));
+                                sec.appendChild(job);
+                            });
+                            jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+                        }
 
-          // Projects
-          const projDiv = document.getElementById("projects");
-          (data.projects || []).forEach(proj => {
-            const div = document.createElement("div");
-            div.className = "proj-item";
-            div.innerHTML = `<strong>${proj.title}</strong><br>${proj.description || ""}`;
-            projDiv.appendChild(div);
-          });
-        })
-        .catch(err => {
-          document.body.innerHTML = `<h2>Error: ${err.message}</h2>`;
-        });
-    }
-  </script>
+                        if (obj.skills?.length) {
+                            const sec = $('section', { class: 'section skills' }, $('h2', {}, 'Skills'), $('div', {}, ...obj.skills.map(s => $('span', { class: 'chip' }, s))));
+                            jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+                        }
+
+                        if (obj.projects?.length) {
+                            const sec = $('section', { class: 'section projects' }, $('h2', {}, 'Projects'));
+                            obj.projects.forEach(p => {
+                                const pr = $('div', { class: 'project' });
+                                pr.appendChild($('div', { class: 'row' }, $('div', { class: 'role' }, p.title || ''), p.client ? $('div', { class: 'company' }, ` ${p.client}`) : null, p.duration ? $('div', { class: 'duration' }, ` ${p.duration}`) : null));
+                                if (p.technologies?.length) pr.appendChild($('div', { class: 'muted' }, `Tech: ${p.technologies.join(', ')}`));
+                                if (p.description) pr.appendChild($('p', {}, p.description));
+                                if (p.responsibilities?.length) pr.appendChild($('ul', { class: 'resp' }, ...p.responsibilities.map(r => $('li', {}, r))));
+                                sec.appendChild(pr);
+                            });
+                            jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+                        }
+
+                        if (obj.education?.length) {
+                            const sec = $('section', { class: 'section education' }, $('h2', {}, 'Education'));
+                            obj.education.forEach(e => sec.appendChild($('div', { class: 'edu-item' }, $('div', { class: 'row' }, $('div', { class: 'role' }, e.degree || ''), e.field ? $('div', { class: 'company' }, ` ${e.field}`) : null, e.university ? $('div', { class: 'location' }, ` ${e.university}`) : null, e.year_of_passing ? $('div', { class: 'duration' }, ` ${e.year_of_passing}`) : null))));
+                            jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+                        }
+
+                        if (obj.languages?.length) {
+                            const sec = $('section', { class: 'section languages' }, $('h2', {}, 'Languages'), $('table', { class: 'lang-table' }, ...obj.languages.map(l => $('tr', {}, $('td', {}, l.language || ''), $('td', {}, $('span', { class: 'badge' }, l.proficiency || ''))))));
+                            jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+                        }
+
+                        if (obj.personal_information) {
+                            const sec = $('section', { class: 'section personal' }, $('h2', {}, 'Personal Information'));
+                            const info = obj.personal_information;
+                            if (info.date_of_birth) sec.appendChild($('p', {}, $('strong', {}, 'Date of birth: '), info.date_of_birth));
+                            if (info.gender) sec.appendChild($('p', {}, $('strong', {}, 'Gender: '), info.gender));
+                            if (info.marital_status) sec.appendChild($('p', {}, $('strong', {}, 'Marital status: '), info.marital_status));
+                            if (info.nationality) sec.appendChild($('p', {}, $('strong', {}, 'Nationality: '), info.nationality));
+                            if (info.hobbies?.length) sec.appendChild($('p', {}, $('strong', {}, 'Hobbies: '), info.hobbies.join(', ')));
+                            jsonPreview && jsonPreview.querySelector('.page').appendChild(sec);
+                        }
+
+                        // jsonPreview && jsonPreview.querySelector('.page').appendChild($('footer',{}, 'Generated from JSON'));
+                    }
+
+                    // Controls
+                    document.getElementById('btnRender') && document.getElementById('btnRender').addEventListener('click', () => {
+                        const obj = parseEditor(); if (obj) renderResume(obj);
+                    });
+
+                    document.getElementById('btnFormat') && document.getElementById('btnFormat').addEventListener('click', () => {
+                        const obj = parseEditor(); if (!obj) return; editor.value = JSON.stringify(obj, null, 2);
+                    });
+
+                    document.getElementById('btnMinify') && document.getElementById('btnMinify').addEventListener('click', () => {
+                        const obj = parseEditor(); if (!obj) return; editor.value = JSON.stringify(obj);
+                    });
+
+                    document.getElementById('btnReset') && document.getElementById('btnReset').addEventListener('click', () => { setEditor(sample); renderResume(sample); });
+
+                    document.getElementById('btnDownload') && document.getElementById('btnDownload').addEventListener('click', () => {
+                        const v = editor.value; if (!v) return showError('Editor is empty');
+                        const blob = new Blob([v], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a'); a.href = url; a.download = 'resume.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+                    });
+
+                    fileInput && fileInput.addEventListener('change', (e) => {
+                        const f = e.target.files && e.target.files[0]; if (!f) return;
+                        const reader = new FileReader();
+                        reader.onload = () => { editor.value = reader.result; errorEl.textContent = ''; };
+                        reader.onerror = () => showError('Failed to read file');
+                        reader.readAsText(f);
+                        fileInput.value = '';
+                    });
+
+                    // initialize
+                    setEditor(sample);
+                    renderResume(sample);
+    //                 document.getElementById("btnPrintPreview").addEventListener("click", () => {
+    //                     const preview = document.getElementById("jsonPreview");
+
+    //                     if (!preview || !preview.innerHTML.trim()) {
+    //                         alert("Nothing to print! Please render the resume first.");
+    //                         return;
+    //                     }
+
+    //                     const w = window.open("", "_blank");
+    //                     const html = `
+    //   <!doctype html>
+    //   <html>
+    //   <head>
+    //     <meta charset="utf-8">
+    //     <title>Resume Preview</title>
+    //     <link rel="stylesheet" href="./style/jsonToHtml.css">
+    //     <link rel="stylesheet" href="./style/bcv.css">
+    //     <style>
+    //       body { font-family: Arial, sans-serif; margin: 40px; color: #111; }
+    //       h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+    //       .chip { display:inline-block; padding:4px 8px; margin:3px; border:1px solid #ddd; border-radius:999px; font-size:12px; }
+    //     </style>
+    //   </head>
+    //   <body>
+    //     ${preview.innerHTML}
+    //   </body>
+    //   </html>
+    // `;
+
+    //                     w.document.write(html);
+    //                     w.document.close();
+    //                     w.focus();
+    //                     setTimeout(() => w.print(), 300);
+    //                 });
+                })
+                .catch(err => {
+                    document.body.innerHTML = `<h2>Error: ${err.message}</h2>`;
+                });
+        }
+    </script>
+    <script>
+
+    </script>
 </body>
+
 </html>
