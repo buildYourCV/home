@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="./style/jsonToHtml.css">
   <link rel="stylesheet" href="./style/bcv.css">
   <style>
-    .contact {
+    .emailContact {
       background: rgba(255,255,255,0.3);
       margin: 10px;
       font-size: 16px;
@@ -33,7 +33,7 @@
         <li><a href="#" onclick="showHidePage('bcvWithJSON')">Build CV Using JSON</a></li>
         <li><a href="#" onclick="showHidePage('bcvAbout')">About</a></li>
       </ul>
-    <div class="contact">
+    <div class="emailContact contact">
       <a href="mailto:contact@buildcv.co.in">📧buildcv.co.in@gmail.com</a>
     </div>
     </div>
@@ -406,11 +406,12 @@
     });
 
     downloadJson.addEventListener('click', ()=>{
-      const data = collectData();
+      let data = collectData();
+      data = convertJSON(data);
       const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = (data.name||'resume').replace(/\s+/g,'_').toLowerCase()+'.json';
+      a.download = (data.name.first||'resume').replace(/\s+/g,'_').toLowerCase()+'.json';
       a.click();
       URL.revokeObjectURL(a.href);
     });
@@ -652,6 +653,84 @@
 
     function closePopup() {
       document.getElementById("popupOverlay").style.display = "none";
+    }
+  </script>
+  <script>
+    function convertJSON(inputJSON) {
+      try {
+        const input = inputJSON;
+
+        // Split name
+        const [first, last] = input.name.split(" ");
+
+        // Build target JSON
+        const output = {
+          name: {
+            first: first || "",
+            last: last || ""
+          },
+          contact: {
+            phone: input.phone || "",
+            email: input.email || "",
+            website: "https://www.buildcv.co.in/",
+            address: {
+              street: "",
+              city: "",
+              state: "",
+              zip: ""
+            }
+          },
+          summary: input.summary ? input.summary.split("\n").filter(s => s.trim() !== "") : [],
+          career_summary: input.experience
+            ? input.experience.map(exp => ({
+                role: exp.role || "",
+                company: exp.company || "",
+                location: "",
+                duration: `${exp.from} to ${exp.to}`,
+                description: exp.desc || ""
+              }))
+            : [],
+          skills: input.skills || [],
+          projects: input.experience
+            ? input.experience.map(exp => ({
+                title: exp.desc.split("\n")[0] || "",
+                duration: `${exp.from} – ${exp.to}`,
+                technologies: ["React.JS", "JavaScript", "HTML", "CSS"], // You can refine this parsing
+                client: exp.company || "",
+                description: exp.desc.split("\n")[3] || "",
+                responsibilities: exp.desc.split("\n").slice(4).filter(s => s.trim() !== "")
+              }))
+            : [],
+          education: input.education
+            ? input.education.map(ed => ({
+                degree: ed.degree || "",
+                field: ed.school || "",
+                university: ed.school || "",
+                year_of_passing: ed.year || "",
+                grade: ed.grade || ""
+              }))
+            : [],
+          languages: input.languages
+            ? input.languages.map(lang => ({
+                language: lang,
+                proficiency: lang === "English" ? "Professional" : (lang === "Hindi" ? "Native" : "Intermediate")
+              }))
+            : [],
+          personal_information: {
+            date_of_birth: input.personalInformation || "",
+            gender: "Male",
+            marital_status: "",
+            nationality: "Indian",
+            hobbies: ["Reading Tech Blogs", "Problem Solving", "Cricket"]
+          }
+        };
+
+        return output;
+
+        // document.getElementById("outputJson").value = JSON.stringify(output, null, 2);
+      } catch (e) {
+        alert("Invalid JSON input: " + e.message);
+      }
     }
   </script>
 </body>
