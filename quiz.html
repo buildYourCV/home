@@ -17,7 +17,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 80vh;
+            min-height: 60vh;
         }
 
         .quiz-container {
@@ -81,18 +81,18 @@
             </div>
         </div>
     </nav>
-    <p style="display: flex; justify-content: center;" onclick="handleQuizBatch(event)">
+    <p style="display: flex; justify-content: center; cursor: pointer;" onclick="handleQuizBatch(event)">
         <a data-view="batch1">Quiz 1</a>&nbsp;&nbsp;<a data-view="batch2">Quiz 2</a>&nbsp;&nbsp;<a data-view="batch3">Quiz 3</a>&nbsp;&nbsp;<a data-view="batch4">Quiz 4</a>&nbsp;&nbsp;<a data-view="batch5">Quiz 5</a>
     </p>
-    <p style="display: flex; justify-content: center;" onclick="handleQuizBatch(event)">
+    <p style="display: flex; justify-content: center; cursor: pointer;" onclick="handleQuizBatch(event)">
         <a data-view="batch6">Quiz 6</a>&nbsp;&nbsp;<a  data-view="batch7">Quiz 7</a>&nbsp;&nbsp;<a data-view="batch8">Quiz 8</a>&nbsp;&nbsp;<a  data-view="batch9">Quiz 9</a>&nbsp;&nbsp;<a  data-view="batch10">Quiz 10</a>
     </p>
     <div class="quiz-body">
         <div class="quiz-container">
             <h2 id="question">Loading question...</h2>
             <div class="options" id="options"></div>
-            <div id="result" class="result"></div>
-            <div id="progress"></div>
+            <div id="result" class="result" style="color: #7a7af0;"></div>
+            <div id="progress" style="color: #7a7af0;"></div>
             <button id="restartBtn" class="btn" style="display: none;">Restart Quiz</button>
         </div>
     </div>
@@ -100,7 +100,6 @@
         let quizData = [];
         let currentQ = 0;
         let score = 0;
-        let selectedQuizBatch = 'batch1';
 
         const questionEl = document.getElementById("question");
         const optionsEl = document.getElementById("options");
@@ -109,13 +108,15 @@
         const restartBtn = document.getElementById("restartBtn");
 
         function handleQuizBatch(e){
-            selectedQuizBatch = e?.target?.dataset?.view || 'batch1';
+            let selectedBatch = e?.target?.dataset?.view || 'batch1';
+            loadQuizData(selectedBatch);
         }
 
-        async function loadQuizData() {
+        async function loadQuizData(selectedQuizBatch = 'batch1') {
             try {
-                //`profiles/${username}.json`
-                const res = await fetch(`quiz/${selectedQuizBatch}.json`);
+                //https://www.buildcv.co.in/quiz/batch1.json
+                // const res = await fetch(`quiz/${selectedQuizBatch}.json`);
+                const res = await fetch(`https://www.buildcv.co.in/quiz/${selectedQuizBatch}.json`);
                 quizData = await res.json();
                 loadQuestion();
             } catch (err) {
