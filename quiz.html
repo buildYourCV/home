@@ -1,147 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz Page</title>
-  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-  <link rel="stylesheet" href="./style/jsonToHtml.css">
-  <link rel="stylesheet" href="./style/bcv.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f9;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="stylesheet" href="./style/jsonToHtml.css">
+    <link rel="stylesheet" href="./style/bcv.css">
+    <style>
+        .quiz-body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    .quiz-container {
-      background: #fff;
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 700px;
-      text-align: center;
-    }
+        .quiz-container {
+            background: #fff;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+            text-align: center;
+        }
 
-    h2 {
-      margin-bottom: 20px;
-      font-size: 22px;
-      color: #333;
-    }
+        h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: #333;
+        }
 
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 15px;
-    }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
 
-    .options button {
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background: #eaeaea;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+        .options button {
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: #eaeaea;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-    .options button:hover {
-      background: #d4d4d4;
-    }
+        .options button:hover {
+            background: #d4d4d4;
+        }
 
-    .result {
-      font-size: 20px;
-      font-weight: bold;
-      margin: 20px 0;
-      color: #222;
-    }
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #222;
+        }
 
-    .progress {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
+        .progress {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="quiz-container">
-    <h2 id="question">Loading question...</h2>
-    <div class="options" id="options"></div>
-    <div id="result" class="result"></div>
-    <div id="progress" class="progress"></div>
-    <button id="restartBtn" class="btn" style="display: none;">Restart Quiz</button>
-  </div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header active">
+                <a class="navbar-brand" href="#" style="background-color: #dff3f5;"
+                    onclick="showHidePage('bcvHome')">Build CV</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="https://www.buildcv.co.in/">Home</a></li>
+            </ul>
+            <div class="profileContact contact">
+                <a href="mailto:contact@buildcv.co.in">📧buildcv.co.in@gmail.com</a>
+            </div>
+        </div>
+    </nav>
+    <div class="quiz-body">
+        <div class="quiz-container">
+            <h2 id="question">Loading question...</h2>
+            <div class="options" id="options"></div>
+            <div id="result" class="result"></div>
+            <div id="progress" class="progress"></div>
+            <button id="restartBtn" class="btn" style="display: none;">Restart Quiz</button>
+        </div>
+    </div>
+    <script>
+        let quizData = [];
+        let currentQ = 0;
+        let score = 0;
 
-  <script>
-    let quizData = [];
-    let currentQ = 0;
-    let score = 0;
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const resultEl = document.getElementById("result");
+        const progressEl = document.getElementById("progress");
+        const restartBtn = document.getElementById("restartBtn");
 
-    const questionEl = document.getElementById("question");
-    const optionsEl = document.getElementById("options");
-    const resultEl = document.getElementById("result");
-    const progressEl = document.getElementById("progress");
-    const restartBtn = document.getElementById("restartBtn");
+        async function loadQuizData() {
+            try {
+                const res = await fetch("quiz/batch1.json");
+                quizData = await res.json();
+                loadQuestion();
+            } catch (err) {
+                questionEl.textContent = "Failed to load questions!";
+            }
+        }
 
-    async function loadQuizData() {
-      try {
-        const res = await fetch("quiz/batch1.json");
-        quizData = await res.json();
-        loadQuestion();
-      } catch (err) {
-        questionEl.textContent = "Failed to load questions!";
-      }
-    }
+        function loadQuestion() {
+            resultEl.textContent = "";
+            const current = quizData[currentQ];
+            questionEl.textContent = `Q${currentQ + 1}: ${current.question}`;
+            optionsEl.innerHTML = "";
+            current.options.forEach((opt) => {
+                const btn = document.createElement("button");
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(opt);
+                optionsEl.appendChild(btn);
+            });
 
-    function loadQuestion() {
-      resultEl.textContent = "";
-      const current = quizData[currentQ];
-      questionEl.textContent = `Q${currentQ + 1}: ${current.question}`;
-      optionsEl.innerHTML = "";
-      current.options.forEach((opt) => {
-        const btn = document.createElement("button");
-        btn.textContent = opt;
-        btn.onclick = () => checkAnswer(opt);
-        optionsEl.appendChild(btn);
-      });
+            progressEl.textContent = `Question ${currentQ + 1} of ${quizData.length}`;
+        }
 
-      progressEl.textContent = `Question ${currentQ + 1} of ${quizData.length}`;
-    }
+        function checkAnswer(selected) {
+            if (selected === quizData[currentQ].answer) {
+                score++;
+            }
+            currentQ++;
+            if (currentQ < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
 
-    function checkAnswer(selected) {
-      if (selected === quizData[currentQ].answer) {
-        score++;
-      }
-      currentQ++;
-      if (currentQ < quizData.length) {
-        loadQuestion();
-      } else {
-        showResult();
-      }
-    }
+        function showResult() {
+            questionEl.textContent = "Quiz Completed 🎉";
+            optionsEl.innerHTML = "";
+            progressEl.textContent = "";
+            resultEl.textContent = `Your Score: ${score} / ${quizData.length}`;
+            restartBtn.style.display = "inline-block";
+        }
 
-    function showResult() {
-      questionEl.textContent = "Quiz Completed 🎉";
-      optionsEl.innerHTML = "";
-      progressEl.textContent = "";
-      resultEl.textContent = `Your Score: ${score} / ${quizData.length}`;
-      restartBtn.style.display = "inline-block";
-    }
+        restartBtn.addEventListener("click", () => {
+            currentQ = 0;
+            score = 0;
+            restartBtn.style.display = "none";
+            loadQuestion();
+        });
 
-    restartBtn.addEventListener("click", () => {
-      currentQ = 0;
-      score = 0;
-      restartBtn.style.display = "none";
-      loadQuestion();
-    });
-
-    loadQuizData();
-  </script>
+        loadQuizData();
+    </script>
 </body>
+
 </html>
