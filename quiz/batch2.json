@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which method is used to add an element at the end of an array in JavaScript?",
+    "options": ["push()", "pop()", "shift()", "unshift()"],
+    "answer": "push()"
+  },
+  {
+    "question": "Which HTML element is used to play video files?",
+    "options": ["<video>", "<media>", "<movie>", "<play>"],
+    "answer": "<video>"
+  },
+  {
+    "question": "Which React hook is used to perform side effects in a component?",
+    "options": ["useState", "useContext", "useEffect", "useReducer"],
+    "answer": "useEffect"
+  },
+  {
+    "question": "Which CSS property is used to make text bold?",
+    "options": ["font-style", "text-weight", "font-weight", "bold"],
+    "answer": "font-weight"
+  },
+  {
+    "question": "Which Java keyword is used to prevent a class from being inherited?",
+    "options": ["final", "static", "private", "sealed"],
+    "answer": "final"
+  },
+  {
+    "question": "Which symbol is used for single-line comments in JavaScript?",
+    "options": ["<!-- -->", "/* */", "//", "#"],
+    "answer": "//"
+  },
+  {
+    "question": "Which HTML element is used to create a dropdown list?",
+    "options": ["<input>", "<dropdown>", "<list>", "<select>"],
+    "answer": "<select>"
+  },
+  {
+    "question": "Which function is used to convert a string to lowercase in JavaScript?",
+    "options": ["toLowerCase()", "lower()", "stringLower()", "caseLower()"],
+    "answer": "toLowerCase()"
+  },
+  {
+    "question": "In React, what is the default file extension for components?",
+    "options": [".js", ".jsx", ".ts", ".react"],
+    "answer": ".jsx"
+  },
+  {
+    "question": "Which CSS property is used to change the text color?",
+    "options": ["font-color", "color", "text-color", "foreground"],
+    "answer": "color"
+  },
+  {
+    "question": "Which JavaScript method removes the last element from an array?",
+    "options": ["shift()", "pop()", "splice()", "remove()"],
+    "answer": "pop()"
+  },
+  {
+    "question": "Which HTML element is used to display tabular data?",
+    "options": ["<div>", "<table>", "<tab>", "<grid>"],
+    "answer": "<table>"
+  },
+  {
+    "question": "Which Java keyword is used to create an object?",
+    "options": ["object", "new", "create", "instance"],
+    "answer": "new"
+  },
+  {
+    "question": "Which React hook is used to access context?",
+    "options": ["useEffect", "useState", "useContext", "useReducer"],
+    "answer": "useContext"
+  },
+  {
+    "question": "Which HTML tag is used to define the largest heading?",
+    "options": ["<h6>", "<h1>", "<head>", "<heading>"],
+    "answer": "<h1>"
+  },
+  {
+    "question": "Which JavaScript method is used to join array elements into a string?",
+    "options": ["concat()", "combine()", "join()", "merge()"],
+    "answer": "join()"
+  },
+  {
+    "question": "Which CSS property is used to control the spacing between lines of text?",
+    "options": ["letter-spacing", "line-height", "word-spacing", "text-spacing"],
+    "answer": "line-height"
+  },
+  {
+    "question": "Which Java keyword is used to define a constant?",
+    "options": ["final", "const", "static", "immutable"],
+    "answer": "final"
+  },
+  {
+    "question": "Which operator is used to compare both value and type in JavaScript?",
+    "options": ["==", "=", "===", "!="],
+    "answer": "==="
+  },
+  {
+    "question": "Which HTML tag is used to embed JavaScript code?",
+    "options": ["<code>", "<js>", "<script>", "<javascript>"],
+    "answer": "<script>"
+  }
+]

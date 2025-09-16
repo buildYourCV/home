@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which HTML element is used to create a numbered list?",
+    "options": ["<ol>", "<ul>", "<li>", "<list>"],
+    "answer": "<ol>"
+  },
+  {
+    "question": "Which JavaScript method removes the first element from an array?",
+    "options": ["pop()", "shift()", "splice()", "removeFirst()"],
+    "answer": "shift()"
+  },
+  {
+    "question": "Which CSS property controls the spacing between letters?",
+    "options": ["letter-spacing", "word-spacing", "text-indent", "line-height"],
+    "answer": "letter-spacing"
+  },
+  {
+    "question": "Which Java keyword is used to define a static variable?",
+    "options": ["final", "static", "const", "public"],
+    "answer": "static"
+  },
+  {
+    "question": "Which HTML tag is used to define a table header?",
+    "options": ["<th>", "<td>", "<tr>", "<thead>"],
+    "answer": "<th>"
+  },
+  {
+    "question": "Which JavaScript method converts an object to a JSON string?",
+    "options": ["JSON.stringify()", "JSON.parse()", "toString()", "convertJSON()"],
+    "answer": "JSON.stringify()"
+  },
+  {
+    "question": "Which React hook is used to memoize a value?",
+    "options": ["useMemo", "useState", "useEffect", "useCallback"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which CSS property controls the order of overlapping elements?",
+    "options": ["z-index", "order", "stack", "layer"],
+    "answer": "z-index"
+  },
+  {
+    "question": "Which Java method is used to start a thread?",
+    "options": ["run()", "start()", "execute()", "init()"],
+    "answer": "start()"
+  },
+  {
+    "question": "Which HTML tag is used to define a paragraph?",
+    "options": ["<p>", "<para>", "<text>", "<paragraph>"],
+    "answer": "<p>"
+  },
+  {
+    "question": "Which JavaScript keyword is used to handle exceptions?",
+    "options": ["try...catch", "throw", "error", "catch()"],
+    "answer": "try...catch"
+  },
+  {
+    "question": "Which CSS property specifies the type of list marker?",
+    "options": ["list-style-type", "list-type", "marker-style", "bullet-type"],
+    "answer": "list-style-type"
+  },
+  {
+    "question": "Which HTML attribute is used to specify the character encoding?",
+    "options": ["charset", "encoding", "type", "lang"],
+    "answer": "charset"
+  },
+  {
+    "question": "Which JavaScript method checks if an array includes a certain element?",
+    "options": ["contains()", "includes()", "has()", "find()"],
+    "answer": "includes()"
+  },
+  {
+    "question": "Which React hook is used to memorize a callback function?",
+    "options": ["useEffect", "useState", "useCallback", "useMemo"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "Which CSS property specifies how the content of an element is displayed when it overflows?",
+    "options": ["overflow", "overflow-style", "text-overflow", "clip"],
+    "answer": "overflow"
+  },
+  {
+    "question": "Which HTML tag is used to define a footer for a document?",
+    "options": ["<footer>", "<bottom>", "<foot>", "<section>"],
+    "answer": "<footer>"
+  },
+  {
+    "question": "Which Java keyword is used to create a new object instance?",
+    "options": ["new", "create", "object", "instance"],
+    "answer": "new"
+  },
+  {
+    "question": "Which JavaScript method adds one or more elements to the beginning of an array?",
+    "options": ["push()", "pop()", "unshift()", "shift()"],
+    "answer": "unshift()"
+  },
+  {
+    "question": "Which CSS property sets the font of an element?",
+    "options": ["font-style", "font-family", "text-style", "font-weight"],
+    "answer": "font-family"
+  }
+]

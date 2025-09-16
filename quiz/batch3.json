@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which CSS property controls the order of flex items?",
+    "options": ["flex-order", "order", "z-index", "position"],
+    "answer": "order"
+  },
+  {
+    "question": "Which Java keyword is used to implement multiple inheritance using interfaces?",
+    "options": ["extends", "inherits", "implements", "super"],
+    "answer": "implements"
+  },
+  {
+    "question": "Which HTML attribute specifies a unique identifier for an element?",
+    "options": ["class", "id", "name", "key"],
+    "answer": "id"
+  },
+  {
+    "question": "Which JavaScript method can be used to select an element by ID?",
+    "options": ["querySelector()", "getElementById()", "getById()", "selectId()"],
+    "answer": "getElementById()"
+  },
+  {
+    "question": "Which React hook is used to handle reducers in state management?",
+    "options": ["useState", "useEffect", "useReducer", "useRef"],
+    "answer": "useReducer"
+  },
+  {
+    "question": "Which HTML tag is used to display preformatted text?",
+    "options": ["<code>", "<pre>", "<format>", "<tt>"],
+    "answer": "<pre>"
+  },
+  {
+    "question": "Which Java operator is used to compare two objects?",
+    "options": ["==", "equals()", "===", "compare()"],
+    "answer": "equals()"
+  },
+  {
+    "question": "Which CSS property makes an element’s text italic?",
+    "options": ["font-weight", "font-style", "text-transform", "text-style"],
+    "answer": "font-style"
+  },
+  {
+    "question": "Which JavaScript method removes the first element from an array?",
+    "options": ["pop()", "shift()", "splice()", "removeFirst()"],
+    "answer": "shift()"
+  },
+  {
+    "question": "Which HTML tag is used to create a hyperlink?",
+    "options": ["<link>", "<a>", "<href>", "<url>"],
+    "answer": "<a>"
+  },
+  {
+    "question": "Which Java access modifier makes members visible only within the same class?",
+    "options": ["private", "protected", "public", "default"],
+    "answer": "private"
+  },
+  {
+    "question": "Which CSS property is used to create space inside an element’s border?",
+    "options": ["margin", "padding", "spacing", "border-spacing"],
+    "answer": "padding"
+  },
+  {
+    "question": "Which JavaScript keyword is used to declare a block-scoped variable?",
+    "options": ["var", "let", "const", "define"],
+    "answer": "let"
+  },
+  {
+    "question": "Which HTML attribute is used to provide additional information on hover?",
+    "options": ["alt", "title", "tooltip", "info"],
+    "answer": "title"
+  },
+  {
+    "question": "Which method is used in Java to start a thread?",
+    "options": ["run()", "start()", "execute()", "begin()"],
+    "answer": "start()"
+  },
+  {
+    "question": "Which CSS property sets the shadow around text?",
+    "options": ["text-shadow", "box-shadow", "shadow-text", "font-shadow"],
+    "answer": "text-shadow"
+  },
+  {
+    "question": "Which JavaScript method is used to convert JSON to an object?",
+    "options": ["JSON.parse()", "JSON.stringify()", "toObject()", "parseJSON()"],
+    "answer": "JSON.parse()"
+  },
+  {
+    "question": "Which HTML tag is used to define a table row?",
+    "options": ["<row>", "<td>", "<tr>", "<th>"],
+    "answer": "<tr>"
+  },
+  {
+    "question": "Which Java keyword is used to refer to the parent class object?",
+    "options": ["this", "super", "parent", "base"],
+    "answer": "super"
+  },
+  {
+    "question": "Which CSS property controls the visibility of an element?",
+    "options": ["display", "hidden", "visibility", "opacity"],
+    "answer": "visibility"
+  }
+]

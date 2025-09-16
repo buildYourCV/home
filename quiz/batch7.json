@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which HTML tag is used to define a section in a document?",
+    "options": ["<section>", "<div>", "<article>", "<body>"],
+    "answer": "<section>"
+  },
+  {
+    "question": "Which JavaScript method removes elements from an array by index?",
+    "options": ["slice()", "splice()", "remove()", "delete()"],
+    "answer": "splice()"
+  },
+  {
+    "question": "Which CSS property sets the maximum height of an element?",
+    "options": ["height", "max-height", "limit-height", "min-height"],
+    "answer": "max-height"
+  },
+  {
+    "question": "Which Java keyword is used to define an abstract class?",
+    "options": ["abstract", "interface", "extends", "final"],
+    "answer": "abstract"
+  },
+  {
+    "question": "Which HTML tag is used to create a checkbox?",
+    "options": ["<check>", "<input type='checkbox'>", "<checkbox>", "<cb>"],
+    "answer": "<input type='checkbox'>"
+  },
+  {
+    "question": "Which JavaScript function converts a string to uppercase?",
+    "options": ["toUpperCase()", "uppercase()", "toUpper()", "toCaps()"],
+    "answer": "toUpperCase()"
+  },
+  {
+    "question": "Which React feature allows sharing state across components without props?",
+    "options": ["Context API", "useState", "useEffect", "Refs"],
+    "answer": "Context API"
+  },
+  {
+    "question": "Which CSS property specifies the style of borders around an element?",
+    "options": ["border-style", "border-type", "border", "border-width"],
+    "answer": "border-style"
+  },
+  {
+    "question": "Which Java method is used to compare two strings for equality?",
+    "options": ["==", "equals()", "compareTo()", "match()"],
+    "answer": "equals()"
+  },
+  {
+    "question": "Which HTML element is used to define a list item?",
+    "options": ["<li>", "<ul>", "<ol>", "<list>"],
+    "answer": "<li>"
+  },
+  {
+    "question": "Which JavaScript method adds one or more elements to the end of an array?",
+    "options": ["push()", "pop()", "shift()", "unshift()"],
+    "answer": "push()"
+  },
+  {
+    "question": "Which CSS property controls the alignment of text inside an element?",
+    "options": ["text-align", "align-text", "text-position", "justify"],
+    "answer": "text-align"
+  },
+  {
+    "question": "Which HTML tag is used to create a dropdown list?",
+    "options": ["<select>", "<input>", "<dropdown>", "<option>"],
+    "answer": "<select>"
+  },
+  {
+    "question": "Which JavaScript method is used to convert an object to a JSON string?",
+    "options": ["JSON.parse()", "JSON.stringify()", "toString()", "convertJSON()"],
+    "answer": "JSON.stringify()"
+  },
+  {
+    "question": "Which Java keyword is used to define a synchronized block?",
+    "options": ["sync", "synchronized", "lock", "threadsafe"],
+    "answer": "synchronized"
+  },
+  {
+    "question": "Which HTML attribute specifies the link URL for an anchor tag?",
+    "options": ["href", "src", "link", "url"],
+    "answer": "href"
+  },
+  {
+    "question": "Which JavaScript keyword is used to declare a variable that cannot be reassigned?",
+    "options": ["var", "let", "const", "final"],
+    "answer": "const"
+  },
+  {
+    "question": "Which CSS property specifies how content overflows an element?",
+    "options": ["overflow", "overflow-style", "clip", "text-overflow"],
+    "answer": "overflow"
+  },
+  {
+    "question": "Which HTML element is used to define a navigation menu?",
+    "options": ["<nav>", "<menu>", "<navigation>", "<ul>"],
+    "answer": "<nav>"
+  },
+  {
+    "question": "Which JavaScript operator is used for strict equality comparison?",
+    "options": ["==", "===", "!=", "!=="],
+    "answer": "==="
+  }
+]

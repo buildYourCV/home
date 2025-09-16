@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which HTML tag is used to create a text area for user input?",
+    "options": ["<input>", "<textarea>", "<text>", "<field>"],
+    "answer": "<textarea>"
+  },
+  {
+    "question": "Which JavaScript method is used to remove the last element from an array?",
+    "options": ["pop()", "shift()", "splice()", "unshift()"],
+    "answer": "pop()"
+  },
+  {
+    "question": "Which CSS property is used to set the spacing between words?",
+    "options": ["letter-spacing", "word-spacing", "line-height", "text-indent"],
+    "answer": "word-spacing"
+  },
+  {
+    "question": "Which Java keyword is used to define a package?",
+    "options": ["package", "namespace", "module", "group"],
+    "answer": "package"
+  },
+  {
+    "question": "Which HTML element is used to define emphasized text in italics?",
+    "options": ["<em>", "<i>", "<italic>", "<strong>"],
+    "answer": "<em>"
+  },
+  {
+    "question": "Which JavaScript function is used to repeatedly execute code at fixed intervals?",
+    "options": ["setInterval()", "setTimeout()", "repeat()", "loop()"],
+    "answer": "setInterval()"
+  },
+  {
+    "question": "Which React hook is used to reference a DOM element?",
+    "options": ["useState", "useRef", "useEffect", "useReducer"],
+    "answer": "useRef"
+  },
+  {
+    "question": "Which CSS property sets the spacing between lines of text?",
+    "options": ["line-height", "letter-spacing", "word-spacing", "text-indent"],
+    "answer": "line-height"
+  },
+  {
+    "question": "Which Java keyword is used to define an interface?",
+    "options": ["interface", "abstract", "implements", "extends"],
+    "answer": "interface"
+  },
+  {
+    "question": "Which HTML tag is used to create a radio button?",
+    "options": ["<input type='radio'>", "<radio>", "<input-radio>", "<rb>"],
+    "answer": "<input type='radio'>"
+  },
+  {
+    "question": "Which JavaScript method checks if an array contains a specific element?",
+    "options": ["includes()", "contains()", "has()", "find()"],
+    "answer": "includes()"
+  },
+  {
+    "question": "Which CSS property specifies the visibility of an element?",
+    "options": ["display", "visibility", "hidden", "opacity"],
+    "answer": "visibility"
+  },
+  {
+    "question": "Which HTML attribute is used to specify alternative text for images?",
+    "options": ["alt", "src", "title", "longdesc"],
+    "answer": "alt"
+  },
+  {
+    "question": "Which JavaScript method converts a string into an integer?",
+    "options": ["parseInt()", "Number()", "toInteger()", "int()"],
+    "answer": "parseInt()"
+  },
+  {
+    "question": "Which Java keyword is used to inherit from a class?",
+    "options": ["extends", "implements", "inherits", "super"],
+    "answer": "extends"
+  },
+  {
+    "question": "Which CSS property sets the background color of an element?",
+    "options": ["color", "background", "background-color", "bgcolor"],
+    "answer": "background-color"
+  },
+  {
+    "question": "Which HTML tag is used to create a hyperlink?",
+    "options": ["<a>", "<link>", "<href>", "<url>"],
+    "answer": "<a>"
+  },
+  {
+    "question": "Which JavaScript operator is used to combine conditions?",
+    "options": ["&& and ||", "??", "===", "!=="],
+    "answer": "&& and ||"
+  },
+  {
+    "question": "Which React hook is used to perform side effects in functional components?",
+    "options": ["useState", "useEffect", "useContext", "useReducer"],
+    "answer": "useEffect"
+  },
+  {
+    "question": "Which HTML element is used to define a footer section?",
+    "options": ["<footer>", "<bottom>", "<foot>", "<section>"],
+    "answer": "<footer>"
+  }
+]
