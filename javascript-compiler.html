@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Online Compiler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="stylesheet" href="./style/jsonToHtml.css">
+    <link rel="stylesheet" href="./style/bcv.css">
+    <!-- CodeMirror -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css">
+    <style>
+        body {
+            /* font-family: Arial, sans-serif; */
+            /* background: #1e1e1e; */
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 10px;
+            text-align: center;
+            /* background: #111; */
+            /* border-bottom: 1px solid #333; */
+        }
+
+        main {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        #editorContainer,
+        #outputContainer {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .toolbar {
+            flex-shrink: 0;
+            margin-bottom: 8px;
+        }
+
+        #editorWrapper {
+            flex: 1;
+            display: flex;
+            border: 1px solid #444;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #editor {
+            flex: 1;
+            height: 100%;
+        }
+
+
+        #output {
+            flex: 1;
+            background: #111;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header active">
+                <a class="navbar-brand" href="#" style="background-color: #dff3f5;"
+                    onclick="showHidePage('bcvHome')">Build CV</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="https://www.buildcv.co.in/">Home</a></li>
+            </ul>
+            <div class="profileContact contact">
+                <a href="mailto:contact@buildcv.co.in">📧buildcv.co.in@gmail.com</a>
+            </div>
+        </div>
+    </nav>
+    <!-- <header>
+        <h2>JavaScript Online Compiler</h2>
+    </header> -->
+
+    <main>
+        <!-- Editor -->
+        <div id="editorContainer">
+            <div class="toolbar">
+                <button id="runBtn" class="btn">▶ Run Code</button>
+            </div>
+            <div id="editorWrapper">
+                <textarea id="editor">// Write your JS code here
+console.log("Hello, World!");
+        </textarea>
+            </div>
+        </div>
+
+        <!-- Output -->
+        <div id="outputContainer">
+            <h3 style="color: #7a7af0; margin-top: 8px">Output:</h3>
+            <div id="output"></div>
+        </div>
+    </main>
+
+    <!-- CodeMirror -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
+
+    <script>
+        // Initialize CodeMirror
+        const editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+            mode: "javascript",
+            theme: "dracula",
+            lineNumbers: true,
+            autoCloseBrackets: true
+        });
+
+        // Make editor fill container height
+        editor.setSize("100%", "100%");
+
+        const runBtn = document.getElementById("runBtn");
+        const outputDiv = document.getElementById("output");
+
+        function captureLogs() {
+            const logs = [];
+            const originalLog = console.log;
+            console.log = function (...args) {
+                logs.push(args.join(" "));
+                originalLog.apply(console, args);
+            };
+            return logs;
+        }
+
+        runBtn.addEventListener("click", () => {
+            outputDiv.innerHTML = "";
+            let logs = captureLogs();
+            try {
+                new Function(editor.getValue())();
+                outputDiv.innerHTML = logs.join("<br>");
+            } catch (err) {
+                outputDiv.innerHTML = `<span style="color:red;">${err}</span>`;
+            }
+        });
+    </script>
+</body>
+
+</html>
