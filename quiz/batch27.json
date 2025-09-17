@@ -1,0 +1,177 @@
+[
+  {
+    "question": "If a component has multiple state variables using useState, which of them triggers re-render when updated?",
+    "options": [
+      "Only the first state variable",
+      "Only the last state variable",
+      "Any state variable that changes",
+      "None of them"
+    ],
+    "answer": "Any state variable that changes"
+  },
+  {
+    "question": "What will happen if a useEffect depends on a prop that changes frequently but is not listed in dependency array?",
+    "options": [
+      "Effect always sees the latest value",
+      "Effect may see stale value",
+      "Effect runs multiple times",
+      "React throws an error"
+    ],
+    "answer": "Effect may see stale value"
+  },
+  {
+    "question": "Which hook is best for memoizing a callback to prevent child component re-renders?",
+    "options": ["useMemo", "useCallback", "useRef", "useEffect"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "What happens if you update a state with the same value in React?",
+    "options": [
+      "Component always re-renders",
+      "React skips re-render",
+      "React throws an error",
+      "State is ignored"
+    ],
+    "answer": "React skips re-render"
+  },
+  {
+    "question": "Which of the following causes a functional component to re-render?",
+    "options": [
+      "Props change",
+      "State change",
+      "Parent re-render",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "If a functional component has a useEffect with a cleanup function, when does the cleanup run?",
+    "options": [
+      "Before next effect runs",
+      "On component unmount",
+      "Both before next effect and on unmount",
+      "Never"
+    ],
+    "answer": "Both before next effect and on unmount"
+  },
+  {
+    "question": "Which hook allows you to persist values between renders without causing re-renders?",
+    "options": ["useRef", "useState", "useMemo", "useCallback"],
+    "answer": "useRef"
+  },
+  {
+    "question": "What is the result of using React.memo on a functional component?",
+    "options": [
+      "Always prevents re-render",
+      "Prevents re-render if props did not change",
+      "Forces re-render on every parent render",
+      "Removes component from DOM"
+    ],
+    "answer": "Prevents re-render if props did not change"
+  },
+  {
+    "question": "Which of the following can cause stale closures in hooks?",
+    "options": [
+      "Using state or props inside useEffect without proper dependencies",
+      "Using useRef",
+      "Using React.memo",
+      "Using useCallback correctly"
+    ],
+    "answer": "Using state or props inside useEffect without proper dependencies"
+  },
+  {
+    "question": "Why is useReducer preferred over useState for complex state logic?",
+    "options": [
+      "Helps manage complex state transitions",
+      "Provides predictable updates",
+      "Reduces inline state logic in component",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "If a child component receives a callback prop, what should you do to avoid unnecessary re-renders?",
+    "options": [
+      "Wrap callback in useCallback",
+      "Wrap child in React.memo",
+      "Split state to minimize changes",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What will happen if you mutate an object stored in state directly?",
+    "options": [
+      "React detects change and re-renders",
+      "State update may be ignored",
+      "Component crashes",
+      "It works normally"
+    ],
+    "answer": "State update may be ignored"
+  },
+  {
+    "question": "Which hook is useful to perform layout measurements before the browser paints?",
+    "options": ["useLayoutEffect", "useEffect", "useMemo", "useCallback"],
+    "answer": "useLayoutEffect"
+  },
+  {
+    "question": "What happens if you place an async function directly in useEffect?",
+    "options": [
+      "It works normally",
+      "React throws a warning/error",
+      "It will be ignored",
+      "Runs only once"
+    ],
+    "answer": "React throws a warning/error"
+  },
+  {
+    "question": "Which is the correct way to update state based on previous state in functional components?",
+    "options": [
+      "setState(newState)",
+      "setState(prev => prev + 1)",
+      "state = state + 1",
+      "Directly mutate state object"
+    ],
+    "answer": "setState(prev => prev + 1)"
+  },
+  {
+    "question": "What happens when a parent component re-renders but child is wrapped in React.memo?",
+    "options": [
+      "Child always re-renders",
+      "Child never re-renders",
+      "Child re-renders only if props changed",
+      "Child re-renders if parent state changed"
+    ],
+    "answer": "Child re-renders only if props changed"
+  },
+  {
+    "question": "Which of the following can prevent unnecessary re-renders in a list of items?",
+    "options": [
+      "Using stable keys for list items",
+      "Wrapping items in React.memo",
+      "Virtualization (like react-window)",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Why might useMemo not prevent a re-render of a child component?",
+    "options": [
+      "Because useMemo only memoizes value, not the child itself",
+      "Because React ignores useMemo",
+      "Because useMemo causes new render",
+      "Because it only works with useState"
+    ],
+    "answer": "Because useMemo only memoizes value, not the child itself"
+  },
+  {
+    "question": "What is the purpose of useCallback in React?",
+    "options": [
+      "Memoize functions to prevent recreation on each render",
+      "Memoize values",
+      "Track DOM elements",
+      "Force re-render"
+    ],
+    "answer": "Memoize functions to prevent recreation on each render"
+  }
+]

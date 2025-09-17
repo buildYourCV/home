@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which hook is used to access the nearest Context value in React?",
+    "options": ["useContext", "useReducer", "useState", "useEffect"],
+    "answer": "useContext"
+  },
+  {
+    "question": "Which prop does React Context.Provider use to pass values?",
+    "options": ["default", "store", "value", "data"],
+    "answer": "value"
+  },
+  {
+    "question": "Which problem does React Context mainly solve?",
+    "options": ["Prop drilling", "Code splitting", "Performance tuning", "Routing"],
+    "answer": "Prop drilling"
+  },
+  {
+    "question": "Which Redux function combines multiple reducers?",
+    "options": ["combineReducers", "mergeReducers", "createSlice", "configureStore"],
+    "answer": "combineReducers"
+  },
+  {
+    "question": "Which Redux Toolkit function simplifies store configuration?",
+    "options": ["createStore", "configureStore", "makeStore", "initStore"],
+    "answer": "configureStore"
+  },
+  {
+    "question": "Which Redux Toolkit utility automatically generates action creators and reducers?",
+    "options": ["createReducer", "createSlice", "createAction", "createStore"],
+    "answer": "createSlice"
+  },
+  {
+    "question": "Which hook from React-Redux allows components to access the Redux store state?",
+    "options": ["useStore", "useSelector", "useDispatch", "useContext"],
+    "answer": "useSelector"
+  },
+  {
+    "question": "Which hook from React-Redux allows dispatching actions?",
+    "options": ["useSelector", "useDispatch", "useStore", "useContext"],
+    "answer": "useDispatch"
+  },
+  {
+    "question": "Which middleware is commonly used for handling async actions in Redux?",
+    "options": ["Redux Logger", "Redux Thunk", "Redux Persist", "Immer"],
+    "answer": "Redux Thunk"
+  },
+  {
+    "question": "Which Redux middleware is used for complex async flows and sagas?",
+    "options": ["Redux Saga", "Redux Logger", "Redux Toolkit", "Redux Persist"],
+    "answer": "Redux Saga"
+  },
+  {
+    "question": "Which state management library emphasizes simplicity and minimal boilerplate?",
+    "options": ["Redux", "MobX", "Zustand", "Recoil"],
+    "answer": "Zustand"
+  },
+  {
+    "question": "Which hook is primarily used to manage Zustand state?",
+    "options": ["useStore", "useZustand", "useSelector", "useState"],
+    "answer": "useStore"
+  },
+  {
+    "question": "Which React state management library is based on atoms and selectors?",
+    "options": ["Zustand", "Recoil", "Redux", "MobX"],
+    "answer": "Recoil"
+  },
+  {
+    "question": "In Recoil, what is the smallest unit of state called?",
+    "options": ["Atom", "Selector", "Node", "Store"],
+    "answer": "Atom"
+  },
+  {
+    "question": "In Recoil, what is used to derive computed state?",
+    "options": ["Selector", "Atom", "Reducer", "Context"],
+    "answer": "Selector"
+  },
+  {
+    "question": "Which modern state management library uses primitive atoms and hooks?",
+    "options": ["Recoil", "MobX", "Zustand", "Jotai"],
+    "answer": "Jotai"
+  },
+  {
+    "question": "Which React feature reduces the need for external state management in some cases?",
+    "options": ["useState", "useEffect", "useReducer", "Context API"],
+    "answer": "Context API"
+  },
+  {
+    "question": "Which Redux Toolkit function simplifies async logic with pending, fulfilled, and rejected states?",
+    "options": ["createSlice", "createAsyncThunk", "createReducer", "configureStore"],
+    "answer": "createAsyncThunk"
+  },
+  {
+    "question": "Which React hook is often used with Context for advanced state management?",
+    "options": ["useReducer", "useRef", "useLayoutEffect", "useMemo"],
+    "answer": "useReducer"
+  },
+  {
+    "question": "Which state management library is most integrated with React core?",
+    "options": ["Redux", "Zustand", "Recoil", "Context API"],
+    "answer": "Context API"
+  }
+]

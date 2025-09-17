@@ -1,0 +1,167 @@
+[
+  {
+    "question": "What happens if you pass a non-memoized object as a prop to a React.memo child?",
+    "options": [
+      "Child never re-renders",
+      "Child re-renders on every parent render",
+      "Child re-renders only when parent mounts",
+      "React throws an error"
+    ],
+    "answer": "Child re-renders on every parent render"
+  },
+  {
+    "question": "Which hook can help avoid creating a new function on every render?",
+    "options": ["useMemo", "useCallback", "useEffect", "useRef"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "If a component’s state depends on props, which is the safest way to update it?",
+    "options": [
+      "Directly assign props to state",
+      "Use useEffect to sync state with props",
+      "Use useMemo to copy props",
+      "Never use props in state"
+    ],
+    "answer": "Use useEffect to sync state with props"
+  },
+  {
+    "question": "What problem can occur if you use index as key in dynamic lists?",
+    "options": [
+      "Items may retain wrong state when reordered",
+      "React throws error",
+      "Items do not render",
+      "No problem"
+    ],
+    "answer": "Items may retain wrong state when reordered"
+  },
+  {
+    "question": "Which React Hook allows you to perform side-effects conditionally based on dependencies?",
+    "options": ["useEffect", "useMemo", "useCallback", "useRef"],
+    "answer": "useEffect"
+  },
+  {
+    "question": "Why should you avoid setting state in render?",
+    "options": [
+      "It causes infinite loops",
+      "It’s inefficient",
+      "It breaks React rules",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the recommended way to share state logic between components?",
+    "options": [
+      "Custom hooks",
+      "HOCs",
+      "Render props",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which hook is useful for caching expensive computations?",
+    "options": ["useMemo", "useCallback", "useEffect", "useRef"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "What is a stale closure in React hooks?",
+    "options": [
+      "A hook referencing old state/props inside effect or callback",
+      "A memory leak",
+      "A broken ref",
+      "React error"
+    ],
+    "answer": "A hook referencing old state/props inside effect or callback"
+  },
+  {
+    "question": "Which hook is suitable for reading a DOM element’s dimensions?",
+    "options": ["useLayoutEffect", "useEffect", "useRef", "useMemo"],
+    "answer": "useLayoutEffect"
+  },
+  {
+    "question": "What is the effect of wrapping a component in React.memo?",
+    "options": [
+      "Prevents re-render if props are shallowly equal",
+      "Prevents all re-renders",
+      "Forces re-render on every parent render",
+      "Removes component from DOM"
+    ],
+    "answer": "Prevents re-render if props are shallowly equal"
+  },
+  {
+    "question": "Why might useMemo not prevent child re-renders?",
+    "options": [
+      "Because memoization is only for values, not component instances",
+      "React ignores useMemo",
+      "It only works with class components",
+      "It always prevents re-render"
+    ],
+    "answer": "Because memoization is only for values, not component instances"
+  },
+  {
+    "question": "Which hook lets you persist values without triggering re-renders?",
+    "options": ["useRef", "useState", "useEffect", "useReducer"],
+    "answer": "useRef"
+  },
+  {
+    "question": "What happens if useEffect’s dependency array is empty but it references props/state?",
+    "options": [
+      "Effect may use stale values",
+      "Effect always sees latest value",
+      "Effect re-runs every render",
+      "React throws error"
+    ],
+    "answer": "Effect may use stale values"
+  },
+  {
+    "question": "Which technique avoids unnecessary re-renders of callback props?",
+    "options": ["useCallback", "useMemo", "useEffect", "useRef"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "If a parent re-renders but a child uses React.memo with unchanged props, what happens?",
+    "options": [
+      "Child re-renders anyway",
+      "Child skips re-render",
+      "Child re-renders if state changed",
+      "React throws warning"
+    ],
+    "answer": "Child skips re-render"
+  },
+  {
+    "question": "Which pattern is recommended for optimizing large lists in React?",
+    "options": [
+      "Virtualization (react-window/react-virtual)",
+      "React.memo for items",
+      "Proper key props",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the correct way to update state based on previous state?",
+    "options": [
+      "setState(prev => prev + 1)",
+      "setState(newState)",
+      "state = state + 1",
+      "Direct mutation"
+    ],
+    "answer": "setState(prev => prev + 1)"
+  },
+  {
+    "question": "Which of the following will NOT cause a re-render?",
+    "options": [
+      "Changing ref value",
+      "Updating state",
+      "Receiving new props",
+      "Context value update"
+    ],
+    "answer": "Changing ref value"
+  },
+  {
+    "question": "Which hook allows cleanup logic before the next render?",
+    "options": ["useEffect", "useLayoutEffect", "useMemo", "useCallback"],
+    "answer": "useEffect"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which library is commonly used for testing React components?",
+    "options": ["Jest", "Mocha", "Chai", "All of the above"],
+    "answer": "Jest"
+  },
+  {
+    "question": "Which library complements Jest for testing React component UI?",
+    "options": ["Enzyme", "React Testing Library", "Cypress", "Mocha"],
+    "answer": "React Testing Library"
+  },
+  {
+    "question": "Which method is used to render a component for testing in React Testing Library?",
+    "options": ["render()", "mount()", "shallow()", "create()"],
+    "answer": "render()"
+  },
+  {
+    "question": "Which method is used to query elements by text in React Testing Library?",
+    "options": ["getByText", "queryByText", "findByText", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which method is used to simulate user events in React Testing Library?",
+    "options": ["fireEvent", "userEvent", "simulate", "trigger"],
+    "answer": "userEvent"
+  },
+  {
+    "question": "Which Jest function is used to mock modules or functions?",
+    "options": ["jest.mock()", "jest.spyOn()", "jest.fn()", "jest.stub()"],
+    "answer": "jest.mock()"
+  },
+  {
+    "question": "Which Jest function tracks calls and arguments to a mocked function?",
+    "options": ["jest.fn()", "jest.spyOn()", "jest.mock()", "jest.track()"],
+    "answer": "jest.fn()"
+  },
+  {
+    "question": "Which Jest function is used to spy on an existing object method?",
+    "options": ["jest.spyOn()", "jest.fn()", "jest.mock()", "jest.observe()"],
+    "answer": "jest.spyOn()"
+  },
+  {
+    "question": "Which React Testing Library query throws an error if element is not found?",
+    "options": ["getBy", "queryBy", "findBy", "All of the above"],
+    "answer": "getBy"
+  },
+  {
+    "question": "Which React Testing Library query returns null if element is not found?",
+    "options": ["getBy", "queryBy", "findBy", "All of the above"],
+    "answer": "queryBy"
+  },
+  {
+    "question": "Which React Testing Library query returns a promise for async elements?",
+    "options": ["getBy", "queryBy", "findBy", "waitForElement"],
+    "answer": "findBy"
+  },
+  {
+    "question": "Which Jest function is used to run code before each test?",
+    "options": ["beforeEach()", "beforeAll()", "afterEach()", "afterAll()"],
+    "answer": "beforeEach()"
+  },
+  {
+    "question": "Which Jest function is used to run code after all tests in a suite?",
+    "options": ["beforeEach()", "beforeAll()", "afterEach()", "afterAll()"],
+    "answer": "afterAll()"
+  },
+  {
+    "question": "Which Jest matcher checks if a value is truthy?",
+    "options": ["toBeTruthy()", "toBe()", "toEqual()", "toHaveBeenCalled()"],
+    "answer": "toBeTruthy()"
+  },
+  {
+    "question": "Which Jest matcher checks if a function was called?",
+    "options": ["toHaveBeenCalled()", "toBeCalled()", "toHaveBeenCalledTimes()", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which React Testing Library utility is used for cleaning up after each test?",
+    "options": ["cleanup()", "reset()", "unmount()", "destroy()"],
+    "answer": "cleanup()"
+  },
+  {
+    "question": "Which Jest option generates code coverage reports?",
+    "options": ["--coverage", "--report", "--stats", "--coverageReport"],
+    "answer": "--coverage"
+  },
+  {
+    "question": "Which React Testing Library utility waits for async updates in components?",
+    "options": ["waitFor()", "findBy()", "getBy()", "queryBy()"],
+    "answer": "waitFor()"
+  },
+  {
+    "question": "Which approach is recommended for testing React components?",
+    "options": ["Testing implementation details", "Testing user interactions", "Testing private functions", "Testing DOM internals"],
+    "answer": "Testing user interactions"
+  },
+  {
+    "question": "Which method allows mocking timers in Jest tests?",
+    "options": ["jest.useFakeTimers()", "jest.mockTimers()", "jest.setTimeout()", "jest.timerMock()"],
+    "answer": "jest.useFakeTimers()"
+  }
+]

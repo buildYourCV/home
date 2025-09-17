@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which library is commonly used for routing in React applications?",
+    "options": ["React Router", "Next.js Router", "Reach Router", "All of the above"],
+    "answer": "React Router"
+  },
+  {
+    "question": "Which React Router component is used to define a route?",
+    "options": ["Route", "Link", "Switch", "Router"],
+    "answer": "Route"
+  },
+  {
+    "question": "Which React Router component renders the first matching route?",
+    "options": ["Routes", "Switch", "Route", "Router"],
+    "answer": "Routes"
+  },
+  {
+    "question": "Which React Router component is used for navigation links?",
+    "options": ["Link", "NavLink", "Anchor", "RouteLink"],
+    "answer": "Link"
+  },
+  {
+    "question": "Which React Router prop allows matching nested routes?",
+    "options": ["element", "children", "path", "index"],
+    "answer": "children"
+  },
+  {
+    "question": "Which React Router component is used to redirect from one route to another?",
+    "options": ["Navigate", "Redirect", "Link", "Outlet"],
+    "answer": "Navigate"
+  },
+  {
+    "question": "Which component renders child routes in nested routing?",
+    "options": ["Outlet", "Route", "Routes", "Link"],
+    "answer": "Outlet"
+  },
+  {
+    "question": "Which React Router feature allows rendering routes only for authenticated users?",
+    "options": ["Route Guards", "Private Routes", "Protected Routes", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which React Router method enables programmatic navigation?",
+    "options": ["useNavigate", "useHistory", "navigate()", "push()"],
+    "answer": "useNavigate"
+  },
+  {
+    "question": "Which React Router hook returns the current URL parameters?",
+    "options": ["useParams", "useQuery", "useLocation", "useRouteMatch"],
+    "answer": "useParams"
+  },
+  {
+    "question": "Which React Router hook returns the current location object?",
+    "options": ["useLocation", "useParams", "useNavigate", "useRouteMatch"],
+    "answer": "useLocation"
+  },
+  {
+    "question": "Which React Router hook provides match data for dynamic routes?",
+    "options": ["useMatch", "useParams", "useLocation", "useRouteMatch"],
+    "answer": "useMatch"
+  },
+  {
+    "question": "Which React Router technique splits code and loads route components lazily?",
+    "options": ["Lazy Loading", "Code Splitting", "Dynamic Imports", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which React Router component wraps routes for lazy loading?",
+    "options": ["Suspense", "Outlet", "Routes", "Navigate"],
+    "answer": "Suspense"
+  },
+  {
+    "question": "Which React Router feature allows defining dynamic segments in the URL?",
+    "options": ["Dynamic Routing", "Nested Routes", "Route Guards", "Lazy Loading"],
+    "answer": "Dynamic Routing"
+  },
+  {
+    "question": "Which prop defines the URL pattern for a Route in React Router?",
+    "options": ["path", "url", "route", "element"],
+    "answer": "path"
+  },
+  {
+    "question": "Which React Router component can render multiple child routes?",
+    "options": ["Routes", "Route", "Outlet", "Navigate"],
+    "answer": "Routes"
+  },
+  {
+    "question": "Which React Router hook allows programmatic route navigation inside a component?",
+    "options": ["useNavigate", "useLocation", "useParams", "useMatch"],
+    "answer": "useNavigate"
+  },
+  {
+    "question": "Which React Router component is required for defining nested routes inside a parent route?",
+    "options": ["Outlet", "Route", "Routes", "Navigate"],
+    "answer": "Outlet"
+  },
+  {
+    "question": "Which React Router concept helps restrict access to certain routes based on conditions?",
+    "options": ["Route Guards", "Private Routes", "Protected Routes", "All of the above"],
+    "answer": "All of the above"
+  }
+]

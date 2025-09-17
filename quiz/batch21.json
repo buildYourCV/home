@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which React feature is used to avoid prop drilling for deeply nested components?",
+    "options": ["useReducer", "Context API", "useState", "HOC"],
+    "answer": "Context API"
+  },
+  {
+    "question": "Which hook is commonly used to consume a React Context value?",
+    "options": ["useContext", "useReducer", "useState", "useEffect"],
+    "answer": "useContext"
+  },
+  {
+    "question": "Which technique helps prevent unnecessary re-renders when using Context?",
+    "options": ["Splitting Contexts", "Memoizing context value", "Using useMemo", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which hook can memoize a value to pass into a Context provider?",
+    "options": ["useMemo", "useCallback", "useReducer", "useRef"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which hook can be used to optimize Context consumers that depend on derived values?",
+    "options": ["useMemo", "useCallback", "useReducer", "useEffect"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which pattern helps minimize re-renders when only part of the Context changes?",
+    "options": ["Split Contexts", "Single large Context", "HOC wrapping", "Render Props"],
+    "answer": "Split Contexts"
+  },
+  {
+    "question": "Which hook allows selective updates to avoid re-rendering all Context consumers?",
+    "options": ["useContextSelector", "useReducer", "useState", "useMemo"],
+    "answer": "useContextSelector"
+  },
+  {
+    "question": "Which React optimization prevents unnecessary re-render of children receiving stable props?",
+    "options": ["React.memo", "useCallback", "useMemo", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which pattern combines Context API with useReducer for scalable state management?",
+    "options": ["Redux-like Context", "HOC pattern", "Render Props", "Compound Components"],
+    "answer": "Redux-like Context"
+  },
+  {
+    "question": "Which approach improves performance when a Context provides multiple unrelated values?",
+    "options": ["Combine into single Context", "Split into multiple Contexts", "Use useRef only", "Use useState only"],
+    "answer": "Split into multiple Contexts"
+  },
+  {
+    "question": "Which hook memoizes callback functions passed via Context?",
+    "options": ["useCallback", "useMemo", "useReducer", "useEffect"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "Which method can prevent Context provider from triggering re-renders when unrelated state updates?",
+    "options": ["Memoize value", "Split Contexts", "useMemo for provider value", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which technique helps Context consumers avoid re-rendering when only part of the state changes?",
+    "options": ["Selector-based consumption", "Single large Context", "HOC wrapping", "Render Props"],
+    "answer": "Selector-based consumption"
+  },
+  {
+    "question": "Which hook is useful for derived values from Context state without causing re-renders?",
+    "options": ["useMemo", "useCallback", "useReducer", "useEffect"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which React pattern improves performance in large apps using Context for global state?",
+    "options": ["Split Contexts and memoized values", "Single Context with many values", "HOC wrapping", "Render Props"],
+    "answer": "Split Contexts and memoized values"
+  },
+  {
+    "question": "Which React optimization avoids re-rendering consumers that only read stable values from Context?",
+    "options": ["useMemo for value", "useCallback for functions", "useContextSelector", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which approach reduces rendering overhead when multiple unrelated components consume the same Context?",
+    "options": ["Split Contexts", "Single Context", "HOC pattern", "Render Props"],
+    "answer": "Split Contexts"
+  },
+  {
+    "question": "Which hook can help prevent expensive calculations for derived Context state?",
+    "options": ["useMemo", "useCallback", "useEffect", "useRef"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which React pattern combines Context with memoized provider value and selectors?",
+    "options": ["Optimized Context", "HOC", "Render Props", "Compound Components"],
+    "answer": "Optimized Context"
+  },
+  {
+    "question": "Which technique ensures components consuming Context do not re-render unnecessarily when unrelated state changes?",
+    "options": ["Split Contexts and memoized values", "Use single Context", "Avoid useMemo", "Always wrap in HOC"],
+    "answer": "Split Contexts and memoized values"
+  }
+]

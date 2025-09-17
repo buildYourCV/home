@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which Next.js function is used to fetch data at build time?",
+    "options": ["getServerSideProps", "getStaticProps", "getInitialProps", "useEffect"],
+    "answer": "getStaticProps"
+  },
+  {
+    "question": "Which Next.js function is used to fetch data on every request?",
+    "options": ["getServerSideProps", "getStaticProps", "getInitialProps", "useEffect"],
+    "answer": "getServerSideProps"
+  },
+  {
+    "question": "Which Next.js function is used to generate dynamic routes at build time?",
+    "options": ["getStaticProps", "getServerSideProps", "getStaticPaths", "useRouter"],
+    "answer": "getStaticPaths"
+  },
+  {
+    "question": "Which hook is provided by Next.js to access route parameters?",
+    "options": ["useParams", "useHistory", "useRouter", "useContext"],
+    "answer": "useRouter"
+  },
+  {
+    "question": "Which Next.js file is used to customize the default HTML structure?",
+    "options": ["_app.js", "_document.js", "_html.js", "_layout.js"],
+    "answer": "_document.js"
+  },
+  {
+    "question": "Which Next.js file is used to initialize pages and wrap them with providers?",
+    "options": ["_app.js", "_document.js", "_layout.js", "index.js"],
+    "answer": "_app.js"
+  },
+  {
+    "question": "Which Next.js component is used for client-side navigation?",
+    "options": ["<a>", "<Link>", "<NavLink>", "<RouterLink>"],
+    "answer": "<Link>"
+  },
+  {
+    "question": "Which Next.js feature allows you to update static pages without rebuilding the entire site?",
+    "options": ["CSR", "ISR", "SSR", "SSG"],
+    "answer": "ISR"
+  },
+  {
+    "question": "Which command is used to build a Next.js application for production?",
+    "options": ["npm run dev", "npm run build", "npm run start", "npm run next"],
+    "answer": "npm run build"
+  },
+  {
+    "question": "Which command is used to start a Next.js production server?",
+    "options": ["npm run dev", "npm run build", "npm run start", "npm run next"],
+    "answer": "npm run start"
+  },
+  {
+    "question": "Which Next.js feature automatically optimizes images?",
+    "options": ["Image API", "next/image", "picture tag", "img tag"],
+    "answer": "next/image"
+  },
+  {
+    "question": "Which Next.js function runs on both server and client depending on usage?",
+    "options": ["getStaticProps", "getServerSideProps", "getInitialProps", "useEffect"],
+    "answer": "getInitialProps"
+  },
+  {
+    "question": "Which type of rendering does Next.js use by default?",
+    "options": ["CSR", "SSR", "SSG", "ISR"],
+    "answer": "SSG"
+  },
+  {
+    "question": "Which hook from Next.js is used to access the query string parameters?",
+    "options": ["useParams", "useRouter", "useLocation", "useQuery"],
+    "answer": "useRouter"
+  },
+  {
+    "question": "Which tag should you use for metadata in a Next.js page?",
+    "options": ["<Head>", "<Meta>", "<Header>", "<Title>"],
+    "answer": "<Head>"
+  },
+  {
+    "question": "Which Next.js folder is used to define API endpoints?",
+    "options": ["pages/api", "api/routes", "server/api", "src/api"],
+    "answer": "pages/api"
+  },
+  {
+    "question": "Which method is used in Next.js to prefetch linked pages?",
+    "options": ["prefetch()", "useRouter()", "Link prefetch", "getStaticProps"],
+    "answer": "Link prefetch"
+  },
+  {
+    "question": "Which deployment platform is officially recommended for Next.js?",
+    "options": ["Vercel", "Netlify", "Heroku", "AWS Lambda"],
+    "answer": "Vercel"
+  },
+  {
+    "question": "Which file extension does Next.js allow for API routes?",
+    "options": [".js", ".jsx", ".ts", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which Next.js feature allows partial static regeneration after deployment?",
+    "options": ["CSR", "ISR", "SSR", "Dynamic Import"],
+    "answer": "ISR"
+  }
+]

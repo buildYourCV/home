@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which library is widely used for animations in React?",
+    "options": ["Framer Motion", "React Spring", "GSAP", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which Framer Motion component wraps elements to enable animations?",
+    "options": ["motion.div", "motion.span", "motion.button", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which Framer Motion prop defines the animation states for a component?",
+    "options": ["animate", "initial", "exit", "transition"],
+    "answer": "animate"
+  },
+  {
+    "question": "Which Framer Motion prop defines the initial state of the animation?",
+    "options": ["animate", "initial", "exit", "transition"],
+    "answer": "initial"
+  },
+  {
+    "question": "Which Framer Motion prop defines the exit animation when a component unmounts?",
+    "options": ["animate", "initial", "exit", "transition"],
+    "answer": "exit"
+  },
+  {
+    "question": "Which Framer Motion prop defines the duration, type, and easing of animations?",
+    "options": ["animate", "initial", "exit", "transition"],
+    "answer": "transition"
+  },
+  {
+    "question": "Which technique improves performance for large number of animated elements in React?",
+    "options": ["Use CSS transforms", "Use requestAnimationFrame", "Use Framer Motion for GPU acceleration", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which CSS property is most performant for animations?",
+    "options": ["transform", "top/left", "width/height", "margin"],
+    "answer": "transform"
+  },
+  {
+    "question": "Which CSS property should you avoid animating for better performance?",
+    "options": ["opacity", "transform", "width", "scale"],
+    "answer": "width"
+  },
+  {
+    "question": "Which Framer Motion component animates presence of child components?",
+    "options": ["AnimatePresence", "motion.div", "motion.ul", "AnimateSharedLayout"],
+    "answer": "AnimatePresence"
+  },
+  {
+    "question": "Which Framer Motion component helps coordinate layout animations across multiple components?",
+    "options": ["AnimateSharedLayout", "motion.div", "AnimatePresence", "motion.ul"],
+    "answer": "AnimateSharedLayout"
+  },
+  {
+    "question": "Which CSS property is GPU-accelerated and preferred for animations?",
+    "options": ["transform", "top", "left", "margin"],
+    "answer": "transform"
+  },
+  {
+    "question": "Which Framer Motion hook allows controlling animations programmatically?",
+    "options": ["useAnimation", "useMotionValue", "useEffect", "useState"],
+    "answer": "useAnimation"
+  },
+  {
+    "question": "Which Framer Motion hook allows tracking and animating numeric values over time?",
+    "options": ["useMotionValue", "useAnimation", "useEffect", "useState"],
+    "answer": "useMotionValue"
+  },
+  {
+    "question": "Which Framer Motion feature animates component layout changes automatically?",
+    "options": ["layout", "animate", "initial", "transition"],
+    "answer": "layout"
+  },
+  {
+    "question": "Which React performance optimization helps with animating many components efficiently?",
+    "options": ["Memoization", "useTransition", "GPU-accelerated transforms", "Context API"],
+    "answer": "GPU-accelerated transforms"
+  },
+  {
+    "question": "Which Framer Motion prop enables spring-based animations?",
+    "options": ["type='spring'", "type='tween'", "type='linear'", "type='ease'"],
+    "answer": "type='spring'"
+  },
+  {
+    "question": "Which CSS property is recommended to animate for opacity fades?",
+    "options": ["opacity", "top", "width", "margin"],
+    "answer": "opacity"
+  },
+  {
+    "question": "Which React animation technique reduces re-rendering of static elements?",
+    "options": ["React.memo", "useCallback", "useMemo", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which Framer Motion prop animates child components sequentially or staggered?",
+    "options": ["variants with staggerChildren", "animate", "initial", "exit"],
+    "answer": "variants with staggerChildren"
+  }
+]

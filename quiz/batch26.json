@@ -1,0 +1,192 @@
+[
+  {
+    "question": "What will be the output if two consecutive setState calls are made in a class component like this?\n\nthis.setState({count: this.state.count + 1});\nthis.setState({count: this.state.count + 1});",
+    "options": ["Count increases by 1", "Count increases by 2", "Count remains the same", "Error occurs"],
+    "answer": "Count increases by 1"
+  },
+  {
+    "question": "What is the main difference between useEffect with an empty dependency array and useEffect without dependencies?",
+    "options": [
+      "Empty array runs once after mount, no array runs on every render",
+      "Empty array runs on every render, no array runs once",
+      "Both run on every render",
+      "Both run only once"
+    ],
+    "answer": "Empty array runs once after mount, no array runs on every render"
+  },
+  {
+    "question": "If a parent component re-renders, will child components re-render by default even if props did not change?",
+    "options": [
+      "Yes, always",
+      "No, never",
+      "Only if child is a functional component",
+      "Only if child is not wrapped with React.memo"
+    ],
+    "answer": "Only if child is not wrapped with React.memo"
+  },
+  {
+    "question": "What will happen if you try to update state inside the render method of a functional component?",
+    "options": [
+      "It will work normally",
+      "Infinite loop of renders",
+      "Error is thrown",
+      "State will not update"
+    ],
+    "answer": "Infinite loop of renders"
+  },
+  {
+    "question": "Why should you avoid directly mutating state in React?",
+    "options": [
+      "It breaks immutability and may not trigger re-render",
+      "It is faster",
+      "React allows direct mutation",
+      "It works only for class components"
+    ],
+    "answer": "It breaks immutability and may not trigger re-render"
+  },
+  {
+    "question": "What happens if you call multiple setState updates inside useState setter in functional components without using the functional form?",
+    "options": [
+      "All updates are applied correctly",
+      "Some updates may be lost due to closure capturing old state",
+      "React throws an error",
+      "Updates are ignored"
+    ],
+    "answer": "Some updates may be lost due to closure capturing old state"
+  },
+  {
+    "question": "How can you prevent a child component from re-rendering unnecessarily?",
+    "options": [
+      "Wrap with React.memo",
+      "Use useCallback for callbacks",
+      "Split state properly",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "What is the difference between useMemo and useCallback?",
+    "options": [
+      "useMemo memoizes values, useCallback memoizes functions",
+      "useMemo memoizes functions, useCallback memoizes values",
+      "They are the same",
+      "useCallback only works in class components"
+    ],
+    "answer": "useMemo memoizes values, useCallback memoizes functions"
+  },
+  {
+    "question": "If you pass an empty dependency array to useEffect but reference props inside it, what problem can occur?",
+    "options": [
+      "Props will always be latest",
+      "Stale closure problem; effect uses old prop values",
+      "Effect will run on every render",
+      "React throws an error"
+    ],
+    "answer": "Stale closure problem; effect uses old prop values"
+  },
+  {
+    "question": "What will happen if you return a Promise from useEffect?",
+    "options": [
+      "React handles it automatically",
+      "Nothing happens",
+      "React ignores it and may warn",
+      "Effect runs twice"
+    ],
+    "answer": "React ignores it and may warn"
+  },
+  {
+    "question": "How can you optimize a list of items in React to avoid unnecessary re-renders?",
+    "options": [
+      "Use key props correctly",
+      "Wrap list item components in React.memo",
+      "Use virtualization (e.g., react-window)",
+      "All of the above"
+    ],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which of the following will trigger re-render in a functional component?",
+    "options": [
+      "Calling setState with the same value",
+      "Calling setState with a new value",
+      "Changing a ref value",
+      "Modifying a variable declared outside state"
+    ],
+    "answer": "Calling setState with a new value"
+  },
+  {
+    "question": "What is the effect of returning a cleanup function inside useEffect?",
+    "options": [
+      "It runs before the effect on the next render",
+      "It runs after every render",
+      "It runs once on mount",
+      "It never runs"
+    ],
+    "answer": "It runs before the effect on the next render"
+  },
+  {
+    "question": "Why is key prop important in lists?",
+    "options": [
+      "Helps React identify elements for re-rendering efficiently",
+      "It is optional and has no effect",
+      "Only used for styling",
+      "Prevents console warnings only"
+    ],
+    "answer": "Helps React identify elements for re-rendering efficiently"
+  },
+  {
+    "question": "What will happen if a component calls setState inside useEffect without dependency array?",
+    "options": [
+      "Infinite re-render loop",
+      "Runs only once",
+      "Runs twice",
+      "React ignores it"
+    ],
+    "answer": "Infinite re-render loop"
+  },
+  {
+    "question": "Which hook allows preserving state across renders without causing re-renders?",
+    "options": ["useRef", "useState", "useEffect", "useReducer"],
+    "answer": "useRef"
+  },
+  {
+    "question": "What is the difference between useLayoutEffect and useEffect?",
+    "options": [
+      "useLayoutEffect runs synchronously after DOM mutations, useEffect runs asynchronously",
+      "useLayoutEffect runs once, useEffect runs always",
+      "useEffect runs before render, useLayoutEffect after",
+      "No difference"
+    ],
+    "answer": "useLayoutEffect runs synchronously after DOM mutations, useEffect runs asynchronously"
+  },
+  {
+    "question": "Which of the following will NOT cause a functional component to re-render?",
+    "options": [
+      "Parent re-render",
+      "State update inside the component",
+      "Ref value change",
+      "Context value update"
+    ],
+    "answer": "Ref value change"
+  },
+  {
+    "question": "If you pass a function directly to useEffect without dependencies, what is the impact?",
+    "options": [
+      "Effect runs on every render",
+      "Effect runs once",
+      "Effect runs only when props change",
+      "Effect never runs"
+    ],
+    "answer": "Effect runs on every render"
+  },
+  {
+    "question": "Which of the following is a correct way to update state based on previous state in functional components?",
+    "options": [
+      "setCount(count + 1)",
+      "setCount(prev => prev + 1)",
+      "count = count + 1",
+      "this.setState({count: count + 1})"
+    ],
+    "answer": "setCount(prev => prev + 1)"
+  }
+]

@@ -1,0 +1,107 @@
+[
+  {
+    "question": "In a controlled component, where is the form data stored?",
+    "options": ["In the DOM", "In the component state", "In localStorage", "In Redux only"],
+    "answer": "In the component state"
+  },
+  {
+    "question": "Which attribute is used in React to handle form input values?",
+    "options": ["value", "checked", "defaultValue", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which event handler is commonly used to capture form submissions in React?",
+    "options": ["onSubmit", "onChange", "onClick", "onInput"],
+    "answer": "onSubmit"
+  },
+  {
+    "question": "Which hook is often used with controlled form inputs in React?",
+    "options": ["useState", "useRef", "useEffect", "useReducer"],
+    "answer": "useState"
+  },
+  {
+    "question": "What is the key difference between controlled and uncontrolled components in React?",
+    "options": [
+      "Controlled components use state, uncontrolled use refs",
+      "Uncontrolled components cannot be used with forms",
+      "Controlled components are faster",
+      "There is no difference"
+    ],
+    "answer": "Controlled components use state, uncontrolled use refs"
+  },
+  {
+    "question": "Which React hook is commonly used to manage complex form state?",
+    "options": ["useReducer", "useMemo", "useCallback", "useLayoutEffect"],
+    "answer": "useReducer"
+  },
+  {
+    "question": "Which library provides a simple API for handling forms with minimal re-renders?",
+    "options": ["Formik", "Redux Form", "React Hook Form", "Final Form"],
+    "answer": "React Hook Form"
+  },
+  {
+    "question": "Which library provides a higher-level API with schema validation support?",
+    "options": ["Formik", "React Hook Form", "Final Form", "Zustand"],
+    "answer": "Formik"
+  },
+  {
+    "question": "Which validation library is commonly used with Formik?",
+    "options": ["Yup", "Joi", "Validator.js", "Express-validator"],
+    "answer": "Yup"
+  },
+  {
+    "question": "Which hook from React Hook Form provides form state and methods?",
+    "options": ["useForm", "useController", "useFieldArray", "useWatch"],
+    "answer": "useForm"
+  },
+  {
+    "question": "Which method in React Hook Form is used to trigger form submission?",
+    "options": ["handleSubmit", "submitForm", "validate", "onSubmit"],
+    "answer": "handleSubmit"
+  },
+  {
+    "question": "Which Formik component wraps the entire form?",
+    "options": ["<Formik>", "<Form>", "<Field>", "<FormikProvider>"],
+    "answer": "<Formik>"
+  },
+  {
+    "question": "Which Formik component is used to handle input fields?",
+    "options": ["<Form>", "<Field>", "<FormikField>", "<Input>"],
+    "answer": "<Field>"
+  },
+  {
+    "question": "Which Formik hook is used to access form state inside components?",
+    "options": ["useFormik", "useFormikContext", "useFormState", "useField"],
+    "answer": "useFormikContext"
+  },
+  {
+    "question": "Which React Hook Form hook is used to watch input value changes?",
+    "options": ["useForm", "useController", "useFieldArray", "useWatch"],
+    "answer": "useWatch"
+  },
+  {
+    "question": "Which React Hook Form hook is used for managing dynamic fields like arrays?",
+    "options": ["useFieldArray", "useFormContext", "useWatch", "useReducer"],
+    "answer": "useFieldArray"
+  },
+  {
+    "question": "Which React Hook Form hook is used for integrating controlled components?",
+    "options": ["useController", "useField", "useFormState", "useContext"],
+    "answer": "useController"
+  },
+  {
+    "question": "Which Formik property provides the form’s current values?",
+    "options": ["values", "initialValues", "formState", "context"],
+    "answer": "values"
+  },
+  {
+    "question": "Which React Hook Form property tracks if a field has been touched?",
+    "options": ["isTouched", "dirtyFields", "touchedFields", "errors"],
+    "answer": "touchedFields"
+  },
+  {
+    "question": "Which validation mode in React Hook Form validates inputs on blur?",
+    "options": ["onChange", "onBlur", "onSubmit", "all"],
+    "answer": "onBlur"
+  }
+]

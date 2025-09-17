@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which React hook is used to memoize a calculation to avoid re-computation on every render?",
+    "options": ["useEffect", "useMemo", "useCallback", "useReducer"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which lifecycle method does useEffect mimic when provided with an empty dependency array?",
+    "options": ["componentDidMount", "componentDidUpdate", "componentWillUnmount", "shouldComponentUpdate"],
+    "answer": "componentDidMount"
+  },
+  {
+    "question": "Which React hook returns a memoized callback function?",
+    "options": ["useEffect", "useMemo", "useCallback", "useRef"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "Which React feature helps prevent unnecessary re-renders of functional components?",
+    "options": ["React.memo", "useEffect", "useRef", "useContext"],
+    "answer": "React.memo"
+  },
+  {
+    "question": "Which React hook can be used for state management similar to Redux reducer logic?",
+    "options": ["useReducer", "useMemo", "useCallback", "useState"],
+    "answer": "useReducer"
+  },
+  {
+    "question": "Which hook should be used to perform DOM measurements after rendering?",
+    "options": ["useEffect", "useLayoutEffect", "useMemo", "useRef"],
+    "answer": "useLayoutEffect"
+  },
+  {
+    "question": "Which hook is best suited for storing mutable values that persist across renders without triggering re-renders?",
+    "options": ["useState", "useMemo", "useRef", "useEffect"],
+    "answer": "useRef"
+  },
+  {
+    "question": "Which React hook allows sharing logic between components?",
+    "options": ["useContext", "useReducer", "custom hooks", "useEffect"],
+    "answer": "custom hooks"
+  },
+  {
+    "question": "Which dependency in useEffect will cause it to re-run only when the component unmounts?",
+    "options": ["No dependency", "[]", "[null]", "[undefined]"],
+    "answer": "[]"
+  },
+  {
+    "question": "Which React hook can be used to optimize expensive calculations?",
+    "options": ["useMemo", "useCallback", "useEffect", "useRef"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which hook helps in avoiding recreation of functions between renders?",
+    "options": ["useRef", "useCallback", "useMemo", "useReducer"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "Which React hook is primarily used to manage global state without prop drilling?",
+    "options": ["useReducer", "useMemo", "useContext", "useRef"],
+    "answer": "useContext"
+  },
+  {
+    "question": "Which React hook executes synchronously after DOM mutations?",
+    "options": ["useEffect", "useLayoutEffect", "useMemo", "useCallback"],
+    "answer": "useLayoutEffect"
+  },
+  {
+    "question": "Which hook replaces componentDidUpdate for functional components?",
+    "options": ["useEffect", "useMemo", "useRef", "useReducer"],
+    "answer": "useEffect"
+  },
+  {
+    "question": "Which hook would you use to persist a value across renders without causing re-renders?",
+    "options": ["useState", "useRef", "useMemo", "useReducer"],
+    "answer": "useRef"
+  },
+  {
+    "question": "Which hook is used when building a custom form validation logic?",
+    "options": ["useState", "useEffect", "useReducer", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which hook is useful when integrating React with third-party libraries that require direct DOM manipulation?",
+    "options": ["useState", "useEffect", "useRef", "useContext"],
+    "answer": "useRef"
+  },
+  {
+    "question": "Which hook would you use to implement a counter with increment and decrement logic?",
+    "options": ["useMemo", "useReducer", "useRef", "useLayoutEffect"],
+    "answer": "useReducer"
+  },
+  {
+    "question": "Which hook is useful for performance optimization when passing callbacks to child components?",
+    "options": ["useMemo", "useEffect", "useCallback", "useReducer"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "Which hook allows you to store the previous value of a prop or state?",
+    "options": ["useRef", "useEffect", "useMemo", "useReducer"],
+    "answer": "useRef"
+  }
+]

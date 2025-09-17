@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which feature in React 18 enables rendering multiple UI trees simultaneously?",
+    "options": ["Concurrent Rendering", "Suspense", "StrictMode", "Hydration"],
+    "answer": "Concurrent Rendering"
+  },
+  {
+    "question": "Which hook in React 18 is used to mark state updates as low priority?",
+    "options": ["useDeferredValue", "useTransition", "useMemo", "useCallback"],
+    "answer": "useTransition"
+  },
+  {
+    "question": "Which React 18 hook is useful for deferring expensive calculations?",
+    "options": ["useDeferredValue", "useTransition", "useEffect", "useLayoutEffect"],
+    "answer": "useDeferredValue"
+  },
+  {
+    "question": "What does React.Suspense help with?",
+    "options": ["Code splitting and data fetching fallback", "DOM manipulation", "Styling", "Event handling"],
+    "answer": "Code splitting and data fetching fallback"
+  },
+  {
+    "question": "Which property does React.Suspense require?",
+    "options": ["loader", "fallback", "suspenseBoundary", "delay"],
+    "answer": "fallback"
+  },
+  {
+    "question": "Which React feature allows interruptible rendering?",
+    "options": ["Suspense", "Concurrent Mode", "StrictMode", "Profiler"],
+    "answer": "Concurrent Mode"
+  },
+  {
+    "question": "Which React 18 feature improves responsiveness by splitting urgent and non-urgent updates?",
+    "options": ["useTransition", "useDeferredValue", "React.memo", "Profiler"],
+    "answer": "useTransition"
+  },
+  {
+    "question": "Which hook is used with React concurrent rendering to delay value updates?",
+    "options": ["useDeferredValue", "useMemo", "useCallback", "useLayoutEffect"],
+    "answer": "useDeferredValue"
+  },
+  {
+    "question": "Which API allows streaming server-rendered HTML in React 18?",
+    "options": ["renderToPipeableStream", "renderToStaticMarkup", "renderToNodeStream", "hydrateRoot"],
+    "answer": "renderToPipeableStream"
+  },
+  {
+    "question": "Which method replaces render in React 18 for root creation?",
+    "options": ["ReactDOM.createRoot", "ReactDOM.renderRoot", "ReactDOM.hydrate", "ReactDOM.attach"],
+    "answer": "ReactDOM.createRoot"
+  },
+  {
+    "question": "Which React 18 API is used for hydrating server-rendered apps?",
+    "options": ["hydrateRoot", "createRoot", "renderRoot", "hydrateDOM"],
+    "answer": "hydrateRoot"
+  },
+  {
+    "question": "Which React DevTools feature helps analyze rendering performance?",
+    "options": ["Profiler", "Suspense", "StrictMode", "Batching"],
+    "answer": "Profiler"
+  },
+  {
+    "question": "What does automatic batching in React 18 improve?",
+    "options": ["Performance by reducing re-renders", "Styling", "Event handling", "SSR only"],
+    "answer": "Performance by reducing re-renders"
+  },
+  {
+    "question": "Which concurrent feature delays updating the UI until less urgent updates finish?",
+    "options": ["Suspense", "useTransition", "useMemo", "useRef"],
+    "answer": "useTransition"
+  },
+  {
+    "question": "What does Suspense fallback UI typically display?",
+    "options": ["Loading indicator", "Error message", "Final content", "Static HTML"],
+    "answer": "Loading indicator"
+  },
+  {
+    "question": "Which hook is commonly paired with Suspense for data fetching?",
+    "options": ["use", "useEffect", "useTransition", "useMemo"],
+    "answer": "use"
+  },
+  {
+    "question": "What does React 18’s concurrent rendering primarily optimize?",
+    "options": ["User experience during heavy rendering", "Code size", "Styling", "Server cost"],
+    "answer": "User experience during heavy rendering"
+  },
+  {
+    "question": "Which hook helps prevent blocking UI while running expensive state updates?",
+    "options": ["useTransition", "useDeferredValue", "useReducer", "useCallback"],
+    "answer": "useTransition"
+  },
+  {
+    "question": "Which React 18 feature allows partial hydration of components?",
+    "options": ["Selective Hydration", "Suspense", "Profiler", "Concurrent Rendering"],
+    "answer": "Selective Hydration"
+  },
+  {
+    "question": "Which React 18 feature enables server and client components to work together?",
+    "options": ["Server Components", "Hydration", "Suspense", "Streaming"],
+    "answer": "Server Components"
+  }
+]

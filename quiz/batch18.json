@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which React API prevents unnecessary re-renders of a functional component?",
+    "options": ["React.memo", "useMemo", "useCallback", "useRef"],
+    "answer": "React.memo"
+  },
+  {
+    "question": "Which React hook memoizes the result of an expensive calculation?",
+    "options": ["useCallback", "useMemo", "useRef", "useEffect"],
+    "answer": "useMemo"
+  },
+  {
+    "question": "Which React hook memoizes a callback function to prevent recreation on each render?",
+    "options": ["useMemo", "useCallback", "useRef", "useReducer"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "Which technique is commonly used to render only visible items in long lists?",
+    "options": ["Lazy Loading", "Virtualization", "Infinite Scroll", "Suspense"],
+    "answer": "Virtualization"
+  },
+  {
+    "question": "Which React library is commonly used for list virtualization?",
+    "options": ["react-virtualized", "react-window", "react-infinite-scroll", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which React 18 feature allows interruptible and concurrent rendering?",
+    "options": ["Concurrent Rendering", "Suspense", "Automatic Batching", "Strict Mode"],
+    "answer": "Concurrent Rendering"
+  },
+  {
+    "question": "Which React feature allows fallback UI while loading code or data?",
+    "options": ["useTransition", "Suspense", "Profiler", "Error Boundary"],
+    "answer": "Suspense"
+  },
+  {
+    "question": "Which React 18 hook allows marking state updates as non-urgent?",
+    "options": ["useDeferredValue", "useTransition", "useEffect", "useLayoutEffect"],
+    "answer": "useTransition"
+  },
+  {
+    "question": "Which React 18 hook allows deferring a value to reduce UI blocking?",
+    "options": ["useTransition", "useDeferredValue", "useMemo", "useCallback"],
+    "answer": "useDeferredValue"
+  },
+  {
+    "question": "Which React API helps measure rendering performance?",
+    "options": ["Profiler", "useEffect", "useLayoutEffect", "React.memo"],
+    "answer": "Profiler"
+  },
+  {
+    "question": "Which React hook is used to prevent unnecessary re-renders of children when a function is passed as prop?",
+    "options": ["useMemo", "useCallback", "useRef", "useEffect"],
+    "answer": "useCallback"
+  },
+  {
+    "question": "Which React optimization prevents re-rendering of components with same props?",
+    "options": ["React.memo", "useReducer", "useRef", "useEffect"],
+    "answer": "React.memo"
+  },
+  {
+    "question": "Which rendering method in React avoids sending initial HTML from server?",
+    "options": ["CSR", "SSR", "SSG", "ISR"],
+    "answer": "CSR"
+  },
+  {
+    "question": "Which React hydration process attaches event listeners to server-rendered HTML?",
+    "options": ["Rehydration", "SSR", "CSR", "Virtual DOM"],
+    "answer": "Rehydration"
+  },
+  {
+    "question": "Which React optimization technique helps avoid expensive recalculations in child components?",
+    "options": ["useMemo", "useCallback", "React.memo", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which React strategy is used to split code and load components only when needed?",
+    "options": ["Code Splitting", "Lazy Loading", "Dynamic Import", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which React feature allows asynchronous data fetching with fallback UI?",
+    "options": ["Suspense", "useEffect", "useLayoutEffect", "useReducer"],
+    "answer": "Suspense"
+  },
+  {
+    "question": "Which React 18 feature batches multiple state updates into a single re-render?",
+    "options": ["Automatic Batching", "Concurrent Rendering", "Suspense", "Profiler"],
+    "answer": "Automatic Batching"
+  },
+  {
+    "question": "Which React technique reduces layout thrashing during DOM measurements?",
+    "options": ["useLayoutEffect", "useEffect", "useRef", "useMemo"],
+    "answer": "useLayoutEffect"
+  },
+  {
+    "question": "Which React feature allows server and client rendering to be combined for performance?",
+    "options": ["SSR + CSR Hybrid", "SSR only", "CSR only", "SSG only"],
+    "answer": "SSR + CSR Hybrid"
+  }
+]

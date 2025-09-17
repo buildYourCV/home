@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Which React form type allows React to fully control form input values?",
+    "options": ["Controlled Component", "Uncontrolled Component", "Hybrid Component", "Static Component"],
+    "answer": "Controlled Component"
+  },
+  {
+    "question": "Which React form type uses refs to access form values directly from the DOM?",
+    "options": ["Controlled Component", "Uncontrolled Component", "Hybrid Component", "Static Component"],
+    "answer": "Uncontrolled Component"
+  },
+  {
+    "question": "Which library is widely used for form state management and validation in React?",
+    "options": ["Formik", "React Hook Form", "Redux Form", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which React Hook Form hook is used to register input fields?",
+    "options": ["register", "useField", "useFormControl", "bindField"],
+    "answer": "register"
+  },
+  {
+    "question": "Which Formik prop handles the form submission event?",
+    "options": ["onSubmit", "handleSubmit", "submitForm", "onFormSubmit"],
+    "answer": "onSubmit"
+  },
+  {
+    "question": "Which Formik helper function sets field values programmatically?",
+    "options": ["setFieldValue", "setValue", "updateField", "handleChange"],
+    "answer": "setFieldValue"
+  },
+  {
+    "question": "Which React Hook Form method allows handling form submission?",
+    "options": ["handleSubmit", "onSubmit", "submitForm", "register"],
+    "answer": "handleSubmit"
+  },
+  {
+    "question": "Which React Hook Form option helps integrate schema-based validation?",
+    "options": ["resolver", "validate", "schema", "validator"],
+    "answer": "resolver"
+  },
+  {
+    "question": "Which type of input element in React requires onChange and value props for control?",
+    "options": ["Controlled Input", "Uncontrolled Input", "Hybrid Input", "Native Input"],
+    "answer": "Controlled Input"
+  },
+  {
+    "question": "Which method accesses the current value of an uncontrolled input?",
+    "options": ["ref.current.value", "state.value", "props.value", "useValue()"],
+    "answer": "ref.current.value"
+  },
+  {
+    "question": "Which validation library integrates well with React Hook Form?",
+    "options": ["Yup", "Joi", "Zod", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "question": "Which Formik prop provides the current value of a form field?",
+    "options": ["values", "fieldValue", "state", "data"],
+    "answer": "values"
+  },
+  {
+    "question": "Which Formik prop provides current validation errors?",
+    "options": ["errors", "validation", "errorMessages", "fieldErrors"],
+    "answer": "errors"
+  },
+  {
+    "question": "Which React Hook Form function resets form values to initial state?",
+    "options": ["reset", "clear", "resetForm", "resetValues"],
+    "answer": "reset"
+  },
+  {
+    "question": "Which input type is commonly used with uncontrolled components?",
+    "options": ["text input with ref", "text input with value prop", "checkbox with state", "radio with state"],
+    "answer": "text input with ref"
+  },
+  {
+    "question": "Which Formik prop tracks if a field has been touched by the user?",
+    "options": ["touched", "visited", "focused", "active"],
+    "answer": "touched"
+  },
+  {
+    "question": "Which React form technique reduces unnecessary re-renders for large forms?",
+    "options": ["Uncontrolled Components", "Controlled Components", "Both", "Neither"],
+    "answer": "Uncontrolled Components"
+  },
+  {
+    "question": "Which React Hook Form option validates inputs on change, blur, or submit?",
+    "options": ["mode", "trigger", "validate", "resolver"],
+    "answer": "mode"
+  },
+  {
+    "question": "Which Formik prop helps track the form submission status?",
+    "options": ["isSubmitting", "submitting", "loading", "isLoading"],
+    "answer": "isSubmitting"
+  },
+  {
+    "question": "Which React Hook Form feature allows watching specific input values for changes?",
+    "options": ["watch", "observe", "monitor", "track"],
+    "answer": "watch"
+  }
+]
