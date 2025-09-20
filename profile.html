@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>User Profile</title>
+    <title>BuildCV - Free Online CV Builder in India</title>
+    <meta name="description"
+        content="BuildCV is a fast, free, and powerful online CV builder in India. Create professional resumes with ATS-friendly templates, and download instantly.">
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="stylesheet" href="./style/jsonToHtml.css">
@@ -44,8 +48,8 @@
         if (!username) {
             document.body.innerHTML = "<h2>No user specified in the link.</h2>";
         } else {
-              fetch(`profiles/${username}.json`)
-            // fetch(`https://www.buildcv.co.in/profiles/abhishek.json`)
+            fetch(`profiles/${username}.json`)
+                // fetch(`https://www.buildcv.co.in/profiles/abhishek.json`)
                 .then(res => {
                     if (!res.ok) throw new Error("Profile not found");
                     return res.json();
@@ -201,40 +205,40 @@
                     // initialize
                     setEditor(sample);
                     renderResume(sample);
-    //                 document.getElementById("btnPrintPreview").addEventListener("click", () => {
-    //                     const preview = document.getElementById("jsonPreview");
+                    //                 document.getElementById("btnPrintPreview").addEventListener("click", () => {
+                    //                     const preview = document.getElementById("jsonPreview");
 
-    //                     if (!preview || !preview.innerHTML.trim()) {
-    //                         alert("Nothing to print! Please render the resume first.");
-    //                         return;
-    //                     }
+                    //                     if (!preview || !preview.innerHTML.trim()) {
+                    //                         alert("Nothing to print! Please render the resume first.");
+                    //                         return;
+                    //                     }
 
-    //                     const w = window.open("", "_blank");
-    //                     const html = `
-    //   <!doctype html>
-    //   <html>
-    //   <head>
-    //     <meta charset="utf-8">
-    //     <title>Resume Preview</title>
-    //     <link rel="stylesheet" href="./style/jsonToHtml.css">
-    //     <link rel="stylesheet" href="./style/bcv.css">
-    //     <style>
-    //       body { font-family: Arial, sans-serif; margin: 40px; color: #111; }
-    //       h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; }
-    //       .chip { display:inline-block; padding:4px 8px; margin:3px; border:1px solid #ddd; border-radius:999px; font-size:12px; }
-    //     </style>
-    //   </head>
-    //   <body>
-    //     ${preview.innerHTML}
-    //   </body>
-    //   </html>
-    // `;
+                    //                     const w = window.open("", "_blank");
+                    //                     const html = `
+                    //   <!doctype html>
+                    //   <html>
+                    //   <head>
+                    //     <meta charset="utf-8">
+                    //     <title>Resume Preview</title>
+                    //     <link rel="stylesheet" href="./style/jsonToHtml.css">
+                    //     <link rel="stylesheet" href="./style/bcv.css">
+                    //     <style>
+                    //       body { font-family: Arial, sans-serif; margin: 40px; color: #111; }
+                    //       h2 { border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+                    //       .chip { display:inline-block; padding:4px 8px; margin:3px; border:1px solid #ddd; border-radius:999px; font-size:12px; }
+                    //     </style>
+                    //   </head>
+                    //   <body>
+                    //     ${preview.innerHTML}
+                    //   </body>
+                    //   </html>
+                    // `;
 
-    //                     w.document.write(html);
-    //                     w.document.close();
-    //                     w.focus();
-    //                     setTimeout(() => w.print(), 300);
-    //                 });
+                    //                     w.document.write(html);
+                    //                     w.document.close();
+                    //                     w.focus();
+                    //                     setTimeout(() => w.print(), 300);
+                    //                 });
                 })
                 .catch(err => {
                     document.body.innerHTML = `<h2>Error: ${err.message}</h2>`;
