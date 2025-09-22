@@ -5,16 +5,43 @@
     <meta charset="UTF-8" />
     <title>Online JavaScript Compiler - Run JS Code Instantly | BuildCV</title>
     <meta name="description"
-    content="Write, run, and test JavaScript code online instantly with BuildCV’s free JS compiler. No installation required — perfect for learning, testing, and sharing code snippets.">
+        content="Write, run, and test JavaScript code online instantly with BuildCV’s free JS compiler. No installation required — perfect for learning, testing, and sharing code snippets.">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="stylesheet" href="./style/jsonToHtml.css">
     <link rel="stylesheet" href="./style/bcv.css">
-    <!-- CodeMirror -->
+    <!-- CodeMirror --><!-- CodeMirror addons -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css">
     <style>
+        /* Style for the matching bracket */
+        .CodeMirror-matchingbracket {
+            color: #00eaff !important;
+            /* neon cyan color */
+            font-weight: bold;
+            /* make it stand out */
+            background-color: rgba(0, 234, 255, 0.1);
+            /* subtle background highlight */
+            border-bottom: 2px solid #00eaff;
+            /* underline effect */
+        }
+
+        /* Style for a non-matching bracket (error case) */
+        .CodeMirror-nonmatchingbracket {
+            color: #ff4d4f !important;
+            /* bright red for unmatched bracket */
+            font-weight: bold;
+            background-color: rgba(255, 77, 79, 0.1);
+            border-bottom: 2px solid #ff4d4f;
+        }
+
+        /* Remove the active-line gutter marker (the dot) */
+        .CodeMirror-activeline-gutter .CodeMirror-gutter-elt {
+            background: none !important;
+        }
+
         body {
             /* font-family: Arial, sans-serif; */
             /* background: #1e1e1e; */
@@ -116,8 +143,14 @@ console.log("Hello, World!");
     </main>
 
     <!-- CodeMirror -->
+    <!-- CodeMirror addons -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/mode/javascript/javascript.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/addon/edit/matchbrackets.min.js"></script>
 
     <script>
         // Initialize CodeMirror
@@ -125,7 +158,8 @@ console.log("Hello, World!");
             mode: "javascript",
             theme: "dracula",
             lineNumbers: true,
-            autoCloseBrackets: true
+            autoCloseBrackets: true,
+            matchBrackets: true,
         });
 
         // Make editor fill container height
