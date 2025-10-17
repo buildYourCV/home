@@ -172,7 +172,17 @@ console.log("Hello, World!");
             const logs = [];
             const originalLog = console.log;
             console.log = function (...args) {
-                logs.push(args.join(" "));
+                const formatted = args.map(arg => {
+                    if (typeof arg === "object") {
+                        try {
+                            return JSON.stringify(arg, null, 2); // pretty-print objects
+                        } catch {
+                            return "[Circular Object]";
+                        }
+                    }
+                    return String(arg);
+                }).join(" ");
+                logs.push(formatted);
                 originalLog.apply(console, args);
             };
             return logs;
