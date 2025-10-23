@@ -138,7 +138,7 @@
       </div>
 
       <div class="section">
-        <label>Summary</label>
+        <label>Summary<span style="font-weight: 600;"> (spaces, tabs, and line breaks are preserved exactly as written)</span></label>
         <textarea id="summary" placeholder="Short professional summary"></textarea>
       </div>
 
@@ -348,7 +348,7 @@
         </div>
         <div>
           <div class="section-title" style="font-weight: 600; color: ${getCVThemeColor()}">Summary</div>
-          <div style="margin-bottom:8px">${escapeHtml(d.summary || '')}</div><br/>
+          <div style="margin-bottom:8px; white-space: pre-wrap;">${escapeHtml(d.summary || '')}</div><br/>
 
           <div class="section-title" style="font-weight: 600; color: ${getCVThemeColor()}">Skills</div>
           <div>${d.skills.map(s => `<span class="skill-pill">${escapeHtml(s)}</span>`).join('')}</div><br/>
