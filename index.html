@@ -191,6 +191,8 @@
         <input type="color" id="colorPicker" value="#009999" class="form-control"
           style="width:60px; padding:0; border:none;">
         <span id="colorCode" class="label label-primary">#009999</span>
+        <button id="downloadPDFBtn" onclick="generatePDF()" class="btn secondary">Download PDF</button>
+        <button onclick="openPopup()" class="btn" title="Create your own shareable CV link. It can be accessed anywhere.">Get Your Own Live CV URL</button>
       </div>
 
       <div class="card preview" id="preview">
@@ -757,6 +759,26 @@
       }
     }
   </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+        function generatePDF() {
+            // Choose the element that your content will be rendered to
+            const element = document.getElementById('preview');
+
+            // Configure options (optional)
+            const options = {
+                filename: 'downloaded-document.pdf',
+                margin: 15,
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Use html2pdf to generate and save the PDF
+            html2pdf().set(options).from(element).save();
+        }
+    </script>
 </body>
+
 
 </html>
