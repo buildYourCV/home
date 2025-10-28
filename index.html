@@ -762,6 +762,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
         function generatePDF() {
+            renderPreview(); // Ensure preview is up-to-date
             // Choose the element that your content will be rendered to
             const element = document.getElementById('preview');
 
