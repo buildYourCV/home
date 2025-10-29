@@ -69,7 +69,8 @@
 
       <div class="panel">
         <h3>Preview Generated From JSON</h3>
-        <button id="btnPrintPreview" class="btn">Export / Print</button> &nbsp;&nbsp;
+        <!-- <button id="btnPrintPreview" class="btn">Export / Print</button> &nbsp;&nbsp; -->
+        <button id="downloadPDFBtnJSONCV" onclick="generatePDF('jsonPreview')" class="btn secondary">Download PDF</button>&nbsp;&nbsp;
         <button id="btnGetCVUrl" onclick="openPopup()" class="btn"
           title="Create your own shareable CV link. It can be accessed anywhere.">Get Your Own Live CV URL</button>
         <div class="jsonPreview" id="jsonPreview">
@@ -759,26 +760,116 @@
       }
     }
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script>
-        function generatePDF() {
-            renderPreview(); // Ensure preview is up-to-date
-            // Choose the element that your content will be rendered to
-            const element = document.getElementById('preview');
-
-            // Configure options (optional)
-            const options = {
-                filename: 'downloaded-document.pdf',
-                margin: 15,
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            // Use html2pdf to generate and save the PDF
-            html2pdf().set(options).from(element).save();
+  
+<script>
+    function generatePDF(cvPreviewId = 'preview') {
+        // Ensure the preview is up-to-date if it's the main editor.
+        if (cvPreviewId === 'preview') {
+            renderPreview();
+        }else {
+            renderResume(parseEditor());
         }
-    </script>
+
+        const sourceElement = document.getElementById(cvPreviewId);
+        if (!sourceElement || !sourceElement.innerHTML.trim()) {
+            alert("Nothing to download! Please render the resume first.");
+            return;
+        }
+
+        // 1. Create a hidden iframe.
+        const printFrame = document.createElement('iframe');
+        printFrame.style.cssText = 'position:absolute; width:0; height:0; border:0; left:-9999px;';
+        document.body.appendChild(printFrame);
+
+        const contentHTML = sourceElement.innerHTML;
+
+        // 2. Prepare the HTML using the reliable table-header spacer method.
+        const frameDoc = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Resume</title>
+                <link rel="stylesheet" href="./style/jsonToHtml.css">
+                <link rel="stylesheet" href="./style/bcv.css">
+                <style>
+                    /* This rule remains essential for removing browser headers/footers */
+                    @page {
+                        size: A4;
+                        margin: 0;
+                    }
+
+                    @media print {
+                        html, body {
+                           margin: 0;
+                           padding: 0;
+                        }
+
+                        /* This is the repeating spacer. It acts as our top margin. */
+                        .page-spacer {
+                            height: 20mm; /* <-- YOUR TOP MARGIN. ADJUST AS NEEDED. */
+                        }
+
+                        /* This magic CSS rule tells the browser to repeat the <thead> on every new page. */
+                        thead {
+                            display: table-header-group;
+                        }
+                        
+                        /* This ensures the table itself doesn't add unwanted borders or spacing. */
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
+
+                        /* Apply left/right margins to the overall content container */
+                        .content-cell {
+                            padding-left: 15mm;
+                            padding-right: 15mm;
+                            padding-bottom: 20mm; /* Bottom margin for content */
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <!-- This table structure is the key to the fix -->
+                <table>
+                    <!-- This empty header will repeat on every page, creating the top margin -->
+                    <thead>
+                        <tr>
+                            <td class="page-spacer"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="content-cell">
+                                <!-- Your actual resume content goes here -->
+                                ${contentHTML}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </body>
+            </html>
+        `;
+
+        // 3. Write the HTML to the iframe.
+        const frameWindow = printFrame.contentWindow;
+        frameWindow.document.open();
+        frameWindow.document.write(frameDoc);
+        frameWindow.document.close();
+
+        // 4. Trigger the print dialog and clean up.
+        setTimeout(() => {
+            try {
+                frameWindow.focus();
+                frameWindow.print();
+            } catch (error) {
+                console.error("Failed to open print dialog:", error);
+            } finally {
+                document.body.removeChild(printFrame);
+            }
+        }, 500);
+    }
+</script>
 </body>
 
 
