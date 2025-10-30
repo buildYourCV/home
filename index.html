@@ -70,7 +70,7 @@
       <div class="panel">
         <h3>Preview Generated From JSON</h3>
         <!-- <button id="btnPrintPreview" class="btn">Export / Print</button> &nbsp;&nbsp; -->
-        <button id="downloadPDFBtnJSONCV" onclick="generatePDF('jsonPreview')" class="btn secondary">Download PDF</button>&nbsp;&nbsp;
+        <button id="downloadPDFBtnJSONCV" onclick="generatePDF('jsonPreview')" title="Select 'Save as PDF' from destination dropdown" class="btn secondary">Download PDF</button>&nbsp;&nbsp;
         <button id="btnGetCVUrl" onclick="openPopup()" class="btn"
           title="Create your own shareable CV link. It can be accessed anywhere.">Get Your Own Live CV URL</button>
         <div class="jsonPreview" id="jsonPreview">
@@ -178,7 +178,7 @@
       </div>
 
       <div class="section row" style="margin-top:12px">
-        <button id="printBtn" class="btn">Export / Print</button>
+        <!-- <button id="printBtn" class="btn">Export / Print</button> -->
         <button id="resetBtn" class="btn secondary">Reset</button>
       </div>
 
@@ -192,7 +192,7 @@
         <input type="color" id="colorPicker" value="#009999" class="form-control"
           style="width:60px; padding:0; border:none;">
         <span id="colorCode" class="label label-primary">#009999</span>
-        <button id="downloadPDFBtn" onclick="generatePDF()" class="btn secondary" title="Select Save as PDF from destination dropdown">Download PDF</button>
+        <button id="downloadPDFBtn" onclick="generatePDF()" class="btn secondary" title="Select 'Save as PDF' from destination dropdown">Download PDF</button>
         <button onclick="openPopup()" class="btn" title="Create your own shareable CV link. It can be accessed anywhere.">Get Your Own Live CV URL</button>
       </div>
       <div class="card preview" id="preview">
