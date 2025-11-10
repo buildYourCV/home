@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background: #0f1724;">
 
 <head>
     <meta charset="UTF-8" />
@@ -23,7 +23,8 @@
         }
 
         .quiz-container {
-            background: #fff;
+            /* background: #fff; */
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
             padding: 20px 30px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -53,10 +54,16 @@
             background: #eaeaea;
             cursor: pointer;
             transition: background 0.3s;
+            background: rgba(96, 165, 250, 0.12);
+            color: #60a5fa;
+    /* border: 1px solid rgba(96, 165, 250, 0.12); */
         }
 
         .options button:hover {
-            background: #d4d4d4;
+            /* background: #d4d4d4; */
+            background: rgba(96, 165, 250, 0.12);
+            color: #e6eef8;
+            border: 1px solid rgba(96, 165, 250, 0.12);
         }
 
         .result {
@@ -68,7 +75,7 @@
     </style>
 </head>
 
-<body>
+<body style="background: #0f1724;">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header active">
@@ -95,9 +102,9 @@
          <a data-view="batch21">Quiz 21</a>&nbsp;&nbsp;<a data-view="batch22">Quiz 22</a>&nbsp;&nbsp;<a data-view="batch23">Quiz 23</a>&nbsp;&nbsp;<a data-view="batch24">Quiz 24</a>&nbsp;&nbsp;<a data-view="batch25">Quiz 25</a>&nbsp;&nbsp;
         <a data-view="batch26">Quiz 26</a>&nbsp;&nbsp;<a  data-view="batch27">Quiz 27</a>&nbsp;&nbsp;<a data-view="batch28">Quiz 28</a>&nbsp;&nbsp;<a  data-view="batch29">Quiz 29</a>&nbsp;&nbsp;<a  data-view="batch30">Quiz 30</a>
     </p>
-    <div class="quiz-body">
+    <div class="quiz-body" style="background: #0f1724;">
         <div class="quiz-container">
-            <h2 id="question">Loading question...</h2>
+            <h2 id="question" style="color: #7a7af0;">Loading question...</h2>
             <div class="options" id="options"></div>
             <div id="result" class="result" style="color: #7a7af0;"></div>
             <div id="progress" style="color: #7a7af0;"></div>
