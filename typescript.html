@@ -128,7 +128,8 @@
       color: var(--muted);
       font-size: 13px;
     }
-    .desc{
+
+    .desc {
       color: #7a7af0;
     }
   </style>
@@ -159,7 +160,7 @@
 
     <div class="controls">
       <input id="search" type="text" placeholder="Search topics..." />
-      <select id="filter" >
+      <select id="filter">
         <option value="all" style="background: #071028;">All categories</option>
         <option value="Basic" style="background: #071028;">Basic</option>
         <option value="Intermediate" style="background: #071028;">Intermediate</option>
@@ -267,7 +268,7 @@
       { n: 74, title: 'TypeScript Unions vs Intersection Mental Model', cat: 'Advanced' },
       { n: 75, title: 'TypeScript Enums are Bad', cat: 'Advanced' }
     ];
-
+    //#region Topic Contents
     const topicContent = {
       1: `
       <h4>Introduction to TypeScript</h4>
@@ -331,8 +332,203 @@ message = 123; // ❌ Error: Type 'number' is not assignable to type 'string'</c
     <p>TypeScript catches these errors at compile time, helping prevent runtime issues.</p>
 
     <p>And with that said, congratulations on finishing the first lesson!</p>
+  `,
+  
+  2: `
+    <h4>Primitive Types in TypeScript</h4>
+    <p>Primitive types are the most basic building blocks of data in TypeScript. They represent single immutable values and form the foundation of all data handling in TypeScript.</p>
+    <p>TypeScript includes all JavaScript primitives and adds compile-time type checking for better safety and readability.</p>
+
+    <hr/>
+    <h5>1️⃣ string</h5>
+    <p>Represents textual data. Strings can use single quotes, double quotes, or template literals.</p>
+    <pre><code>let firstName: string = "Abhishek";
+let greeting: string = \`Hello, \${firstName}!\`;</code></pre>
+    <p><b>Tip:</b> Use template literals for string interpolation.</p>
+
+    <hr/>
+    <h5>2️⃣ number</h5>
+    <p>Represents both integers and floating-point numbers. TypeScript does not differentiate between int and float.</p>
+    <pre><code>let age: number = 25;
+let price: number = 99.99;</code></pre>
+
+    <hr/>
+    <h5>3️⃣ boolean</h5>
+    <p>Represents logical values: <code>true</code> or <code>false</code>.</p>
+    <pre><code>let isLoggedIn: boolean = true;
+let isCompleted: boolean = false;</code></pre>
+
+    <hr/>
+    <h5>4️⃣ null and undefined</h5>
+    <p>Used to represent the absence of a value. When <code>strictNullChecks</code> is enabled, these types must be explicitly handled.</p>
+    <pre><code>let nothing: null = null;
+let notAssigned: undefined = undefined;</code></pre>
+    <p><b>Note:</b> You cannot assign <code>null</code> or <code>undefined</code> to a variable of another type if <code>strictNullChecks</code> is true.</p>
+
+    <hr/>
+    <h5>5️⃣ symbol</h5>
+    <p>Introduced in ES6, symbols are unique identifiers often used as object property keys.</p>
+    <pre><code>let id1: symbol = Symbol("id");
+let id2: symbol = Symbol("id");
+console.log(id1 === id2); // false</code></pre>
+
+    <hr/>
+    <h5>6️⃣ bigint</h5>
+    <p>Used to represent very large integers beyond JavaScript’s number limit.</p>
+    <pre><code>let bigNumber: bigint = 1234567890123456789012345678901234567890n;</code></pre>
+
+    <hr/>
+    <h5>7️⃣ any</h5>
+    <p>Disables type checking for a variable. It can hold any type of value, but should be used cautiously.</p>
+    <pre><code>let randomValue: any = "Hello";
+randomValue = 42; // ✅ Allowed
+randomValue = true; // ✅ Allowed</code></pre>
+
+    <hr/>
+    <h5>8️⃣ unknown</h5>
+    <p>Similar to <code>any</code>, but safer. You must perform a type check before using it.</p>
+    <pre><code>let value: unknown = "Hello";
+
+if (typeof value === "string") {
+  console.log(value.toUpperCase()); // ✅ Safe
+}</code></pre>
+
+    <hr/>
+    <h5>📋 Summary Table</h5>
+    <table border="1" cellpadding="6" cellspacing="0">
+      <thead>
+        <tr><th>Type</th><th>Example</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>string</code></td><td>"Hello"</td><td>Text values</td></tr>
+        <tr><td><code>number</code></td><td>42, 3.14</td><td>Numeric values</td></tr>
+        <tr><td><code>boolean</code></td><td>true, false</td><td>Logical values</td></tr>
+        <tr><td><code>null</code></td><td>null</td><td>Explicit absence of value</td></tr>
+        <tr><td><code>undefined</code></td><td>undefined</td><td>Uninitialized variable</td></tr>
+        <tr><td><code>symbol</code></td><td>Symbol("id")</td><td>Unique identifier</td></tr>
+        <tr><td><code>bigint</code></td><td>123n</td><td>Large integer values</td></tr>
+        <tr><td><code>any</code></td><td>Dynamic</td><td>Turns off type checking</td></tr>
+        <tr><td><code>unknown</code></td><td>Dynamic but safe</td><td>Requires type check before use</td></tr>
+      </tbody>
+    </table>
+
+    <p><b>Summary:</b> Primitive types ensure your variables hold predictable and valid values, reducing runtime errors and improving code quality.</p>
+  `,
+  
+  3: `
+    <h4>Instance Types in TypeScript</h4>
+    <p>In TypeScript, <b>instance types</b> refer to the types of objects created from classes. They represent the <i>shape</i> of an instance of a class — meaning all the public properties and methods available on the class instance.</p>
+    <p>Understanding instance types helps you write code that correctly uses class instances and leverages TypeScript’s strong typing for object-oriented programming.</p>
+
+    <hr/>
+    <h5>1️⃣ Defining a Class</h5>
+    <pre><code>class Person {
+  name: string;
+  age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log(\`Hello, my name is \${this.name} and I am \${this.age} years old.\`);
+  }
+}
+
+// Creating an instance
+const p1 = new Person("Abhishek", 25);
+p1.greet();</code></pre>
+
+    <p>Here, <code>p1</code> is an <b>instance</b> of the <code>Person</code> class, and its type is the <b>instance type</b> of <code>Person</code>.</p>
+
+    <hr/>
+    <h5>2️⃣ Instance Type vs Class Type</h5>
+    <p>Every class in TypeScript has two types associated with it:</p>
+    <ul>
+      <li><b>The instance type</b> — describes the shape of objects created by the class.</li>
+      <li><b>The constructor type</b> — describes the class itself (i.e., the constructor function).</li>
+    </ul>
+
+    <pre><code>class Car {
+  brand: string;
+  constructor(brand: string) {
+    this.brand = brand;
+  }
+}
+
+// Instance type
+let myCar: Car = new Car("Tesla");
+
+// Constructor type
+let carConstructor: typeof Car = Car;
+
+const anotherCar = new carConstructor("BMW");
+</code></pre>
+    <p>👉 <code>Car</code> (when used as a type) refers to the instance type, while <code>typeof Car</code> refers to the constructor type.</p>
+
+    <hr/>
+    <h5>3️⃣ Using <code>InstanceType&lt;T&gt;</code> Utility Type</h5>
+    <p>TypeScript provides a built-in utility type <code>InstanceType&lt;T&gt;</code> that extracts the instance type from a class constructor.</p>
+
+    <pre><code>class Employee {
+  id: number;
+  constructor(id: number) {
+    this.id = id;
+  }
+}
+
+// Extract the instance type from the class constructor
+type EmployeeInstance = InstanceType<typeof Employee>;
+
+const emp: EmployeeInstance = new Employee(101);
+console.log(emp.id); // ✅ Works perfectly
+</code></pre>
+
+    <p><b>Explanation:</b> <code>typeof Employee</code> gives the constructor type, and <code>InstanceType&lt;typeof Employee&gt;</code> gives the instance type (the shape of an object created from that class).</p>
+
+    <hr/>
+    <h5>4️⃣ Why Instance Types Matter</h5>
+    <ul>
+      <li>They ensure that only valid instances are assigned to variables.</li>
+      <li>They enable strong typing when working with classes and objects dynamically.</li>
+      <li>They help when creating generic functions or factories that return class instances.</li>
+    </ul>
+
+    <hr/>
+    <h5>5️⃣ Example: Factory Function Returning Instance Type</h5>
+    <pre><code>function createInstance<T extends new (...args: any[]) => any>(ctor: T): InstanceType<T> {
+  return new ctor(...([] as any));
+}
+
+class User {
+  username: string = "guest";
+}
+
+const u = createInstance(User);
+console.log(u.username); // "guest"</code></pre>
+    <p>Here, <code>InstanceType&lt;T&gt;</code> helps the compiler infer the correct return type for <code>createInstance()</code>.</p>
+
+    <hr/>
+    <h5>6️⃣ Summary</h5>
+    <ul>
+      <li>Each class in TypeScript has two types: constructor type and instance type.</li>
+      <li>The instance type represents the shape of the object created by the class.</li>
+      <li>Use <code>typeof</code> to refer to a class’s constructor type.</li>
+      <li>Use <code>InstanceType&lt;typeof ClassName&gt;</code> to extract the instance type.</li>
+    </ul>
+
+    <pre><code>type T = InstanceType<typeof MyClass>;</code></pre>
+
+    <p><b>In short:</b> Instance types make your class-based code more precise, reusable, and type-safe in TypeScript.</p>
   `
+
+
+  
+
     };
+
+    //#endregion  
 
 
     const grid = document.getElementById('grid');
