@@ -2,346 +2,388 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>TypeScript</title>
-    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <style>
-        :root {
-            --bg: #0f1724;
-            --card: #0b1220;
-            --accent: #60a5fa;
-            --muted: #94a3b8;
-            --glass: rgba(255, 255, 255, 0.03)
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TypeScript</title>
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-        * {
-            box-sizing: border-box
-        }
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #60a5fa;
+      --muted: #94a3b8;
+      --glass: rgba(255, 255, 255, 0.03)
+    }
 
-        body {
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
-            margin: 0;
-            background: linear-gradient(180deg, #071028 0%, #071a2b 100%);
-            color: #e6eef8;
-        }
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(180deg, #071028 0%, #071a2b 100%);
+      color: #e6eef8;
+      margin: 0;
+    }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto
-        }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
 
-        header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 18px
-        }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
 
-        header h1 {
-            font-size: 20px;
-            margin: 0
-        }
+    header h1 {
+      font-size: 20px;
+      margin-bottom: 7px;
+    }
 
-        header p {
-            margin: 0;
-            color: var(--muted)
-        }
+    header p {
+      margin: 0;
+      color: var(--muted);
+    }
 
-        .controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 18px 0
-        }
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+    }
 
-        .controls input[type=text] {
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            background: var(--glass);
-            color: inherit;
-            min-width: 220px
-        }
+    .controls input[type=text],
+    .controls select,
+    .controls button {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      background: var(--glass);
+      color: inherit;
+      min-width: 220px;
+    }
 
-        .controls select,
-        .controls button {
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 0;
-            background: var(--card);
-            color: inherit
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 12px
-        }
+    .card {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+      transition: transform .14s ease, box-shadow .14s;
+      cursor: pointer;
+    }
 
-        .card {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-            padding: 14px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
-            transition: transform .14s ease, box-shadow .14s
-        }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(2, 6, 23, 0.7);
+    }
 
-        .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(2, 6, 23, 0.7)
-        }
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
 
-        .meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px
-        }
+    .num {
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 6px 8px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #7a7af0;
+    }
 
-        .num {
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 6px 8px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #7a7af0;
-        }
+    .cat {
+      font-size: 12px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
 
-        .cat {
-            font-size: 12px;
-            padding: 6px 8px;
-            border-radius: 999px;
-            font-weight: 600
-        }
+    .cat.basic {
+      background: rgba(96, 165, 250, 0.12);
+      color: #60a5fa;
+    }
 
-        .title {
-            font-size: 15px;
-            font-weight: 600;
-            margin: 0 0 8px
-        }
+    .cat.intermediate {
+      background: rgba(250, 204, 21, 0.08);
+      color: #facc15;
+    }
 
-        .desc {
-            color: var(--muted);
-            font-size: 13px;
-            margin: 0
-        }
+    .cat.advanced {
+      background: rgba(240, 82, 69, 0.06);
+      color: #f87171;
+    }
 
-        .cat.basic {
-            background: rgba(96, 165, 250, 0.12);
-            color: #60a5fa;
-            border: 1px solid rgba(96, 165, 250, 0.12)
-        }
-
-        .cat.intermediate {
-            background: rgba(250, 204, 21, 0.08);
-            color: #facc15;
-            border: 1px solid rgba(250, 204, 21, 0.06)
-        }
-
-        .cat.advanced {
-            background: rgba(240, 82, 69, 0.06);
-            color: #f87171;
-            border: 1px solid rgba(240, 82, 69, 0.05)
-        }
-
-        footer {
-            margin-top: 18px;
-            color: var(--muted);
-            font-size: 13px
-        }
-
-        @media (max-width:520px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start
-            }
-
-            .controls {
-                flex-direction: column;
-                align-items: stretch
-            }
-        }
-
-        .profileContact {
-            background: rgba(255, 255, 255, 0.3);
-            margin: 10px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        .contact{
-            text-align: right;
-            color: #222;
-            text-decoration: none;
-        }
-    </style>
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .desc{
+      color: #7a7af0;
+    }
+  </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-default" style="border-radius: 0px;">
-        <div class="container-fluid">
-            <div class="navbar-header active">
-                <a class="navbar-brand" href="#" style="background-color: #dff3f5;"
-                    onclick="showHidePage('bcvHome')">Build CV</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="https://www.buildcv.co.in/" style="font-size: 16px;">Home</a></li>
-            </ul>
-            <div class="profileContact contact">
-                <a href="mailto:contact@buildcv.co.in" class="contact">📧buildcv.co.in@zohomail.in</a>
-            </div>
-        </div>
-    </nav>
-    <div class="container">
-        <header>
-            <div>
-                <h1>TypeScript</h1>
-                <p>Use search or filter to find a topic.</p>
-            </div>
-        </header>
+  <nav class="navbar navbar-default" style="border-radius: 0px;">
+    <div class="container-fluid">
+      <div class="navbar-header active">
+        <a class="navbar-brand" href="#" style="background-color: #dff3f5;">Build CV</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li><a href="https://www.buildcv.co.in/" style="font-size: 16px;">Home</a></li>
+      </ul>
+      <div class="navbar-right" style="padding:10px 20px; font-size: 16px; font-weight: 600;">
+        <a href="mailto:contact@buildcv.co.in" style="color:#333;">📧 buildcv.co.in@zohomail.in</a>
+      </div>
+    </div>
+  </nav>
 
-        <div class="controls">
-            <input id="search" type="text" placeholder="Search topics (title or number)..." />
-            <select id="filter">
-                <option value="all">All categories</option>
-                <option value="Basic">Basic</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-            </select>
-            <button id="reset">Reset</button>
-        </div>
+  <div class="container">
+    <header>
+      <div>
+        <h1>TypeScript Topics</h1>
+        <p>Use search or filter to find a topic.</p>
+      </div>
+    </header>
 
-        <div id="grid" class="grid" aria-live="polite"></div>
-
-        <footer id="footer">Showing <span id="count">0</span> of 75 topics</footer>
+    <div class="controls">
+      <input id="search" type="text" placeholder="Search topics..." />
+      <select id="filter" >
+        <option value="all" style="background: #071028;">All categories</option>
+        <option value="Basic" style="background: #071028;">Basic</option>
+        <option value="Intermediate" style="background: #071028;">Intermediate</option>
+        <option value="Advanced" style="background: #071028;">Advanced</option>
+      </select>
+      <button id="reset">Reset</button>
     </div>
 
-    <script>
-        // The 75 topics in the exact original order with their category (Basic/Intermediate/Advanced)
-        const topics = [
-            { n: 1, title: 'Setup and Hello World', cat: 'Basic' },
-            { n: 2, title: 'Primitive Types', cat: 'Basic' },
-            { n: 3, title: 'Instance Types', cat: 'Basic' },
-            { n: 4, title: 'Arrays And Tuples', cat: 'Basic' },
-            { n: 5, title: 'Object Types and Type Aliases', cat: 'Basic' },
-            { n: 6, title: 'const declarations', cat: 'Basic' },
-            { n: 7, title: 'Functions', cat: 'Basic' },
-            { n: 8, title: 'Structural Typing', cat: 'Basic' },
-            { n: 9, title: 'Classes', cat: 'Basic' },
-            { n: 10, title: 'Target Compiler Option', cat: 'Basic' },
-            { n: 11, title: 'Generics', cat: 'Basic' },
-            { n: 12, title: 'Special Types : any and unknown', cat: 'Basic' },
-            { n: 13, title: 'JavaScript to TypeScript', cat: 'Basic' },
-            { n: 14, title: 'Creating a Frontend Project', cat: 'Basic' },
-            { n: 15, title: 'Type Assertions', cat: 'Basic' },
-            { n: 16, title: 'Type Casting', cat: 'Basic' },
-            { n: 17, title: 'Modules', cat: 'Basic' },
-            { n: 18, title: 'Type Declarations', cat: 'Basic' },
-            { n: 19, title: 'Creating an NPM Package', cat: 'Basic' },
-            { n: 20, title: 'Async Await', cat: 'Basic' },
-            { n: 21, title: 'ts-node', cat: 'Basic' },
-            { n: 22, title: 'Lexical this', cat: 'Basic' },
-            { n: 23, title: 'readonly modifier', cat: 'Basic' },
-            { n: 24, title: 'Union Types', cat: 'Basic' },
-            { n: 25, title: 'Literal Types', cat: 'Basic' },
-            { n: 26, title: 'Type Narrowing', cat: 'Basic' },
-            { n: 27, title: 'Discriminated Unions', cat: 'Basic' },
-            { n: 28, title: 'Class Parameter Properties', cat: 'Basic' },
-            { n: 29, title: 'Strict Compiler Option', cat: 'Basic' },
-            { n: 30, title: 'Null versus Undefined', cat: 'Basic' },
-            { n: 31, title: 'Intersection types', cat: 'Intermediate' },
-            { n: 32, title: 'Optional modifier', cat: 'Intermediate' },
-            { n: 33, title: 'Non-null Assertion Operator', cat: 'Intermediate' },
-            { n: 34, title: 'Interfaces', cat: 'Intermediate' },
-            { n: 35, title: 'Interface Declaration Merging', cat: 'Intermediate' },
-            { n: 36, title: 'Types versus Interfaces', cat: 'Intermediate' },
-            { n: 37, title: 'never type', cat: 'Intermediate' },
-            { n: 38, title: 'implements keyword', cat: 'Intermediate' },
-            { n: 39, title: 'Definite Assignment Assertion', cat: 'Intermediate' },
-            { n: 40, title: 'User Defined Type Guards', cat: 'Intermediate' },
-            { n: 41, title: 'Assertion Functions', cat: 'Intermediate' },
-            { n: 42, title: 'Function Overloading', cat: 'Intermediate' },
-            { n: 43, title: 'Call Signatures', cat: 'Intermediate' },
-            { n: 44, title: 'Abstract Classes', cat: 'Intermediate' },
-            { n: 45, title: 'Index Signatures', cat: 'Intermediate' },
-            { n: 46, title: 'Readonly Arrays and Tuples', cat: 'Intermediate' },
-            { n: 47, title: 'Double Assertion', cat: 'Intermediate' },
-            { n: 48, title: 'const Assertion', cat: 'Intermediate' },
-            { n: 49, title: 'this parameter', cat: 'Intermediate' },
-            { n: 50, title: 'Generic Constraints', cat: 'Intermediate' },
-            { n: 51, title: 'Dealing with Temporal Uncertainty', cat: 'Intermediate' },
-            { n: 52, title: 'typeof type operator', cat: 'Intermediate' },
-            { n: 53, title: 'Lookup Types', cat: 'Intermediate' },
-            { n: 54, title: 'keyof type operator', cat: 'Intermediate' },
-            { n: 55, title: 'Conditional Types', cat: 'Intermediate' },
-            { n: 56, title: 'Conditional Types with Unions and never', cat: 'Intermediate' },
-            { n: 57, title: 'infer keyword and `ReturnType<T>`', cat: 'Intermediate' },
-            { n: 58, title: 'Mapped Types', cat: 'Intermediate' },
-            { n: 59, title: 'Mapped type modifiers', cat: 'Intermediate' },
-            { n: 60, title: 'Template Literal Type', cat: 'Intermediate' },
-            { n: 61, title: 'Partial<T>', cat: 'Advanced' },
-            { n: 62, title: 'Required<T>', cat: 'Advanced' },
-            { n: 63, title: 'Readonly<T>', cat: 'Advanced' },
-            { n: 64, title: 'Record<K,V>', cat: 'Advanced' },
-            { n: 65, title: 'AutoComplete Literal Unions with Primitives', cat: 'Advanced' },
-            { n: 66, title: 'Project References', cat: 'Advanced' },
-            { n: 67, title: 'undefined vs optional', cat: 'Advanced' },
-            { n: 68, title: 'satisfies operator', cat: 'Advanced' },
-            { n: 69, title: 'PropertyKey', cat: 'Advanced' },
-            { n: 70, title: 'ThisType<T> Utility', cat: 'Advanced' },
-            { n: 71, title: 'Awaited<T> Utility', cat: 'Advanced' },
-            { n: 72, title: 'String Manipulation Utilities', cat: 'Advanced' },
-            { n: 73, title: 'Mapped Types as Clauses', cat: 'Advanced' },
-            { n: 74, title: 'TypeScript Unions vs Intersection Mental Model', cat: 'Advanced' },
-            { n: 75, title: 'TypeScript Enums are Bad', cat: 'Advanced' }
-        ];
+    <div id="grid" class="grid"></div>
 
-        const grid = document.getElementById('grid');
-        const countEl = document.getElementById('count');
-        const search = document.getElementById('search');
-        const filter = document.getElementById('filter');
-        const reset = document.getElementById('reset');
+    <footer>Showing <span id="count">0</span> of 75 topics</footer>
+  </div>
 
-        function render(list) {
-            grid.innerHTML = '';
-            list.forEach(t => {
-                const card = document.createElement('article');
-                card.className = 'card';
-                card.innerHTML = `
+  <!-- Modal -->
+  <div id="topicModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="color:#000;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" id="modalTitle"></h4>
+        </div>
+        <div class="modal-body" id="modalBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <script>
+    const topics = [
+      { n: 1, title: 'Setup and Hello World', cat: 'Basic' },
+      { n: 2, title: 'Primitive Types', cat: 'Basic' },
+      { n: 3, title: 'Instance Types', cat: 'Basic' },
+      { n: 4, title: 'Arrays And Tuples', cat: 'Basic' },
+      { n: 5, title: 'Object Types and Type Aliases', cat: 'Basic' },
+      { n: 6, title: 'const declarations', cat: 'Basic' },
+      { n: 7, title: 'Functions', cat: 'Basic' },
+      { n: 8, title: 'Structural Typing', cat: 'Basic' },
+      { n: 9, title: 'Classes', cat: 'Basic' },
+      { n: 10, title: 'Target Compiler Option', cat: 'Basic' },
+      { n: 11, title: 'Generics', cat: 'Basic' },
+      { n: 12, title: 'Special Types : any and unknown', cat: 'Basic' },
+      { n: 13, title: 'JavaScript to TypeScript', cat: 'Basic' },
+      { n: 14, title: 'Creating a Frontend Project', cat: 'Basic' },
+      { n: 15, title: 'Type Assertions', cat: 'Basic' },
+      { n: 16, title: 'Type Casting', cat: 'Basic' },
+      { n: 17, title: 'Modules', cat: 'Basic' },
+      { n: 18, title: 'Type Declarations', cat: 'Basic' },
+      { n: 19, title: 'Creating an NPM Package', cat: 'Basic' },
+      { n: 20, title: 'Async Await', cat: 'Basic' },
+      { n: 21, title: 'ts-node', cat: 'Basic' },
+      { n: 22, title: 'Lexical this', cat: 'Basic' },
+      { n: 23, title: 'readonly modifier', cat: 'Basic' },
+      { n: 24, title: 'Union Types', cat: 'Basic' },
+      { n: 25, title: 'Literal Types', cat: 'Basic' },
+      { n: 26, title: 'Type Narrowing', cat: 'Basic' },
+      { n: 27, title: 'Discriminated Unions', cat: 'Basic' },
+      { n: 28, title: 'Class Parameter Properties', cat: 'Basic' },
+      { n: 29, title: 'Strict Compiler Option', cat: 'Basic' },
+      { n: 30, title: 'Null versus Undefined', cat: 'Basic' },
+      { n: 31, title: 'Intersection types', cat: 'Intermediate' },
+      { n: 32, title: 'Optional modifier', cat: 'Intermediate' },
+      { n: 33, title: 'Non-null Assertion Operator', cat: 'Intermediate' },
+      { n: 34, title: 'Interfaces', cat: 'Intermediate' },
+      { n: 35, title: 'Interface Declaration Merging', cat: 'Intermediate' },
+      { n: 36, title: 'Types versus Interfaces', cat: 'Intermediate' },
+      { n: 37, title: 'never type', cat: 'Intermediate' },
+      { n: 38, title: 'implements keyword', cat: 'Intermediate' },
+      { n: 39, title: 'Definite Assignment Assertion', cat: 'Intermediate' },
+      { n: 40, title: 'User Defined Type Guards', cat: 'Intermediate' },
+      { n: 41, title: 'Assertion Functions', cat: 'Intermediate' },
+      { n: 42, title: 'Function Overloading', cat: 'Intermediate' },
+      { n: 43, title: 'Call Signatures', cat: 'Intermediate' },
+      { n: 44, title: 'Abstract Classes', cat: 'Intermediate' },
+      { n: 45, title: 'Index Signatures', cat: 'Intermediate' },
+      { n: 46, title: 'Readonly Arrays and Tuples', cat: 'Intermediate' },
+      { n: 47, title: 'Double Assertion', cat: 'Intermediate' },
+      { n: 48, title: 'const Assertion', cat: 'Intermediate' },
+      { n: 49, title: 'this parameter', cat: 'Intermediate' },
+      { n: 50, title: 'Generic Constraints', cat: 'Intermediate' },
+      { n: 51, title: 'Dealing with Temporal Uncertainty', cat: 'Intermediate' },
+      { n: 52, title: 'typeof type operator', cat: 'Intermediate' },
+      { n: 53, title: 'Lookup Types', cat: 'Intermediate' },
+      { n: 54, title: 'keyof type operator', cat: 'Intermediate' },
+      { n: 55, title: 'Conditional Types', cat: 'Intermediate' },
+      { n: 56, title: 'Conditional Types with Unions and never', cat: 'Intermediate' },
+      { n: 57, title: 'infer keyword and ReturnType<T>', cat: 'Intermediate' },
+      { n: 58, title: 'Mapped Types', cat: 'Intermediate' },
+      { n: 59, title: 'Mapped type modifiers', cat: 'Intermediate' },
+      { n: 60, title: 'Template Literal Type', cat: 'Intermediate' },
+      { n: 61, title: 'Partial<T>', cat: 'Advanced' },
+      { n: 62, title: 'Required<T>', cat: 'Advanced' },
+      { n: 63, title: 'Readonly<T>', cat: 'Advanced' },
+      { n: 64, title: 'Record<K,V>', cat: 'Advanced' },
+      { n: 65, title: 'AutoComplete Literal Unions with Primitives', cat: 'Advanced' },
+      { n: 66, title: 'Project References', cat: 'Advanced' },
+      { n: 67, title: 'undefined vs optional', cat: 'Advanced' },
+      { n: 68, title: 'satisfies operator', cat: 'Advanced' },
+      { n: 69, title: 'PropertyKey', cat: 'Advanced' },
+      { n: 70, title: 'ThisType<T> Utility', cat: 'Advanced' },
+      { n: 71, title: 'Awaited<T> Utility', cat: 'Advanced' },
+      { n: 72, title: 'String Manipulation Utilities', cat: 'Advanced' },
+      { n: 73, title: 'Mapped Types as Clauses', cat: 'Advanced' },
+      { n: 74, title: 'TypeScript Unions vs Intersection Mental Model', cat: 'Advanced' },
+      { n: 75, title: 'TypeScript Enums are Bad', cat: 'Advanced' }
+    ];
+
+    const topicContent = {
+      1: `
+      <h4>Introduction to TypeScript</h4>
+    <p>TypeScript is a strongly typed programming language that builds on JavaScript. TypeScript is a superset of JavaScript, which means any valid JavaScript code is also valid TypeScript code.</p>
+    <p><b>TypeScript = JavaScript + Type System.</b> Where the Type System means (type safety, interfaces, generics, etc.)</p>  
+    <h4>Setup and Hello World</h4>
+    <p><strong>Step 1:</strong> Install TypeScript globally</p>
+    <pre><code>npm install -g typescript</code></pre>
+    <p><strong>Step 2:</strong> Create a file <code>hello.ts</code></p>
+    <pre><code>let message: string = "Hello, TypeScript!";
+console.log(message);</code></pre>
+    <p><strong>Step 3:</strong> Compile and run</p>
+    <pre><code>tsc hello.ts
+node hello.js</code></pre>
+    <p>This verifies your environment is set up correctly.</p>
+
+    <hr/>
+    <h4>Installing NodeJS and Creating Your First TypeScript Project</h4>
+    <p>Now, in order to get started with TypeScript, the first thing that we need to do is to install the NodeJS runtime.</p>
+    <p>NodeJS is a standard development tool used for developing both backend as well as front-end applications for JavaScript as well as TypeScript.</p>
+    <p>To install NodeJS, open up your browser and head to <a href="https://nodejs.org" target="_blank">nodejs.org</a>. The homepage will suggest a version for your OS, or you can go to the download page to select one manually.</p>
+
+    <p>Once downloaded and installed, verify installation:</p>
+    <pre><code>node --version</code></pre>
+    <p>You can also verify the npm executables:</p>
+    <pre><code>npm --version
+npx --version</code></pre>
+
+    <h5>Initialize a TypeScript Project</h5>
+    <pre><code>mkdir my-ts-app
+cd my-ts-app
+npm init -y</code></pre>
+    <p>This creates a Node.js package. Now install TypeScript:</p>
+    <pre><code>npm install typescript</code></pre>
+    <p>This installs the TypeScript compiler (<code>tsc</code>) locally in your project.</p>
+
+    <p>Initialize a TypeScript config file:</p>
+    <pre><code>npx tsc --init --rootDir src --outDir lib</code></pre>
+    <p>This creates a <code>tsconfig.json</code> file which stores compiler options.</p>
+
+    <h5>Recommended IDE</h5>
+    <p>Use <strong>Visual Studio Code</strong> — it’s developed by Microsoft (the creators of TypeScript). You can download it from <a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a>.</p>
+
+    <h5>Write Your First TypeScript Code</h5>
+    <p>Create a file <code>src/index.ts</code> and add:</p>
+    <pre><code>let message: string = "Hello World";
+console.log(message);</code></pre>
+
+    <h5>Compile and Run</h5>
+    <pre><code>npx tsc --watch</code></pre>
+    <p>This runs the TypeScript compiler in watch mode. It generates the compiled JavaScript inside <code>lib/index.js</code>.</p>
+
+    <p>Run the compiled code:</p>
+    <pre><code>node lib/index.js</code></pre>
+    <p>You should see your message logged in the console.</p>
+
+    <h5>Understanding Type Annotations</h5>
+    <p>The main difference between TypeScript and JavaScript is type annotations. For example:</p>
+    <pre><code>let message: string = "Hello";
+message = 123; // ❌ Error: Type 'number' is not assignable to type 'string'</code></pre>
+    <p>TypeScript catches these errors at compile time, helping prevent runtime issues.</p>
+
+    <p>And with that said, congratulations on finishing the first lesson!</p>
+  `
+    };
+
+
+    const grid = document.getElementById('grid');
+    const countEl = document.getElementById('count');
+    const search = document.getElementById('search');
+    const filter = document.getElementById('filter');
+    const reset = document.getElementById('reset');
+
+    function render(list) {
+      grid.innerHTML = '';
+      list.forEach(t => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
           <div class="meta">
             <div class="num">#${t.n}</div>
             <div class="cat ${t.cat.toLowerCase()}">${t.cat}</div>
           </div>
-          <h3 class="title">${escapeHtml(t.title)}</h3>
-          <p class="desc">Topic ${t.n} — ${t.title}</p>
+          <h4 class="title">${t.title}</h4>
+          <p class="desc">Click to read full notes</p>
+
         `;
-                grid.appendChild(card);
-            });
-            countEl.textContent = list.length;
-        }
+        card.onclick = () => openModal(t);
+        grid.appendChild(card);
+      });
+      countEl.textContent = list.length;
+    }
 
-        function escapeHtml(s) { return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;'); }
+    function applyFilters() {
+      const q = search.value.trim().toLowerCase();
+      const cat = filter.value;
+      const out = topics.filter(t => {
+        const matchCat = cat === 'all' || t.cat === cat;
+        const matchQ = q === '' || t.title.toLowerCase().includes(q) || String(t.n).includes(q);
+        return matchCat && matchQ;
+      });
+      render(out);
+    }
 
-        function applyFilters() {
-            const q = search.value.trim().toLowerCase();
-            const cat = filter.value;
-            let out = topics.filter(t => {
-                const matchCat = cat === 'all' ? true : t.cat === cat;
-                const matchQ = q === '' ? true : (t.title.toLowerCase().includes(q) || String(t.n).includes(q));
-                return matchCat && matchQ;
-            });
-            render(out);
-        }
+    function openModal(topic) {
+      document.getElementById('modalTitle').textContent = `#${topic.n} — ${topic.title}`;
+      document.getElementById('modalBody').innerHTML = topicContent[topic.n] || `<p>Content not available yet.</p>`;
+      $('#topicModal').modal('show');
+    }
 
-        search.addEventListener('input', applyFilters);
-        filter.addEventListener('change', applyFilters);
-        reset.addEventListener('click', () => { search.value = ''; filter.value = 'all'; applyFilters(); });
+    search.addEventListener('input', applyFilters);
+    filter.addEventListener('change', applyFilters);
+    reset.addEventListener('click', () => { search.value = ''; filter.value = 'all'; applyFilters(); });
 
-        // initial render
-        render(topics);
-    </script>
+    render(topics);
+  </script>
 </body>
 
 </html>
