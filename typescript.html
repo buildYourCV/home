@@ -333,8 +333,8 @@ message = 123; // ❌ Error: Type 'number' is not assignable to type 'string'</c
 
     <p>And with that said, congratulations on finishing the first lesson!</p>
   `,
-  
-  2: `
+
+      2: `
     <h4>Primitive Types in TypeScript</h4>
     <p>Primitive types are the most basic building blocks of data in TypeScript. They represent single immutable values and form the foundation of all data handling in TypeScript.</p>
     <p>TypeScript includes all JavaScript primitives and adds compile-time type checking for better safety and readability.</p>
@@ -414,8 +414,8 @@ if (typeof value === "string") {
 
     <p><b>Summary:</b> Primitive types ensure your variables hold predictable and valid values, reducing runtime errors and improving code quality.</p>
   `,
-  
-  3: `
+
+      3: `
     <h4>Instance Types in TypeScript</h4>
     <p>In TypeScript, <b>instance types</b> refer to the types of objects created from classes. They represent the <i>shape</i> of an instance of a class — meaning all the public properties and methods available on the class instance.</p>
     <p>Understanding instance types helps you write code that correctly uses class instances and leverages TypeScript’s strong typing for object-oriented programming.</p>
@@ -521,10 +521,1647 @@ console.log(u.username); // "guest"</code></pre>
     <pre><code>type T = InstanceType<typeof MyClass>;</code></pre>
 
     <p><b>In short:</b> Instance types make your class-based code more precise, reusable, and type-safe in TypeScript.</p>
+  `,
+
+
+      4: `
+    <h4>Arrays and Tuples in TypeScript</h4>
+    <p>In TypeScript, <b>arrays</b> and <b>tuples</b> are used to store multiple values in a single variable. However, the key difference is that arrays are flexible in length and type (depending on declaration), while tuples have a fixed number of elements and each element has a specific type.</p>
+
+    <hr/>
+    <h5>1️⃣ Arrays in TypeScript</h5>
+    <p>An array is a collection of values of the same type. You can define arrays in two ways:</p>
+
+    <pre><code>// Using square brackets
+let numbers: number[] = [10, 20, 30];
+
+// Using Array generic type
+let fruits: Array&lt;string&gt; = ["apple", "banana", "mango"]; or let fruits: string[] = ["apple", "banana", "mango"];
+fruits.push("orange"); // ✅ Works
+fruits.push(123); // ❌ Error: Argument of type 'number' is not assignable to parameter of type 'string'
+</code></pre>
+
+    <p>Both are valid and equivalent. You can use array methods like <code>push()</code>, <code>pop()</code>, and <code>map()</code>.</p>
+
+    <pre><code>numbers.push(40);
+console.log(numbers); // [10, 20, 30, 40]
+
+fruits.map(f => console.log(f.toUpperCase()));
+</code></pre>
+
+    <hr/>
+    <h5>2️⃣ Multi-Dimensional Arrays</h5>
+    <p>You can create arrays containing other arrays — called multi-dimensional arrays.</p>
+
+    <pre><code>let matrix: number[][] = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+];
+
+console.log(matrix[1][2]); // 6
+</code></pre>
+
+    <hr/>
+    <h5>3️⃣ Readonly Arrays</h5>
+    <p>If you want to make an array immutable (so it cannot be modified), use the <code>readonly</code> keyword.</p>
+
+    <pre><code>const colors: readonly string[] = ["red", "green", "blue"];
+// colors.push("yellow"); ❌ Error: Property 'push' does not exist on type 'readonly string[]'
+</code></pre>
+
+    <p>This ensures the array cannot be changed after creation, improving code safety.</p>
+
+    <hr/>
+    <h5>4️⃣ Tuples in TypeScript</h5>
+    <p>A tuple is similar to an array but with a fixed number of elements and defined types for each position.</p>
+
+    <pre><code>let person: [string, number] = ["Abhishek", 25];
+console.log(person[0]); // "Abhishek"
+console.log(person[1]); // 25
+</code></pre>
+
+    <p>Here, the first element must always be a <code>string</code> and the second a <code>number</code>. Changing the order or type will cause an error.</p>
+
+    <pre><code>person = [25, "Abhishek"]; // ❌ Error: Type 'number' is not assignable to type 'string'</code></pre>
+
+    <hr/>
+    <h5>5️⃣ Optional and Readonly Tuple Elements</h5>
+    <p>Tuples can have optional elements and readonly restrictions as well:</p>
+
+    <pre><code>// Optional element
+let data: [string, number?] = ["Hello"];
+console.log(data); // ["Hello"]
+
+// Readonly tuple
+const point: readonly [number, number] = [10, 20];
+// point[0] = 30; ❌ Error
+</code></pre>
+
+    <hr/>
+    <h5>6️⃣ Tuple Destructuring</h5>
+    <p>You can unpack tuple elements into variables easily using destructuring:</p>
+
+    <pre><code>let user: [string, number] = ["Alice", 30];
+const [name, age] = user;
+
+console.log(name); // "Alice"
+console.log(age);  // 30
+</code></pre>
+
+    <hr/>
+    <h5>7️⃣ Tuple with Rest Elements (Variable Length)</h5>
+    <p>TypeScript allows tuples with variable-length parts using rest elements:</p>
+
+    <pre><code>let team: [string, ...string[]] = ["Captain", "Player1", "Player2", "Player3"];
+console.log(team); // ["Captain", "Player1", "Player2", "Player3"]
+</code></pre>
+
+    <p>This means the tuple must start with one string (the captain) and can have any number of additional strings after that.</p>
+
+    <hr/>
+    <h5>8️⃣ Key Differences: Array vs Tuple</h5>
+    <table border="1" cellpadding="6">
+      <tr>
+        <th>Feature</th>
+        <th>Array</th>
+        <th>Tuple</th>
+      </tr>
+      <tr>
+        <td>Length</td>
+        <td>Can change dynamically</td>
+        <td>Fixed length</td>
+      </tr>
+      <tr>
+        <td>Type of Elements</td>
+        <td>Usually same type</td>
+        <td>Each element can have a different type</td>
+      </tr>
+      <tr>
+        <td>Use Case</td>
+        <td>Homogeneous data</td>
+        <td>Heterogeneous data</td>
+      </tr>
+    </table>
+
+    <hr/>
+    <h5>9️⃣ Summary</h5>
+    <ul>
+      <li>Use arrays for lists of items of the same type.</li>
+      <li>Use tuples for fixed-size collections with known types for each position.</li>
+      <li><code>readonly</code> prevents modification of arrays or tuples.</li>
+      <li>Tuples are very useful for returning multiple values from functions.</li>
+    </ul>
+
+    <pre><code>// Example: Returning multiple values
+function getUser(): [string, number] {
+  return ["Bob", 28];
+}
+
+const [uname, uage] = getUser();
+console.log(uname, uage);
+</code></pre>
+
+    <p><b>In short:</b> Arrays are flexible lists, while tuples are structured pairs or sets with fixed type positions — both enhance type safety in TypeScript.</p>
+  `,
+      5: `
+    <h4>Object Types and Type Aliases in TypeScript</h4>
+    <p>In TypeScript, <b>object types</b> describe the shape (structure) of an object — that is, what properties it has and what types those properties hold. TypeScript helps ensure that the objects you use conform to expected shapes, reducing runtime errors.</p>
+
+    <hr/>
+    <h5>1️⃣ Basic Object Type</h5>
+    <pre><code>let person: { name: string; age: number; isStudent: boolean } = {
+  name: "Abhishek",
+  age: 25,
+  isStudent: false
+};</code></pre>
+
+    <p>Here, the variable <code>person</code> must always have:
+      <ul>
+        <li>a <code>name</code> of type <b>string</b>,</li>
+        <li>an <code>age</code> of type <b>number</b>,</li>
+        <li>and <code>isStudent</code> of type <b>boolean</b>.</li>
+      </ul>
+    </p>
+
+    <p>If you try to omit or change any property type, TypeScript will throw an error:</p>
+    <pre><code>person.age = "twenty"; // ❌ Error: Type 'string' is not assignable to type 'number'</code></pre>
+
+    <hr/>
+    <h5>2️⃣ Optional and Readonly Properties</h5>
+    <p>Object types can include optional (<code>?</code>) or readonly (<code>readonly</code>) properties.</p>
+
+    <pre><code>type Product = {
+  readonly id: number;
+  name: string;
+  price?: number; // optional
+};
+
+let laptop: Product = { id: 1, name: "MacBook" };
+
+laptop.name = "MacBook Air"; // ✅ OK
+laptop.id = 2; // ❌ Error: Cannot assign to 'id' because it is a read-only property
+</code></pre>
+
+    <p>
+      ✅ <code>price?</code> means the property is optional.<br/>
+      🔒 <code>readonly</code> ensures that once assigned, the property cannot be modified.
+    </p>
+
+    <hr/>
+    <h5>3️⃣ Type Aliases</h5>
+    <p>A <b>type alias</b> gives a name to a specific object type (or any other type). This helps avoid repetition and improves readability.</p>
+
+    <pre><code>type User = {
+  username: string;
+  email: string;
+  age: number;
+};
+
+let user1: User = {
+  username: "john_doe",
+  email: "john@example.com",
+  age: 30
+};
+
+let user2: User = {
+  username: "mary_smith",
+  email: "mary@example.com",
+  age: 25
+};
+</code></pre>
+
+    <p>Now, instead of repeating the same structure for multiple users, we simply use the alias <code>User</code>.</p>
+
+    <hr/>
+    <h5>4️⃣ Nested Object Types</h5>
+    <pre><code>type Address = {
+  city: string;
+  country: string;
+};
+
+type Employee = {
+  id: number;
+  name: string;
+  address: Address;
+};
+
+const emp: Employee = {
+  id: 101,
+  name: "Raj",
+  address: {
+    city: "Bangalore",
+    country: "India"
+  }
+};
+</code></pre>
+
+    <p>You can easily nest types to create complex and reusable data structures.</p>
+
+    <hr/>
+    <h5>5️⃣ Combining Type Aliases with Union Types</h5>
+    <p>Type aliases can also represent a union of types:</p>
+    <pre><code>type Status = "active" | "inactive" | "pending";
+
+type Account = {
+  id: number;
+  name: string;
+  status: Status;
+};
+
+const acc: Account = { id: 1, name: "Amit", status: "active" }; // ✅
+</code></pre>
+
+    <p>This ensures that only valid string literals are allowed for <code>status</code>.</p>
+
+    <hr/>
+    <h5>6️⃣ Difference Between Type Aliases and Interfaces</h5>
+    <ul>
+      <li><b>Type alias</b> can describe primitives, unions, tuples, and objects.</li>
+      <li><b>Interface</b> can describe only object shapes (and can be extended).</li>
+      <li>For objects, both work similarly — but interfaces are often preferred when designing reusable APIs or class structures.</li>
+    </ul>
+
+    <pre><code>// Interface example
+interface Person {
+  name: string;
+  age: number;
+}
+
+let p: Person = { name: "Arun", age: 22 };
+</code></pre>
+
+    <hr/>
+    <h5>7️⃣ Summary</h5>
+    <ul>
+      <li>Object types define the structure of an object.</li>
+      <li>Use <code>?</code> for optional and <code>readonly</code> for immutable properties.</li>
+      <li>Use <b>type aliases</b> to reuse complex type definitions.</li>
+      <li>Type aliases can describe not just objects, but also primitives, arrays, and unions.</li>
+      <li>Interfaces and type aliases can both describe objects — choose based on flexibility needs.</li>
+    </ul>
+
+    <p><b>In short:</b> Object types and type aliases make your TypeScript code structured, reusable, and easy to maintain.</p>
+  `,
+      6: `
+    <h4>Const Declarations in TypeScript</h4>
+    <p>The <code>const</code> keyword in TypeScript (just like in JavaScript) is used to declare variables whose <b>bindings cannot be reassigned</b> after initialization. However, it’s important to understand that while the reference is constant, the <b>value itself may still be mutable</b> in case of objects and arrays.</p>
+
+    <hr/>
+    <h5>1️⃣ Basic Const Declaration</h5>
+    <pre><code>const pi = 3.14159;
+pi = 3.14; // ❌ Error: Cannot assign to 'pi' because it is a constant.
+</code></pre>
+
+ <pre><code>type Point = {  x: number; y: number; };
+const point: Point = { x: 10, y: 20}; 
+point = {x:1, y:1}; // ❌ Error
+</code></pre>
+
+    <p>
+      <ul>
+        <li>You must initialize a <code>const</code> variable at the time of declaration.</li>
+        <li>Once assigned, you cannot reassign it to another value.</li>
+      </ul>
+    </p>
+
+    <hr/>
+    <h5>2️⃣ Const with Objects</h5>
+    <p>The <code>const</code> binding prevents reassignment, but the object’s internal properties can still be changed.</p>
+    <pre><code>const user = { name: "Abhi", age: 25 };
+
+// Allowed: modifying object properties
+user.age = 26; // ✅ Works fine
+
+// Not allowed: reassigning the object reference
+user = { name: "New User", age: 30 }; // ❌ Error
+</code></pre>
+
+    <p><b>Explanation:</b> The reference <code>user</code> is constant, but the object itself is still mutable.</p>
+
+    <hr/>
+    <h5>3️⃣ Const with Arrays</h5>
+    <p>Similarly, <code>const</code> arrays can be modified but not reassigned.</p>
+    <pre><code>const fruits = ["apple", "banana"];
+fruits.push("mango"); // ✅ Allowed
+fruits[0] = "grape";  // ✅ Allowed
+
+fruits = ["kiwi", "orange"]; // ❌ Error: cannot reassign
+</code></pre>
+
+    <p>This means that <code>const</code> ensures the variable always points to the same array, but the array contents can change.</p>
+
+    <hr/>
+    <h5>4️⃣ Const vs Let vs Var</h5>
+    <table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; border-color:#333;">
+      <thead>
+        <tr>
+          <th>Keyword</th>
+          <th>Scope</th>
+          <th>Can Reassign?</th>
+          <th>Can Redeclare?</th>
+          <th>Hoisted?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><b>var</b></td><td>Function-scoped</td><td>✅ Yes</td><td>✅ Yes</td><td>✅ Yes (initialized as undefined)</td></tr>
+        <tr><td><b>let</b></td><td>Block-scoped</td><td>✅ Yes</td><td>❌ No</td><td>✅ Yes (not initialized)</td></tr>
+        <tr><td><b>const</b></td><td>Block-scoped</td><td>❌ No</td><td>❌ No</td><td>✅ Yes (not initialized)</td></tr>
+      </tbody>
+    </table>
+
+    <p><b>Summary:</b> Always prefer <code>const</code> for variables whose value shouldn’t change, and <code>let</code> when you need to reassign later. Avoid <code>var</code> in modern TypeScript/JavaScript code.</p>
+
+    <hr/>
+    <h5>5️⃣ Const and Type Inference</h5>
+    <p>When using <code>const</code>, TypeScript infers literal types for the variable. For example:</p>
+    <pre><code>const name = "Abhi";
+// inferred type: "Abhi" (a string literal type)
+
+let city = "Delhi";
+// inferred type: string (can hold any string)
+</code></pre>
+
+    <p>This difference helps TypeScript provide stronger type checking with <code>const</code>.</p>
+
+    <hr/>
+    <h5>6️⃣ Const with Type Annotations</h5>
+    <p>You can still explicitly annotate types, though it’s rarely needed since TypeScript infers them automatically.</p>
+    <pre><code>const count: number = 10;
+const isActive: boolean = true;
+</code></pre>
+
+    <p>TypeScript will enforce these types strictly at compile time.</p>
+
+    <hr/>
+    <h5>7️⃣ Const Assertions (<code>as const</code>)</h5>
+    <p>The <code>as const</code> assertion makes an object or array completely immutable — even its inner values become readonly.</p>
+    <pre><code>const colors = ["red", "green", "blue"] as const;
+// inferred as readonly ["red", "green", "blue"]
+
+const user = {
+  name: "Abhi",
+  age: 25
+} as const;
+
+// user.age = 30; ❌ Error: Cannot assign to 'age' because it is a read-only property.
+</code></pre>
+
+    <p><b>Use Case:</b> When you want to define fixed configuration data or enum-like constants.</p>
+
+    <hr/>
+    <h5>🧩 Summary</h5>
+    <ul>
+      <li><code>const</code> creates read-only bindings — you can’t reassign them.</li>
+      <li>Objects and arrays declared with <code>const</code> are mutable (unless you use <code>as const</code>).</li>
+      <li><code>const</code> variables are block-scoped and must be initialized immediately.</li>
+      <li>Prefer <code>const</code> over <code>let</code> whenever reassignment isn’t needed.</li>
+      <li><code>as const</code> provides literal immutability for objects and arrays.</li>
+    </ul>
+
+    <p><b>In short:</b> Use <code>const</code> to ensure immutability of bindings and to help TypeScript infer the most specific types for your variables.</p>
+  `,
+      7: `
+    <h4>Functions in TypeScript</h4>
+    <p>Functions are one of the most important building blocks in TypeScript. TypeScript adds strong <b>type checking</b> for function parameters, return values, and optional/default arguments — making your code safer and easier to maintain.</p>
+
+    <hr/>
+    <h5>1️⃣ Function Basics</h5>
+    <p>You can define function parameter and return types in TypeScript:</p>
+    <pre><code>function add(a: number, b: number): number {
+  return a + b;
+}
+
+let sum = add(10, 5); // ✅ 15
+</code></pre>
+
+    <p>Here:
+      <ul>
+        <li><code>a</code> and <code>b</code> are parameters of type <b>number</b>.</li>
+        <li>The return type is also <b>number</b>.</li>
+        <li>If you return anything else (like a string), TypeScript will throw a compile-time error.</li>
+      </ul>
+    </p>
+
+    <hr/>
+    <h5>2️⃣ Type Inference</h5>
+    <p>If you omit the return type, TypeScript infers it automatically:</p>
+    <pre><code>function greet(name: string) {
+  return "Hello " + name;
+}
+
+let msg = greet("Abhi"); // inferred as string
+</code></pre>
+
+    <p>TypeScript knows that <code>greet()</code> returns a string because of the <code>return</code> statement.</p>
+
+    <hr/>
+    <h5>3️⃣ Optional and Default Parameters</h5>
+    <p>You can make parameters optional or assign them default values.</p>
+    <pre><code>function multiply(a: number, b?: number): number {
+  return b ? a * b : a;
+}
+
+console.log(multiply(5)); // ✅ 5
+console.log(multiply(5, 3)); // ✅ 15
+
+function greetUser(name: string = "Guest"): string {
+  return "Welcome, " + name;
+}
+
+console.log(greetUser()); // ✅ Welcome, Guest
+</code></pre>
+
+    <p>
+      <ul>
+        <li><code>b?: number</code> → optional parameter.</li>
+        <li><code>name: string = "Guest"</code> → default parameter value.</li>
+      </ul>
+    </p>
+
+    <hr/>
+    <h5>4️⃣ Function Type Expressions</h5>
+    <p>You can store a function type in a variable using a function type expression.</p>
+    <pre><code>let addNumbers: (x: number, y: number) => number;
+
+addNumbers = function (a, b) {
+  return a + b;
+};
+
+console.log(addNumbers(4, 6)); // ✅ 10
+</code></pre>
+
+    <p>This syntax clearly defines what type of arguments and return value a function must have.</p>
+
+    <hr/>
+    <h5>5️⃣ Arrow Functions</h5>
+    <p>Arrow functions in TypeScript are similar to JavaScript, with full type support:</p>
+    <pre><code>const divide = (a: number, b: number): number => a / b;
+
+console.log(divide(10, 2)); // ✅ 5
+</code></pre>
+
+    <p>You can omit parameter types when they can be inferred:</p>
+    <pre><code>const greet = (msg = "Hello") => console.log(msg);</code></pre>
+
+    <hr/>
+    <h5>6️⃣ Void and Never Return Types</h5>
+    <p><b>void</b> means a function doesn’t return any value.</p>
+    <pre><code>function logMessage(message: string): void {
+  console.log("INFO:", message);
+}</code></pre>
+
+    <p><b>never</b> means a function never successfully returns (like it always throws an error or loops infinitely):</p>
+    <pre><code>function throwError(msg: string): never {
+  throw new Error(msg);
+}
+</code></pre>
+
+    <hr/>
+    <h5>7️⃣ Rest Parameters</h5>
+    <p>Use rest parameters when you don’t know how many arguments will be passed:</p>
+    <pre><code>function sumAll(...numbers: number[]): number {
+  return numbers.reduce((acc, n) => acc + n, 0);
+}
+
+console.log(sumAll(1, 2, 3, 4)); // ✅ 10
+</code></pre>
+
+    <p>The rest parameter <code>...numbers</code> is an array of numbers.</p>
+
+    <hr/>
+    <h5>8️⃣ Anonymous and Callback Functions</h5>
+    <p>You can define functions inline and pass them as arguments:</p>
+    <pre><code>function processData(data: number[], callback: (num: number) => void) {
+  for (let n of data) callback(n);
+}
+
+processData([10, 20, 30], (n) => console.log(n * 2));
+</code></pre>
+
+    <p>The callback is explicitly typed, ensuring the parameter <code>num</code> is a number.</p>
+
+    <hr/>
+    <h5>9️⃣ Function Overloading</h5>
+    <p>TypeScript supports defining multiple function signatures for the same function (overloading):</p>
+    <pre><code>function display(value: string): void;
+function display(value: number): void;
+function display(value: any): void {
+  console.log("Value:", value);
+}
+
+display("Hello");
+display(42);
+</code></pre>
+
+    <p>Overloads allow one function to handle different argument types safely.</p>
+
+    <hr/>
+    <h5>🔟 Summary</h5>
+    <ul>
+      <li>Functions in TypeScript have strict type checking for parameters and return values.</li>
+      <li>Parameters can be optional (<code>?</code>), have default values, or be rest parameters (<code>...</code>).</li>
+      <li>Use <code>void</code> for functions without return values, and <code>never</code> for those that never return.</li>
+      <li>Arrow functions and callbacks support full typing.</li>
+      <li>Overloading allows one function to handle multiple input types.</li>
+    </ul>
+
+    <p><b>In short:</b> TypeScript’s function typing system helps catch errors early, ensures predictable behavior, and makes your code more readable and maintainable.</p>
+  `,
+  8: `
+  <h4>Structural Typing in TypeScript</h4>
+  <p><b>Structural Typing</b> means that TypeScript compares types based on their <b>structure or shape</b>, not on their name or declaration. If two types have the same set of properties with the same types, they are considered compatible.</p>
+
+  <hr/>
+  <h5>1️⃣ Example: Shape-Based Compatibility</h5>
+  <pre><code>type Point = { x: number; y: number };
+type Coordinate = { x: number; y: number };
+
+let p1: Point = { x: 10, y: 20 };
+let c1: Coordinate = { x: 10, y: 20 };
+
+p1 = c1; // ✅ Works because structure matches
+  </code></pre>
+  <p>Even though <code>Point</code> and <code>Coordinate</code> are different type names, they are compatible because their structure is identical.</p>
+
+  <hr/>
+  <h5>2️⃣ Example: Extra and Missing Properties</h5>
+  <pre><code>type Point2D = { x: number; y: number };
+type Point3D = { x: number; y: number; z: number };
+
+let twoD: Point2D = { x: 1, y: 2 };
+let threeD: Point3D = { x: 1, y: 2, z: 3 };
+
+twoD = threeD; // ✅ Allowed (extra property ignored)
+threeD = twoD; // ❌ Error: Property 'z' is missing
+  </code></pre>
+  <p>TypeScript allows assigning objects with extra properties to less specific types, but not the other way around.</p>
+
+  <hr/>
+  <h5>3️⃣ With Interfaces</h5>
+  <pre><code>interface Person {
+  name: string;
+  age: number;
+}
+
+let user = { name: "Abhi", age: 25, city: "Delhi" };
+let person: Person = user; // ✅ Works — structure matches
+  </code></pre>
+  <p>Interfaces also follow structural typing rules. As long as the structure matches, the assignment is valid.</p>
+
+  <hr/>
+  <h5>4️⃣ Why Structural Typing?</h5>
+  <ul>
+    <li>More flexible and JavaScript-friendly.</li>
+    <li>Supports <b>duck typing</b> — “If it looks like a duck and quacks like a duck, it’s a duck.”</li>
+    <li>Reduces the need for explicit inheritance or interface implementation.</li>
+  </ul>
+
+  <hr/>
+  <h5>🧠 Summary</h5>
+  <ul>
+    <li>TypeScript uses <b>structural typing</b>, not nominal typing (like Java or C#).</li>
+    <li>Compatibility is based on <b>shape (properties and types)</b>, not names.</li>
+    <li>Encourages flexible, shape-based programming.</li>
+  </ul>
+  `,
+  9: `
+  <h4>Classes in TypeScript</h4>
+  <p>Classes in TypeScript are blueprints for creating objects with properties and methods. They bring object-oriented programming (OOP) features like <b>encapsulation, inheritance, and polymorphism</b> to JavaScript.</p>
+
+  <hr/>
+  <h5>1️⃣ Basic Class Example</h5>
+  <pre><code>class Person {
+  name: string;
+  age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet(): void {
+    console.log(\`Hello, my name is \${this.name}\`);
+  }
+}
+
+const user = new Person("Abhi", 25);
+user.greet(); // Output: Hello, my name is Abhi
+  </code></pre>
+
+  <ul>
+    <li><code>constructor</code> initializes class properties.</li>
+    <li><code>this</code> refers to the current instance.</li>
+    <li>TypeScript ensures property and method type safety.</li>
+  </ul>
+
+  <hr/>
+  <h5>2️⃣ Access Modifiers</h5>
+  <p>Access modifiers control the visibility of class members:</p>
+  <ul>
+    <li><b>public</b> – accessible anywhere (default).</li>
+    <li><b>private</b> – accessible only inside the class.</li>
+    <li><b>protected</b> – accessible inside the class and subclasses.</li>
+  </ul>
+
+  <pre><code>class Employee {
+  private salary: number;
+  protected department: string;
+
+  constructor(salary: number, department: string) {
+    this.salary = salary;
+    this.department = department;
+  }
+}
+
+class Manager extends Employee {
+  getDepartment() {
+    console.log(\`Department: \${this.department}\`);
+  }
+}
+  </code></pre>
+
+  <hr/>
+  <h5>3️⃣ Readonly Properties</h5>
+  <p>Readonly properties can only be assigned during declaration or in the constructor.</p>
+  <pre><code>class Car {
+  readonly model: string;
+
+  constructor(model: string) {
+    this.model = model;
+  }
+}
+
+const myCar = new Car("Tesla");
+// myCar.model = "BMW"; // ❌ Error: Cannot assign to 'model' because it is a read-only property
+  </code></pre>
+
+  <hr/>
+  <h5>4️⃣ Inheritance</h5>
+  <p>A class can extend another class to reuse properties and methods.</p>
+  <pre><code>class Animal {
+  move() {
+    console.log("Moving...");
+  }
+}
+
+class Dog extends Animal {
+  bark() {
+    console.log("Woof!");
+  }
+}
+
+const dog = new Dog();
+dog.move(); // ✅ Moving...
+dog.bark(); // ✅ Woof!
+  </code></pre>
+
+  <hr/>
+  <h5>5️⃣ Getters and Setters</h5>
+  <p>Use <code>get</code> and <code>set</code> to control access to private properties.</p>
+  <pre><code>class Circle {
+  private _radius: number = 0;
+
+  get radius(): number {
+    return this._radius;
+  }
+
+  set radius(value: number) {
+    if (value > 0) this._radius = value;
+    else throw new Error("Radius must be positive");
+  }
+}
+
+const c = new Circle();
+c.radius = 10;
+console.log(c.radius); // 10
+  </code></pre>
+
+  <hr/>
+  <h5>6️⃣ Parameter Properties (Shorthand)</h5>
+  <p>TypeScript allows declaring and initializing properties directly in the constructor.</p>
+  <pre><code>class Student {
+  constructor(public name: string, private rollNo: number) {}
+
+  display() {
+    console.log(\`Name: \${this.name}, Roll No: \${this.rollNo}\`);
+  }
+}
+
+const s = new Student("Abhi", 101);
+s.display();
+  </code></pre>
+
+  <hr/>
+  <h5>🧠 Summary</h5>
+  <ul>
+    <li>Classes define object structure and behavior.</li>
+    <li>Supports OOP features like encapsulation, inheritance, and access control.</li>
+    <li>Use <code>public</code>, <code>private</code>, <code>protected</code>, and <code>readonly</code> for data safety.</li>
+    <li>Parameter properties simplify class constructors.</li>
+  </ul>
+  `,
+  10: `
+  <h4>Target Compiler Option in TypeScript</h4>
+  <p>The <code>target</code> compiler option in TypeScript defines the version of JavaScript that the TypeScript compiler (<code>tsc</code>) should output after compilation.</p>
+
+  <hr/>
+  <h5>1️⃣ What is the <code>target</code> option?</h5>
+  <p>When you compile a TypeScript file, it’s converted into JavaScript. The <code>target</code> option tells the compiler which version of JavaScript to generate — for example, ES5, ES6 (ES2015), ES2017, etc.</p>
+
+  <pre><code>{
+  "compilerOptions": {
+    "target": "ES6"
+  }
+}
+  </code></pre>
+
+  <p>This means that TypeScript will compile modern syntax (like <code>let</code>, <code>const</code>, arrow functions, classes, etc.) into JavaScript compatible with the ES6 standard.</p>
+
+  <hr/>
+  <h5>2️⃣ Common Target Options</h5>
+  <table border="1" cellspacing="0" cellpadding="6">
+    <tr><th>Target</th><th>Description</th></tr>
+    <tr><td><b>ES3</b></td><td>Oldest supported version, compatible with very old browsers.</td></tr>
+    <tr><td><b>ES5</b></td><td>Commonly used for maximum browser compatibility.</td></tr>
+    <tr><td><b>ES6 / ES2015</b></td><td>Supports modern features like classes, arrow functions, and template literals.</td></tr>
+    <tr><td><b>ES2017 / ES2018 / ESNext</b></td><td>Used when you want to use the latest JavaScript features (Node.js or modern browsers).</td></tr>
+  </table>
+
+  <hr/>
+  <h5>3️⃣ Example</h5>
+  <p>TypeScript code:</p>
+  <pre><code>const greet = () => console.log("Hello TypeScript!");
+  </code></pre>
+
+  <p>Compiled output with <b>target: "ES5"</b>:</p>
+  <pre><code>var greet = function () { return console.log("Hello TypeScript!"); };
+  </code></pre>
+
+  <p>Compiled output with <b>target: "ES6"</b>:</p>
+  <pre><code>const greet = () => console.log("Hello TypeScript!");
+  </code></pre>
+
+  <p>As you can see, the <code>target</code> determines which JavaScript syntax is used in the output.</p>
+
+  <hr/>
+  <h5>4️⃣ How to Set the Target</h5>
+  <p>You can set the target in two ways:</p>
+  <ul>
+    <li><b>Option 1:</b> Inside <code>tsconfig.json</code></li>
+    <pre><code>{
+  "compilerOptions": {
+    "target": "ES6"
+  }
+}
+    </code></pre>
+
+    <li><b>Option 2:</b> Through the command line</li>
+    <pre><code>npx tsc --target ES6</code></pre>
+  </ul>
+
+  <hr/>
+  <h5>🧠 Summary</h5>
+  <ul>
+    <li>The <code>target</code> option controls the version of JavaScript emitted by the TypeScript compiler.</li>
+    <li>Use <code>ES5</code> for older browsers, <code>ES6+</code> for modern environments.</li>
+    <li>Set <code>target</code> in <code>tsconfig.json</code> or via command line.</li>
+    <li>Choosing the right target ensures compatibility and performance.</li>
+  </ul>
+  `, 
+  
+  11: `
+  <h4>Generics in TypeScript</h4>
+  <p>Generics allow you to create reusable and flexible components that can work with multiple data types instead of a single one. They provide type safety while maintaining flexibility.</p>
+
+  <hr/>
+  <h5>1️⃣ Why Use Generics?</h5>
+  <p>Without generics, you may have to create multiple versions of the same function or class for different data types, or use <code>any</code> which removes type safety.</p>
+
+  <p>Example using <code>any</code> (❌ unsafe):</p>
+  <pre><code>function identity(value: any): any {
+  return value;
+}
+
+let num = identity(10);
+let str = identity("Hello");
+// No type checking - unsafe!
+</code></pre>
+
+  <p>Now, using <b>Generics</b> (✅ safe):</p>
+  <pre><code>function identity&lt;T&gt;(value: T): T {
+  return value;
+}
+
+let num = identity&lt;number&gt;(10);
+let str = identity&lt;string&gt;("Hello");
+</code></pre>
+
+  <p>✔️ Here, <code>&lt;T&gt;</code> is a generic type variable. TypeScript infers or enforces the correct type automatically.</p>
+
+  <hr/>
+  <h5>2️⃣ Generic Functions</h5>
+  <p>Write a single function that works with any type, while maintaining type safety.</p>
+
+  <pre><code>function printArray&lt;T&gt;(items: T[]): void {
+  items.forEach(item =&gt; console.log(item));
+}
+
+printArray&lt;number&gt;([1, 2, 3]);
+printArray&lt;string&gt;(["a", "b", "c"]);
+</code></pre>
+
+  <p>This makes your function reusable for any data type.</p>
+
+  <hr/>
+  <h5>3️⃣ Generic Interfaces</h5>
+  <pre><code>interface Box&lt;T&gt; {
+  content: T;
+}
+
+let box1: Box&lt;string&gt; = { content: "Books" };
+let box2: Box&lt;number&gt; = { content: 42 };
+</code></pre>
+
+  <p>✔️ The same interface can handle multiple data types using generics.</p>
+
+  <hr/>
+  <h5>4️⃣ Generic Classes</h5>
+  <pre><code>class DataStore&lt;T&gt; {
+  private data: T[] = [];
+
+  addItem(item: T): void {
+    this.data.push(item);
+  }
+
+  getItems(): T[] {
+    return this.data;
+  }
+}
+
+const stringStore = new DataStore&lt;string&gt;();
+stringStore.addItem("Hello");
+
+const numberStore = new DataStore&lt;number&gt;();
+numberStore.addItem(123);
+</code></pre>
+
+  <p>✔️ The same class works for different types with type safety.</p>
+
+  <hr/>
+  <h5>5️⃣ Generic Queue Example</h5>
+  <p>A practical example using a Queue data structure implemented with generics.</p>
+
+  <pre><code>class Queue&lt;T&gt; {
+  private items: T[] = [];
+
+  enqueue(item: T): void {
+    this.items.push(item);
+  }
+
+  dequeue(): T | undefined {
+    return this.items.shift();
+  }
+
+  peek(): T | undefined {
+    return this.items[0];
+  }
+
+  isEmpty(): boolean {
+    return this.items.length === 0;
+  }
+}
+
+const numberQueue = new Queue&lt;number&gt;();
+numberQueue.enqueue(10);
+numberQueue.enqueue(20);
+console.log(numberQueue.dequeue()); // 10
+
+const stringQueue = new Queue&lt;string&gt;();
+stringQueue.enqueue("A");
+stringQueue.enqueue("B");
+console.log(stringQueue.peek()); // A
+</code></pre>
+
+  <p>✔️ The same queue logic works for <code>number</code>, <code>string</code>, or any custom type.</p>
+
+  <hr/>
+  <h5>6️⃣ Generic Constraints</h5>
+  <p>Sometimes, you may want to restrict the types that can be used with a generic.</p>
+
+  <pre><code>interface HasLength {
+  length: number;
+}
+
+function logLength&lt;T extends HasLength&gt;(item: T): void {
+  console.log(item.length);
+}
+
+logLength("Hello");     // ✅ Works
+logLength([1, 2, 3]);   // ✅ Works
+// logLength(123); ❌ Error
+</code></pre>
+
+  <p>✔️ <code>T extends HasLength</code> ensures that only types with a <code>length</code> property are allowed.</p>
+
+  <hr/>
+  <h5>7️⃣ Default Generic Type</h5>
+  <pre><code>function identityWithDefault&lt;T = string&gt;(value: T): T {
+  return value;
+}
+
+console.log(identityWithDefault("Hello"));
+console.log(identityWithDefault(42));
+</code></pre>
+
+  <hr/>
+  <h5>🧠 Summary</h5>
+  <ul>
+    <li>Generics provide type safety and flexibility.</li>
+    <li>They work with functions, interfaces, and classes.</li>
+    <li>Use <code>&lt;T&gt;</code> as a placeholder for any data type.</li>
+    <li>Generic constraints (<code>extends</code>) allow limited type control.</li>
+    <li>Default generic types simplify usage.</li>
+    <li>Queue example shows how generics help build reusable data structures.</li>
+  </ul>
+
+  <p><b>Generics = Reusability + Type Safety ✅</b></p>
+  `,
+  12: `
+  <h4>Special Types in TypeScript: <code>any</code> and <code>unknown</code></h4>
+  <p>TypeScript provides special types like <code>any</code> and <code>unknown</code> for handling values whose types are not known at compile time.</p>
+
+  <hr/>
+  <h5>1️⃣ The <code>any</code> Type</h5>
+  <p>The <b><code>any</code></b> type disables TypeScript’s type checking. It tells the compiler to skip type safety for that variable.</p>
+
+  <pre><code>let value: any = 10;
+value = "Hello";
+value = true;
+value = { name: "Abhi" };
+
+console.log(value.toUpperCase()); // ✅ No error, but may fail at runtime
+</code></pre>
+
+  <p>✔️ <code>any</code> gives flexibility but removes all compile-time type safety.</p>
+
+  <p>❌ <b>Disadvantage:</b> Using <code>any</code> frequently defeats the purpose of TypeScript’s type system.</p>
+
+  <hr/>
+  <h5>2️⃣ The <code>unknown</code> Type</h5>
+  <p>The <b><code>unknown</code></b> type is a safer alternative to <code>any</code>. It represents a value that could be anything, but you must perform type checking before using it.</p>
+
+  <pre><code>let data: unknown;
+data = "Hello";
+data = 42;
+data = { name: "Abhi" };
+
+// console.log(data.toUpperCase()); ❌ Error: Object is of type 'unknown'
+
+if (typeof data === "string") {
+  console.log(data.toUpperCase()); // ✅ Safe
+}
+</code></pre>
+
+  <p>✔️ <code>unknown</code> forces you to check the type before accessing its properties or methods.</p>
+
+  <hr/>
+  <h5>3️⃣ Difference Between <code>any</code> and <code>unknown</code></h5>
+  <table border="1" cellpadding="6">
+    <tr>
+      <th>Feature</th>
+      <th><code>any</code></th>
+      <th><code>unknown</code></th>
+    </tr>
+    <tr>
+      <td>Type Checking</td>
+      <td>Disabled ❌</td>
+      <td>Required ✅</td>
+    </tr>
+    <tr>
+      <td>Assign to Other Types</td>
+      <td>Allowed freely</td>
+      <td>Not allowed without checks</td>
+    </tr>
+    <tr>
+      <td>Safety</td>
+      <td>Unsafe (runtime errors possible)</td>
+      <td>Safe (forces type checking)</td>
+    </tr>
+    <tr>
+      <td>Example Usage</td>
+      <td>For quick prototyping</td>
+      <td>For values from dynamic sources (e.g. API data)</td>
+    </tr>
+  </table>
+
+  <hr/>
+  <h5>4️⃣ Type Narrowing Example with <code>unknown</code></h5>
+  <pre><code>function processData(value: unknown) {
+  if (typeof value === "string") {
+    console.log(value.toUpperCase());
+  } else if (typeof value === "number") {
+    console.log(value.toFixed(2));
+  } else {
+    console.log("Unknown type");
+  }
+}
+
+processData("TypeScript");
+processData(123.456);
+processData(true);
+</code></pre>
+
+  <hr/>
+  <h5>🧠 Summary</h5>
+  <ul>
+    <li><code>any</code> disables all type checking – use sparingly.</li>
+    <li><code>unknown</code> is type-safe – you must narrow down the type before use.</li>
+    <li>Prefer <code>unknown</code> when dealing with uncertain types (e.g., user input or API data).</li>
+  </ul>
+
+  <p><b>✅ Best Practice:</b> Avoid <code>any</code> unless absolutely necessary — prefer <code>unknown</code> for safety and clarity.</p>
+  `,
+  13: `
+  <h4>JavaScript to TypeScript</h4>
+  <p>TypeScript is a superset of JavaScript, which means <strong>any valid JavaScript code is also valid TypeScript code.</strong>  
+  You can gradually migrate your existing JavaScript projects to TypeScript by adding type annotations and configuration.</p>
+
+  <hr/>
+  <h5>1️⃣ Step 1: Rename <code>.js</code> Files to <code>.ts</code></h5>
+  <p>Start by renaming your existing JavaScript files from <code>.js</code> to <code>.ts</code>.  
+  TypeScript will begin analyzing your code and highlight potential issues or missing types.</p>
+
+  <pre><code>// JavaScript
+function add(a, b) {
+  return a + b;
+}
+
+// TypeScript
+function add(a: number, b: number): number {
+  return a + b;
+}
+</code></pre>
+
+  <p>Adding type annotations (<code>: number</code>) helps catch type errors at compile time.</p>
+
+  <hr/>
+  <h5>2️⃣ Step 2: Add a <code>tsconfig.json</code></h5>
+  <p>Use the TypeScript compiler to create a configuration file:</p>
+  <pre><code>npx tsc --init</code></pre>
+  <p>This creates a <code>tsconfig.json</code> file to control compiler settings like the output directory, target ECMAScript version, and strictness.</p>
+
+  <hr/>
+  <h5>3️⃣ Step 3: Enable Strict Type Checking</h5>
+  <p>In <code>tsconfig.json</code>, enable strict mode for maximum safety:</p>
+  <pre><code>{
+  "compilerOptions": {
+    "strict": true
+  }
+}</code></pre>
+
+  <p>Strict mode ensures that all variables, functions, and parameters have explicit types.</p>
+
+  <hr/>
+  <h5>4️⃣ Step 4: Add Type Annotations</h5>
+  <p>Use TypeScript’s type system to add safety to your variables and functions.</p>
+
+  <pre><code>// JavaScript
+let message = "Hello, JS!";
+
+// TypeScript
+let message: string = "Hello, TS!";
+</code></pre>
+
+  <p>You can also define object shapes and arrays:</p>
+  <pre><code>let user: { name: string; age: number } = { name: "Abhi", age: 25 };
+let numbers: number[] = [1, 2, 3];
+</code></pre>
+
+  <hr/>
+  <h5>5️⃣ Step 5: Add Interfaces or Type Aliases</h5>
+  <p>Use <code>interface</code> or <code>type</code> to define reusable structures.</p>
+  <pre><code>interface User {
+  name: string;
+  email: string;
+}
+
+const newUser: User = { name: "Abhi", email: "abhi@example.com" };
+</code></pre>
+
+  <hr/>
+  <h5>6️⃣ Step 6: Compile to JavaScript</h5>
+  <p>Compile your TypeScript file to JavaScript using:</p>
+  <pre><code>npx tsc</code></pre>
+  <p>This generates <code>.js</code> files that can run in any JavaScript environment.</p>
+
+  <hr/>
+  <h5>7️⃣ Step 7: Gradual Migration Approach</h5>
+  <p>TypeScript supports gradual adoption. You can mix <code>.js</code> and <code>.ts</code> files in the same project.</p>
+  <pre><code>{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true
+  }
+}</code></pre>
+
+  <p>This lets you convert files one by one at your own pace.</p>
+
+  <hr/>
+  <h5>8️⃣ Benefits of Migrating to TypeScript</h5>
+  <ul>
+    <li>✔️ Early error detection at compile time</li>
+    <li>✔️ Better code auto-completion and documentation</li>
+    <li>✔️ Easier refactoring</li>
+    <li>✔️ Clearer intent with static typing</li>
+  </ul>
+
+  <hr/>
+  <h5>🧩 Example</h5>
+  <pre><code>// JavaScript
+function greet(name) {
+  return "Hello " + name.toUpperCase();
+}
+
+// TypeScript
+function greet(name: string): string {
+  return "Hello " + name.toUpperCase();
+}
+
+console.log(greet("Abhi"));
+</code></pre>
+
+  <hr/>
+  <h5>🧠 Summary</h5>
+  <ul>
+    <li><b>TypeScript = JavaScript + Type System</b></li>
+    <li>Start migration by renaming <code>.js</code> to <code>.ts</code>.</li>
+    <li>Add type annotations, enable strict mode, and compile to JavaScript.</li>
+    <li>Gradual adoption makes migration easy and low-risk.</li>
+  </ul>
+
+  <p><b>✅ Result:</b> Safer, more maintainable, and self-documenting JavaScript code.</p>
+  `,
+  14: `
+  <h4>Creating a React + TypeScript Frontend Project</h4>
+  <p>TypeScript and React work perfectly together — TypeScript provides static typing, better IntelliSense, and early error detection while React handles the UI logic.</p>
+  <p>Let’s see how to create and configure a React project with TypeScript step by step.</p>
+
+  <hr/>
+  <h5>1️⃣ Step 1: Create a New React Project with TypeScript Template</h5>
+  <pre><code>npx create-react-app my-react-app --template typescript</code></pre>
+  <p>This command sets up a ready-to-use React application with TypeScript configuration built in.</p>
+
+  <p>After creation, navigate to your project folder:</p>
+  <pre><code>cd my-react-app
+npm start</code></pre>
+  <p>This launches the development server and opens your app in the browser at <code>http://localhost:3000</code>.</p>
+
+  <hr/>
+  <h5>2️⃣ Step 2: Project Structure</h5>
+  <pre><code>my-react-app/
+├── node_modules/
+├── public/
+├── src/
+│   ├── App.tsx
+│   ├── index.tsx
+│   ├── react-app-env.d.ts
+│   ├── components/
+│   │   └── Hello.tsx
+│   └── styles/
+├── package.json
+├── tsconfig.json
+└── README.md</code></pre>
+
+  <p>The <code>.tsx</code> extension allows JSX syntax in TypeScript files.</p>
+
+  <hr/>
+  <h5>3️⃣ Step 3: Understanding TypeScript in React</h5>
+  <p>TypeScript helps define prop types and state shapes for React components.</p>
+
+  <pre><code>// src/components/Hello.tsx
+import React from "react";
+
+type HelloProps = {
+  name: string;
+  age?: number; // Optional prop
+};
+
+const Hello: React.FC&lt;HelloProps&gt; = ({ name, age }) => {
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Hello, {name}!&lt;/h2&gt;
+      {age && &lt;p&gt;You are {age} years old.&lt;/p&gt;}
+    &lt;/div&gt;
+  );
+};
+
+export default Hello;
+</code></pre>
+
+  <p>Then import and use it in <code>App.tsx</code>:</p>
+  <pre><code>import React from "react";
+import Hello from "./components/Hello";
+
+function App() {
+  return (
+    &lt;div className="App"&gt;
+      &lt;h1&gt;Welcome to React + TypeScript&lt;/h1&gt;
+      &lt;Hello name="Abhishek" age={25} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;
+</code></pre>
+
+  <hr/>
+  <h5>4️⃣ Step 4: Working with useState and useEffect Hooks</h5>
+  <pre><code>import React, { useState, useEffect } from "react";
+
+const Counter: React.FC = () => {
+  const [count, setCount] = useState&lt;number&gt;(0);
+
+  useEffect(() => {
+    document.title = \`Count: \${count}\`;
+  }, [count]);
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Count: {count}&lt;/h2&gt;
+      &lt;button onClick={() =&gt; setCount(count + 1)}&gt;Increment&lt;/button&gt;
+    &lt;/div&gt;
+  );
+};
+
+export default Counter;
+</code></pre>
+
+  <p>Type annotations like <code>useState&lt;number&gt;</code> ensure that <code>count</code> can only be a number — preventing common type errors.</p>
+
+  <hr/>
+  <h5>5️⃣ Step 5: TypeScript Configuration in React</h5>
+  <p>TypeScript React projects include a <code>tsconfig.json</code> file by default.</p>
+
+  <pre><code>{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}</code></pre>
+  <p>This enables strict typing and React’s new JSX transform.</p>
+
+  <hr/>
+  <h5>6️⃣ Step 6: Adding Interfaces and Types for Props</h5>
+  <pre><code>interface Product {
+  id: number;
+  name: string;
+  price: number;
+}
+
+type ProductListProps = {
+  items: Product[];
+};
+
+const ProductList: React.FC&lt;ProductListProps&gt; = ({ items }) =&gt; (
+  &lt;ul&gt;
+    {items.map(item =&gt; (
+      &lt;li key={item.id}&gt;
+        {item.name} - ₹{item.price}
+      &lt;/li&gt;
+    ))}
+  &lt;/ul&gt;
+);</code></pre>
+
+  <p>Interfaces and types make React code self-documenting and error-free.</p>
+
+  <hr/>
+  <h5>7️⃣ Step 7: Building and Deploying</h5>
+  <p>To build your app for production:</p>
+  <pre><code>npm run build</code></pre>
+  <p>This generates an optimized, minified build in the <code>build/</code> folder — ready to be deployed.</p>
+
+  <hr/>
+  <h5>🧠 Summary</h5>
+  <ul>
+    <li>React + TypeScript provides strong typing and better developer experience.</li>
+    <li>Use <code>tsx</code> for React components with JSX syntax.</li>
+    <li>Always type props, state, and hooks for better readability and maintainability.</li>
+    <li><b>Create React App</b> with <code>--template typescript</code> gives you everything preconfigured.</li>
+  </ul>
+
+  <p><b>✅ Result:</b> A robust, type-safe React project built using TypeScript — ready for scalable frontend development.</p>
+  `,
+  15: `
+  <h4>Type Assertions in TypeScript</h4>
+  <p>Type assertions tell the TypeScript compiler to treat a value as a specific type. It does not change the runtime behavior of the code; it only affects type checking.</p>
+
+  <p>Type assertions are useful when you, as a developer, have more information about the type of a value than TypeScript can infer.</p>
+
+  <h5>Syntax</h5>
+  <pre><code>
+  // Using 'as' syntax (recommended)
+  let value: unknown = "Hello TypeScript";
+  let strLength: number = (value as string).length;
+
+  // Using angle-bracket syntax (older form)
+  let strLength2: number = (&lt;string&gt;value).length; // This form is not allowed in .tsx files as <> is used for JSX syntax.
+  </code></pre>
+
+  <h5>Example</h5>
+  <pre><code>
+  // Example: DOM element type assertion
+  const inputElement = document.querySelector("input") as HTMLInputElement;
+  inputElement.value = "TypeScript Rocks!";
+  </code></pre>
+
+  <p>Here, TypeScript doesn't know that <code>document.querySelector()</code> returns an input element. By asserting its type, we can safely access input-specific properties like <code>value</code>.</p>
+
+  <h5>Non-null Assertion Operator</h5>
+  <p>Use <code>!</code> to tell TypeScript that a value is not <code>null</code> or <code>undefined</code>.</p>
+  <pre><code>
+  const element = document.getElementById("title")!;
+  element.innerHTML = "Welcome!";
+  </code></pre>
+
+  <h5>Type Assertions vs Type Casting</h5>
+  <ul>
+    <li>Type Assertions exist only in TypeScript and are removed during compilation.</li>
+    <li>They do not change the actual type or structure at runtime.</li>
+    <li>Type Casting (in languages like C# or Java) actually converts data at runtime.</li>
+  </ul>
+
+  <h5>When to Use</h5>
+  <ul>
+    <li>When working with DOM elements.</li>
+    <li>When migrating JavaScript code to TypeScript.</li>
+    <li>When dealing with third-party libraries with incomplete type definitions.</li>
+  </ul>
+
+  <p><b>Important:</b> Avoid overusing type assertions — they can bypass TypeScript’s type safety if used incorrectly.</p>
+  `,
+  16: `
+  <h4>Type Casting in TypeScript</h4>
+  <p>Type casting is the process of explicitly converting a value from one type to another. In TypeScript, this is done using <b>type assertions</b> — but it does not actually change the data at runtime; it only informs the compiler of the intended type.</p>
+
+  <h5>🧩 Type Casting Syntax</h5>
+  <pre><code>
+  // Using 'as' keyword (recommended)
+  let value: unknown = "Hello World";
+  let length: number = (value as string).length;
+
+  // Using angle bracket syntax (older form)
+  let length2: number = (&lt;string&gt;value).length;
+  </code></pre>
+
+  <p><b>Note:</b> The <code>&lt;&gt;</code> syntax cannot be used in .tsx (React TypeScript) files because it conflicts with JSX tags.</p>
+
+  <h5>✅ Example – Casting from unknown</h5>
+  <pre><code>
+  function getData(): unknown {
+    return "TypeScript Casting";
+  }
+
+  let data = getData();
+  console.log((data as string).toUpperCase());
+  </code></pre>
+
+  <p>Here, <code>getData()</code> returns <code>unknown</code>. Using type casting tells TypeScript we are sure it’s a string.</p>
+
+  <h5>⚙️ Casting Between Types</h5>
+  <p>You can cast between compatible types using intermediate <code>unknown</code> or <code>any</code>:</p>
+  <pre><code>
+  type Cat = { meow: () => void };
+  type Dog = { bark: () => void };
+
+  let pet = { bark: () => console.log("Woof!") } as Dog;
+
+  // Unsafe cast (not recommended)
+  let cat = pet as unknown as Cat;
+  cat.meow(); // Runtime error!
+  </code></pre>
+
+  <h5>💡 Type Casting vs Type Assertion</h5>
+  <ul>
+    <li><b>Type Casting:</b> Converts a variable from one type to another (conceptually).</li>
+    <li><b>Type Assertion:</b> Tells the compiler to treat a variable as a specific type.</li>
+    <li>In TypeScript, both are effectively the same — actual runtime conversion does not occur.</li>
+  </ul>
+
+  <h5>🚫 Caution</h5>
+  <ul>
+    <li>Type casting can bypass TypeScript’s type safety.</li>
+    <li>Always ensure you’re casting between compatible types.</li>
+  </ul>
+
+  <p><b>Summary:</b> Type casting in TypeScript is a compile-time feature that helps the compiler understand the intended type but does not alter runtime behavior.</p>
+  `,
+  17: `
+  <h4>Modules in TypeScript</h4>
+  <p>Modules in TypeScript help organize code into separate files and reusable units. Each file in TypeScript can be treated as a module if it contains <code>export</code> or <code>import</code> statements.</p>
+
+  <h5>🌐 Why Use Modules?</h5>
+  <ul>
+    <li>To split large applications into manageable files.</li>
+    <li>To promote code reusability and maintainability.</li>
+    <li>To avoid global scope pollution.</li>
+  </ul>
+
+  <hr/>
+  <h4>Exporting from a Module</h4>
+  <p>Use <code>export</code> to make variables, functions, classes, or interfaces accessible outside the current file.</p>
+  <pre><code>
+// mathUtils.ts
+export const add = (a: number, b: number): number => a + b;
+export const subtract = (a: number, b: number): number => a - b;
+
+export class Calculator {
+  multiply(a: number, b: number): number {
+    return a * b;
+  }
+}
+  </code></pre>
+
+  <h4>Importing in Another File</h4>
+  <p>Use <code>import</code> to bring in exported members.</p>
+  <pre><code>
+// app.ts
+import { add, Calculator } from "./mathUtils";
+
+console.log(add(5, 10)); // 15
+const calc = new Calculator();
+console.log(calc.multiply(3, 4)); // 12
+  </code></pre>
+
+  <h4>Default Exports</h4>
+  <p>A module can have one default export. It can be imported with any name.</p>
+  <pre><code>
+// greet.ts
+export default function greet(name: string) {
+  return "Hello, " + name + "!";
+}
+
+// main.ts
+import greet from "./greet";
+console.log(greet("Abhi"));
+  </code></pre>
+
+  <h4>Renaming Imports and Exports</h4>
+  <pre><code>
+// export with alias
+export { add as addition } from "./mathUtils";
+
+// import with alias
+import { addition as sum } from "./mathUtils";
+  </code></pre>
+
+  <h4>Re-exporting Modules</h4>
+  <pre><code>
+// operations.ts
+export * from "./mathUtils";
+export * from "./stringUtils";
+  </code></pre>
+
+  <h4>Module Resolution</h4>
+  <p>TypeScript uses module resolution strategies to find imported modules:</p>
+  <ul>
+    <li><b>Classic:</b> Used for older projects.</li>
+    <li><b>Node:</b> Used for Node.js-style imports (recommended).</li>
+  </ul>
+
+  <p>You can specify the module type in <code>tsconfig.json</code>:</p>
+  <pre><code>
+  {
+    "compilerOptions": {
+      "module": "ESNext", // or "CommonJS", "AMD", "UMD"
+      "target": "ES6"
+    }
+  }
+  </code></pre>
+
+  <h4>Namespace vs Module</h4>
+  <ul>
+    <li><b>Namespaces</b> are for organizing code within a single file or script.</li>
+    <li><b>Modules</b> are for organizing code across multiple files using imports/exports.</li>
+  </ul>
+
+  <h4>Summary</h4>
+  <ul>
+    <li>Each file with <code>export</code> or <code>import</code> becomes a module.</li>
+    <li>Modules improve reusability, maintainability, and clarity.</li>
+    <li>Use <code>import/export</code> for modular, scalable TypeScript applications.</li>
+  </ul>
+  `,
+  18: `
+  <h4>Type Declarations in TypeScript (.d.ts Files)</h4>
+  <p><strong>Type Declarations</strong> in TypeScript describe the shape and types of existing code — especially JavaScript code. They allow the TypeScript compiler to understand what types exist even if there is no implementation provided.</p>
+  <p>Type declarations are typically written inside files ending with the extension <code>.d.ts</code> (declaration files).</p>
+
+  <hr/>
+  <h4>💡 What Are Declaration Files?</h4>
+  <p>A declaration file (<code>.d.ts</code>) tells TypeScript the types of variables, functions, classes, and modules that exist in JavaScript code.</p>
+  <p>They contain <strong>only type information</strong>, no executable code.</p>
+
+  <pre><code>// math.d.ts
+declare function add(a: number, b: number): number;
+declare const PI: number;
+  </code></pre>
+
+  <pre><code>// main.ts
+console.log(add(2, 3));  // OK
+console.log(PI);         // OK
+  </code></pre>
+
+  <hr/>
+  <h4>📘 Purpose of Type Declarations</h4>
+  <ul>
+    <li>To provide type information for plain JavaScript libraries or code.</li>
+    <li>To enable autocompletion, IntelliSense, and compile-time type checking.</li>
+    <li>To make external JS libraries type-safe when used in TS projects.</li>
+  </ul>
+
+  <hr/>
+  <h4>🧩 Declaring Modules</h4>
+  <p>When using a JavaScript module that doesn’t have built-in types, you can declare it manually using the <code>declare module</code> syntax.</p>
+
+  <pre><code>// custom-lib.d.ts
+declare module "custom-lib" {
+  export function greet(name: string): void;
+  export const version: string;
+}
+  </code></pre>
+
+  <pre><code>// app.ts
+import { greet, version } from "custom-lib";
+greet("Abhi");
+console.log(version);
+  </code></pre>
+
+  <hr/>
+  <h4>🌐 Declaring Global Variables</h4>
+  <p>You can declare global variables available throughout your environment.</p>
+
+  <pre><code>// globals.d.ts
+declare const APP_NAME: string;
+declare function log(message: string): void;
+  </code></pre>
+
+  <pre><code>// main.ts
+log(\`Welcome to \${APP_NAME}\`);
+  </code></pre>
+
+  <hr/>
+  <h4>📦 Using @types Packages</h4>
+  <p>Most popular libraries (React, Node, etc.) already have pre-written declaration files published under the <strong>DefinitelyTyped</strong> repository.</p>
+  <p>You can install them via npm:</p>
+
+  <pre><code>npm install --save-dev @types/react
+npm install --save-dev @types/node</code></pre>
+
+  <p>This automatically adds their <code>.d.ts</code> files from <code>node_modules/@types</code>.</p>
+
+  <hr/>
+  <h4>🛠️ Custom Type Declarations</h4>
+  <p>If you’re writing JavaScript but want to use TypeScript later, you can create your own type declarations.</p>
+
+  <pre><code>// types/utils.d.ts
+declare function multiply(a: number, b: number): number;
+  </code></pre>
+
+  <p>Then configure <code>tsconfig.json</code> to include the custom type root:</p>
+
+  <pre><code>"typeRoots": ["./types", "./node_modules/@types"]</code></pre>
+
+  <hr/>
+  <h4>🔑 Summary</h4>
+  <ul>
+    <li><code>.d.ts</code> files define types but contain no code.</li>
+    <li>They describe existing JavaScript modules, functions, and variables.</li>
+    <li>Enable TypeScript to understand non-TypeScript libraries.</li>
+    <li>Used by the TypeScript compiler and IDEs for type safety and autocompletion.</li>
+  </ul>
+
+  <p>➡️ In short: <strong>Type Declarations (.d.ts)</strong> make JavaScript type-safe without rewriting it in TypeScript.</p>
   `
 
 
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     };
 
