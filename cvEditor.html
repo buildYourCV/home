@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <title>BuildCV Editor</title>
+    <style>
+        :root {
+            --word-blue: #2b579a;
+            --word-dark-blue: #1b3d70;
+            --word-bg: #f3f2f1;
+            --ribbon-bg: #f3f2f1;
+            --border-color: #d2d0ce;
+            --text-dark: #323130;
+            --hover-gray: #edebe9;
+            --active-gray: #e1dfdd;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--word-bg);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Office Window Bar */
+        .app-bar {
+            background-color: var(--word-blue);
+            color: white;
+            padding: 6px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .app-title {
+            font-weight: 600;
+        }
+
+        .app-status {
+            font-style: italic;
+            opacity: 0.9;
+            font-size: 12px;
+        }
+
+        /* MS Word Ribbon Layout */
+        .ribbon {
+            background-color: var(--ribbon-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            user-select: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tabs {
+            display: flex;
+            background-color: #fff;
+            padding-left: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            padding: 8px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: #605e5c;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid var(--word-blue);
+            color: var(--word-blue);
+            font-weight: 600;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            gap: 12px;
+            background: #fbfbfb;
+            flex-wrap: wrap;
+        }
+
+        .tool-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border-right: 1px solid var(--border-color);
+            padding-right: 12px;
+            height: 28px;
+        }
+
+        .tool-group:last-child {
+            border-right: none;
+        }
+
+        /* Standardized Action Controls */
+        .btn {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-dark);
+            min-width: 28px;
+            height: 28px;
+            transition: all 0.15s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--hover-gray);
+        }
+
+        .btn.active {
+            background-color: var(--active-gray);
+            border-color: #a19f9d;
+        }
+
+        .btn-primary {
+            background-color: var(--word-blue);
+            color: white;
+            padding: 4px 14px;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--word-dark-blue);
+            color: white;
+        }
+
+        select {
+            padding: 4px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            outline: none;
+            font-size: 13px;
+            background: white;
+            height: 28px;
+            cursor: pointer;
+        }
+
+        select:hover {
+            border-color: #a19f9d;
+        }
+
+        /* Workspace Sheet Simulation */
+        .workspace {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+        }
+
+        /* Perfect Real-World A4 Specifications */
+        .page {
+            background: white;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            outline: none;
+            box-sizing: border-box;
+            color: #000;
+            font-family: 'Calibri', Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        /* CV Blueprint Specific Formats */
+        .cv-header {
+            text-align: center;
+            margin-bottom: 24px;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 16px;
+        }
+
+        .cv-name {
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .cv-contact {
+            font-size: 12px;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .cv-section-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--word-blue);
+            border-bottom: 2px solid var(--word-blue);
+            margin-top: 22px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cv-item {
+            margin-bottom: 14px;
+        }
+
+        .cv-item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .cv-sub {
+            font-style: italic;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .cv-sub2 {
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        ul {
+            margin-left: 24px;
+            margin-top: 4px;
+            margin-bottom: 6px;
+        }
+
+        li {
+            margin-bottom: 3px;
+        }
+
+        p {
+            margin-bottom: 8px;
+        }
+
+        /* Modern Pill Badges Styling for Skills */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .skill-pill {
+            background-color: #f3f2f1;
+            color: black;
+            border: 1px solid #d2d0ce;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .skill-pill:hover {
+            background-color: #2b579a;
+            color: white;
+            border-color: #2b579a;
+        }
+
+        /* Adjusts print layouts so color borders remain intact */
+        @media print {
+            .skill-pill {
+                background-color: #f3f2f1 !important;
+                color: #2b579a !important;
+                border: 1px solid #d2d0ce !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+
+        /* Native System Print Pipeline Override */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            body {
+                background: white;
+                overflow: visible;
+                height: auto;
+            }
+
+            .app-bar,
+            .ribbon {
+                display: none !important;
+            }
+
+            .workspace {
+                padding: 0;
+                overflow: visible;
+                display: block;
+                background: transparent;
+            }
+
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 210mm;
+                min-height: 297mm;
+                padding: 20mm;
+                outline: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- App Window Header Bar -->
+    <div class="app-bar">
+        <div class="app-title">myCV(1).docx - Microsoft Word</div>
+        <div class="app-status" id="saveStatus">Changes saved automatically</div>
+    </div>
+
+    <!-- MS Word Navigation & Ribbon Control Cluster -->
+    <div class="ribbon">
+        <div class="tabs">
+            <div class="tab active">Home</div>
+            <div class="tab"
+                onclick="alert('Insert features are available inline. Click anywhere on the A4 page to write or paste layouts.')">
+                Insert</div>
+            <div class="tab" onclick="window.print()">Layout (Print Setup)</div>
+        </div>
+
+        <div class="toolbar">
+            <!-- Typographic Families -->
+            <div class="tool-group">
+                <select id="fontName" title="Font Family">
+                    <option value="Calibri">Calibri</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+                <select id="fontSize" title="Font Size">
+                    <option value="12px">12pt</option>
+                    <option value="14px" selected>14pt</option>
+                    <option value="18px">18pt</option>
+                    <option value="24px">24pt</option>
+                    <option value="36px">36pt</option>
+                </select>
+            </div>
+
+            <!-- Font Styles -->
+            <div class="tool-group">
+                <button class="btn" id="boldBtn" title="Bold"><b>B</b></button>
+                <button class="btn" id="italicBtn" title="Italic"><i>I</i></button>
+                <button class="btn" id="underlineBtn" title="Underline"><u>U</u></button>
+                <button class="btn" id="strikeBtn" title="Strikethrough"><del>ab</del></button>
+            </div>
+
+            <!-- Alignment Settings -->
+            <div class="tool-group">
+                <button class="btn" id="leftBtn" data-align="left" title="Align Left">Left</button>
+                <button class="btn" id="centerBtn" data-align="center" title="Center">Center</button>
+                <button class="btn" id="rightBtn" data-align="right" title="Align Right">Right</button>
+                <button class="btn" id="justifyBtn" data-align="justify" title="Justify">Justify</button>
+            </div>
+
+            <div class="tool-group">
+                <button class="btn" id="bulletBtn" title="Bullet List">• List</button>
+            </div>
+
+            <div class="tool-group" style="margin-left: auto;">
+                <button class="btn btn-primary" onclick="exportPDF()" title="Export document to PDF file">Export to PDF
+                    / Print</button>
+                <button class="btn" onclick="resetTemplate()" title="Restore the base layout template">Reset
+                    Template</button>
+            </div>
+        </div>
+    </div>
+    <div class="workspace">
+        <div class="page" id="editor" contenteditable="true" spellcheck="true">
+            <div class="cv-header">
+                <div class="cv-name">ABHISHEK KUMAR</div>
+                <div class="cv-contact">123 Street Address, City, State, Zip | +91-9154826149 | buildcv.co.in@zohomail.in |
+                    <a href="https://www.buildcv.co.in/#" target="_blank">https://www.buildcv.co.in/#</a>
+                </div>
+            </div>
+
+            <div class="cv-section-title">Professional Summary</div>
+            <p>Highly motivated and detail-oriented professional with over 5 years of experience in software
+                development. Proven track record of delivering robust applications, collaborating with cross-functional
+                teams, and optimizing system performance.</p>
+
+            <div class="cv-section-title">Experience</div>
+            <div class="cv-item">
+                <div class="cv-item-header">
+                    <span>Senior Software Engineer</span>
+                    <span>2024 - Present</span>
+                </div>
+                <div class="cv-sub">Tech Solutions Inc.</div>
+                <ul>
+                    <li>Led a team of 4 engineers to rebuild a legacy workflow processing engine.</li>
+                    <li>Reduced latency by 35% through query optimization and caching strategies.</li>
+                </ul>
+            </div>
+
+            <div class="cv-item">
+                <div class="cv-item-header">
+                    <span>Software Engineer</span>
+                    <span>2021 - 2024</span>
+                </div>
+                <div class="cv-sub">Innovate Web Labs</div>
+                <ul>
+                    <li>Developed and maintained responsive web applications using HTML, CSS, JavaScript, and React.
+                    </li>
+                    <li>Collaborated with design teams to polish user journeys, increasing engagement metrics by 15%.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="cv-section-title">Education</div>
+            <div class="cv-item">
+                <div class="cv-item-header">
+                    <span>Bachelor of Science in Computer Science</span>
+                    <span>2017 - 2021</span>
+                </div>
+                <div class="cv-sub">State University</div>
+            </div>
+
+
+            <div class="cv-section-title">Skills</div>
+            <div class="skills-container">
+                <span class="skill-pill">React.JS</span>
+                <span class="skill-pill">Redux</span>
+                <span class="skill-pill">JavaScript</span>
+                <span class="skill-pill">TypeScript</span>
+                <span class="skill-pill">RxJS</span>
+                <span class="skill-pill">KafkaJS</span>
+                <span class="skill-pill">Node-redis</span>
+                <span class="skill-pill">Mediapipe</span>
+                <span class="skill-pill">TensorFlow.js</span>
+                <span class="skill-pill">C#</span>
+                <span class="skill-pill">ASP.NET MVC</span>
+                <span class="skill-pill">ASP.NET</span>
+                <span class="skill-pill">ADO.NET</span>
+                <span class="skill-pill">Entity Framework</span>
+                <span class="skill-pill">SQL Server</span>
+                <span class="skill-pill">Oracle</span>
+                <span class="skill-pill">MySQL</span>
+                <span class="skill-pill">Visual Studio Code</span>
+                <span class="skill-pill">Unit Testing</span>
+                <span class="skill-pill">API Integration</span>
+                <span class="skill-pill">Agile Methodologies</span>
+                <span class="skill-pill">Version Control</span>
+                <span class="skill-pill">Problem Solving</span>
+                <span class="skill-pill">Critical Thinking</span>
+                <span class="skill-pill">Client Communication</span>
+                <span class="skill-pill">Team Leadership</span>
+                <span class="skill-pill">Team Player</span>
+                <span class="skill-pill">Code Reviews</span>
+                <span class="skill-pill">Agile & Scrum Frameworks</span>
+                <span class="skill-pill">Machine Learning Basics</span>
+            </div>
+            <div class="cv-section-title">Projects</div>
+            <div class="cv-item">
+                <div class="cv-item-header">
+                    <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
+                    <span>Mar 2021 – Present</span>
+                </div>
+                <div class="cv-sub2">
+                    Developed virtual consultation applications (VVM for patients, VVP for
+                    clinicians) for Kaiser Permanente, enabling video-based doctor appointments
+                    via app or web.
+                </div> <br />
+                <div class="cv-item-header">
+                    <span>OnCall (React.JS, TypeScript, ASP.Net Web API, SQL
+                        Server, Oracle)
+                    </span>
+                    <span>Mar 2018 – Mar 2021 </span>
+                </div>
+                <div class="cv-sub2">
+                    Contributed to HxGN OnCall® Dispatch, a leading incident management
+                    system for public safety. Implemented interactive UI features for call-taking,
+                    dispatching, and resource management, integrating real-time maps, events,
+                    and unit data.
+
+                </div> <br />
+                <div class="cv-item-header">
+                    <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
+                    <span>Mar 2021 – Present</span>
+                </div>
+                <div class="cv-sub2">
+                    Developed virtual consultation applications (VVM for patients, VVP for
+                    clinicians) for Kaiser Permanente, enabling video-based doctor appointments
+                    via app or web.
+                </div> <br />
+                <div class="cv-item-header">
+                    <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
+                    <span>Mar 2021 – Present</span>
+                </div>
+                <div class="cv-sub2">
+                    Developed virtual consultation applications (VVM for patients, VVP for
+                    clinicians) for Kaiser Permanente, enabling video-based doctor appointments
+                    via app or web.
+                </div>
+            </div>
+            <div class="cv-section-title">Personal Information</div>
+            <div class="cv-item">
+                <div class="cv-sub2"><b >Gender: </b> Male</div>
+                <div class="cv-sub2"><b >Nationality: </b> Indian</div>
+                <div class="cv-sub2"><b >Hobbies: </b> Reading Tech Blogs, Problem Solving, Cricket</div>
+                <div class="cv-sub2"><b >Languages: </b> English, Hindi</div>
+            </div>
+
+        </div>
+        <script>
+            const editor = document.getElementById('editor');
+            const saveStatus = document.getElementById('saveStatus');
+
+            // Core Text Wrapper engine replacing deprecated execCommand
+            function wrapSelection(tag, styleAttr = null, styleValue = null) {
+                const selection = window.getSelection();
+                if (!selection.rangeCount || selection.isCollapsed) return;
+
+                const range = selection.getRangeAt(0);
+
+                // Check if selection is already wrapped to toggle it off
+                let parent = range.commonAncestorContainer;
+                if (parent.nodeType === 3) parent = parent.parentNode;
+
+                if (parent.tagName === tag.toUpperCase() || (styleAttr && parent.style[styleAttr] === styleValue)) {
+                    const text = range.toString();
+                    range.deleteContents();
+                    range.insertNode(document.createTextNode(text));
+                } else {
+                    const element = document.createElement(tag);
+                    if (styleAttr && styleValue) {
+                        element.style[styleAttr] = styleValue;
+                    }
+                    try {
+                        element.appendChild(range.extractContents());
+                        range.insertNode(element);
+                    } catch (e) {
+                        document.execCommand('styleWithCSS', false, true);
+                    }
+                }
+
+                selection.removeAllRanges();
+                saveToStorage();
+            }
+
+            // Font Family and Size Applier
+            document.getElementById('fontName').addEventListener('change', function () {
+                wrapSelection('span', 'fontFamily', this.value);
+            });
+
+            document.getElementById('fontSize').addEventListener('change', function () {
+                wrapSelection('span', 'fontSize', this.value);
+            });
+
+            // Formatting Button Event Handlers
+            document.getElementById('boldBtn').addEventListener('click', () => wrapSelection('strong'));
+            document.getElementById('italicBtn').addEventListener('click', () => wrapSelection('em'));
+            document.getElementById('underlineBtn').addEventListener('click', () => wrapSelection('u'));
+            document.getElementById('strikeBtn').addEventListener('click', () => wrapSelection('del'));
+
+            // Alignment Blocks Engine
+            document.querySelectorAll('[data-align]').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const alignment = this.getAttribute('data-align');
+                    const selection = window.getSelection();
+                    if (!selection.rangeCount) return;
+
+                    let container = selection.getRangeAt(0).commonAncestorContainer;
+                    if (container.nodeType === 3) container = container.parentNode;
+
+                    let block = container.closest('p, div, li, h1, h2, h3');
+                    if (block && block !== editor) {
+                        block.style.textAlign = alignment;
+                    } else {
+                        const p = document.createElement('p');
+                        p.style.textAlign = alignment;
+                        p.appendChild(selection.getRangeAt(0).extractContents());
+                        selection.getRangeAt(0).insertNode(p);
+                    }
+                    saveToStorage();
+                });
+            });
+
+            // Bullet Lists Engine
+            document.getElementById('bulletBtn').addEventListener('click', () => {
+                const selection = window.getSelection();
+                if (!selection.rangeCount) return;
+
+                const range = selection.getRangeAt(0);
+                const ul = document.createElement('ul');
+                const li = document.createElement('li');
+
+                li.appendChild(range.extractContents());
+                ul.appendChild(li);
+                range.insertNode(ul);
+                saveToStorage();
+            });
+
+            // Render system standard print layout profile
+            function exportPDF() {
+                window.print();
+            }
+
+            // Restore default layout structures
+            function resetTemplate() {
+                if (confirm("This action will restore the base layout template. Do you want to proceed?")) {
+                    localStorage.removeItem('ms_word_cv_content');
+                    window.location.reload();
+                }
+            }
+
+            // Local Storage Sync Automation
+            function saveToStorage() {
+                localStorage.setItem('ms_word_cv_content', editor.innerHTML);
+                saveStatus.innerText = "All changes saved locally";
+                setTimeout(() => {
+                    saveStatus.innerText = "Changes saved automatically";
+                }, 2000);
+            }
+
+            function loadFromStorage() {
+                const savedContent = localStorage.getItem('ms_word_cv_content');
+                if (savedContent) {
+                    editor.innerHTML = savedContent;
+                }
+            }
+
+            editor.addEventListener('input', saveToStorage);
+
+            window.addEventListener('DOMContentLoaded', () => {
+                loadFromStorage();
+                editor.focus();
+            });
+        </script>
+</body>
+
+</html>
