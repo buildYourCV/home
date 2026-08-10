@@ -4,8 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-    <title>BuildCV Editor</title>
+    <title>MS Word Professional CV Editor</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="stylesheet" href="./style/jsonToHtml.css">
+    <link rel="stylesheet" href="./style/bcv.css">
+    <!-- CodeMirror --><!-- CodeMirror addons -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css">
     <style>
         :root {
             --word-blue: #2b579a;
@@ -36,7 +43,7 @@
 
         /* Top Office Window Bar */
         .app-bar {
-            background-color: var(--word-blue);
+            background-color: #7a7af0;
             color: white;
             padding: 6px 16px;
             display: flex;
@@ -290,6 +297,35 @@
             border-color: #2b579a;
         }
 
+        .add-skill-btn {
+            background-color: var(--word-blue); /* Professional blue from your root */
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 15%; /* Makes it circular */
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+            margin-left: 4px;
+        }
+
+        .add-skill-btn:hover {
+            background-color: var(--word-dark-blue);
+        }
+
+        /* Ensure the button is hidden during print */
+        @media print {
+            .add-skill-btn {
+                display: none !important;
+            }
+        }
+
+
         /* Adjusts print layouts so color borders remain intact */
         @media print {
             .skill-pill {
@@ -299,6 +335,16 @@
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+            .cv-section-title {
+                font-size: 15px;
+                font-weight: bold;
+                color: var(--word-blue) !important;
+                border-bottom: 2px solid var(--word-blue) !important;
+                margin-top: 22px;
+                margin-bottom: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
         }
 
 
@@ -306,7 +352,12 @@
         @media print {
             @page {
                 size: A4;
-                margin: 0;
+                /* margin: 0; */
+                margin: 20mm !important; 
+            }
+
+             @page :first {
+                margin-top: 0mm !important;
             }
 
             body {
@@ -340,6 +391,35 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-default" style="margin-bottom: 0px;">
+        <div class="container-fluid">
+            <div class="navbar-header active">
+                <a class="navbar-brand" href="https://www.buildcv.co.in/" style="background-color: #dff3f5;"
+                    onclick="showHidePage('bcvHome')">Build CV</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="https://www.buildcv.co.in/">Home</a></li>
+                <!-- <li><a href="https://www.buildcv.co.in/">CV Editor</a></li>
+                <li><a href="https://www.buildcv.co.in/#">Get My CV</a></li>
+                <li><a href="https://www.buildcv.co.in/">Build CV Using JSON</a></li> -->
+                
+                <li class="dropdown">
+                    <a href="#">Interview Preparation &#9662;</a> <!-- ▼ symbol -->
+                    <ul class="dropdown-menu">
+                        <li><a href="https://www.buildcv.co.in/quiz" target="_blank">React & Beyond Quiz</a></li>
+                        <li><a href="https://www.buildcv.co.in/typescript" target="_blank">TypeScript</a></li>
+                        <li><a href="#" onclick="alert('Coming Soon !!')">Java</a></li>
+                    </ul>
+                </li>
+                
+                <!-- <li><a href="https://www.buildcv.co.in/javascript-compiler" target="_blank">JavaScript Online Compiler</a></li>
+                <li><a href="#" onclick="showHidePage('bcvAbout')">About</a></li> -->
+            </ul>
+            <div class="profileContact contact">
+                <a href="mailto:contact@buildcv.co.in">📧buildcv.co.in@zohomail.in</a>
+            </div>
+        </div>
+    </nav>
 
     <!-- App Window Header Bar -->
     <div class="app-bar">
@@ -397,9 +477,9 @@
             </div>
 
             <div class="tool-group" style="margin-left: auto;">
-                <button class="btn btn-primary" onclick="exportPDF()" title="Export document to PDF file">Export to PDF
+                <button class="btn btn-primary" style="background-color: #7a7af0;" onclick="exportPDF()" title="Export document to PDF file">Export to PDF
                     / Print</button>
-                <button class="btn" onclick="resetTemplate()" title="Restore the base layout template">Reset
+                <button class="btn" onclick="resetTemplate()" style="color: #7a7af0; border: 1px solid #7a7af0;" title="Restore the base layout template">Reset
                     Template</button>
             </div>
         </div>
@@ -487,6 +567,31 @@
                 <span class="skill-pill">Code Reviews</span>
                 <span class="skill-pill">Agile & Scrum Frameworks</span>
                 <span class="skill-pill">Machine Learning Basics</span>
+                <span class="skill-pill">Unit Testing</span>
+                <span class="skill-pill">API Integration</span>
+                <span class="skill-pill">Agile Methodologies</span>
+                <span class="skill-pill">Version Control</span>
+                <span class="skill-pill">Problem Solving</span>
+                <span class="skill-pill">Critical Thinking</span>
+                <span class="skill-pill">Client Communication</span>
+                <span class="skill-pill">Team Leadership</span>
+                <span class="skill-pill">Team Player</span>
+                <span class="skill-pill">Code Reviews</span>
+                <span class="skill-pill">Agile & Scrum Frameworks</span>
+                <span class="skill-pill">Machine Learning Basics</span>
+                <span class="skill-pill">Unit Testing</span>
+                <span class="skill-pill">API Integration</span>
+                <span class="skill-pill">Agile Methodologies</span>
+                <span class="skill-pill">Version Control</span>
+                <span class="skill-pill">Problem Solving</span>
+                <span class="skill-pill">Critical Thinking</span>
+                <span class="skill-pill">Client Communication</span>
+                <span class="skill-pill">Team Leadership</span>
+                <span class="skill-pill">Team Player</span>
+                <span class="skill-pill">Code Reviews</span>
+                <span class="skill-pill">Agile & Scrum Frameworks</span>
+                <span class="skill-pill">Machine Learning Basics</span>
+                <button class="add-skill-btn" id="addSkillBtn" title="Add New Skill">+</button>
             </div>
             <div class="cv-section-title">Projects</div>
             <div class="cv-item">
@@ -581,6 +686,8 @@
                 wrapSelection('span', 'fontFamily', this.value);
             });
 
+            // Reliable Pill Injection Routine
+
             document.getElementById('fontSize').addEventListener('change', function () {
                 wrapSelection('span', 'fontSize', this.value);
             });
@@ -661,9 +768,12 @@
             editor.addEventListener('input', saveToStorage);
 
             window.addEventListener('DOMContentLoaded', () => {
+                
                 loadFromStorage();
                 editor.focus();
             });
+            
+
         </script>
 </body>
 
