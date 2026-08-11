@@ -298,7 +298,7 @@
         }
 
         .add-skill-btn {
-            background-color: var(--word-blue); /* Professional blue from your root */
+            background-color: #7a7af0 ; /* Professional blue from your root */
             color: white;
             border: none;
             width: 28px;
@@ -386,6 +386,88 @@
                 padding: 20mm;
                 outline: none;
             }
+        }
+
+        /* --- Dynamic Skills Interactive Section Styles --- */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .skill-badge {
+            background-color: #f1f3f5;
+            color: #333;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #dee2e6;
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #fa5252;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+        .delete-btn:hover {
+            color: #e03131;
+        }
+        .add-skill-form {
+            display: flex;
+            gap: 8px;
+            max-width: 350px;
+            margin-top: 10px;
+        }
+        #newSkillInput {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        #addSkillBtn {
+            background-color: #228be6;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #addSkillBtn:hover {
+            background-color: #1c7ed6;
+        }
+
+        /* --- Print and PDF Export Formatting Rules --- */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .add-skill-form, .delete-btn {
+                display: none !important;
+            }
+            .skill-badge {
+                border: 1px solid #d2d0ce !important;
+                background: #f3f2f1 !important;
+                color: black !important;
+                padding: 4px 10px !important;
+                margin-right: 4px;
+                border-radius: px !important;
+            }
+            .skill-badge::after {
+                content: "";
+            }
+            .skill-badge:last-child::after {
+                content: "";
+            }        
         }
     </style>
 </head>
@@ -534,65 +616,38 @@
                 <div class="cv-sub">State University</div>
             </div>
 
+        <!-- Dynamic Skills Panel Interface -->
+            <section>
+                <div class="cv-section-title">Skills</div>
+                <div id="skillsContainer" class="skills-container">
+                    <!-- Populated with your core technical and soft skills -->
+                    <span class="skill-badge">React.JS<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Redux<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">JavaScript<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">TypeScript<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">RxJS<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">KafkaJS<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Node-redis<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Mediapipe<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">TensorFlow.js<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">C#<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">ASP.NET MVC<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">SQL Server<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Oracle<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">MySQL<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">API Integration<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Agile & Scrum Frameworks<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Problem Solving<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Critical Thinking<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Client Communication<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                    <span class="skill-badge">Team Leadership<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
+                </div>
 
-            <div class="cv-section-title">Skills</div>
-            <div class="skills-container">
-                <span class="skill-pill">React.JS</span>
-                <span class="skill-pill">Redux</span>
-                <span class="skill-pill">JavaScript</span>
-                <span class="skill-pill">TypeScript</span>
-                <span class="skill-pill">RxJS</span>
-                <span class="skill-pill">KafkaJS</span>
-                <span class="skill-pill">Node-redis</span>
-                <span class="skill-pill">Mediapipe</span>
-                <span class="skill-pill">TensorFlow.js</span>
-                <span class="skill-pill">C#</span>
-                <span class="skill-pill">ASP.NET MVC</span>
-                <span class="skill-pill">ASP.NET</span>
-                <span class="skill-pill">ADO.NET</span>
-                <span class="skill-pill">Entity Framework</span>
-                <span class="skill-pill">SQL Server</span>
-                <span class="skill-pill">Oracle</span>
-                <span class="skill-pill">MySQL</span>
-                <span class="skill-pill">Visual Studio Code</span>
-                <span class="skill-pill">Unit Testing</span>
-                <span class="skill-pill">API Integration</span>
-                <span class="skill-pill">Agile Methodologies</span>
-                <span class="skill-pill">Version Control</span>
-                <span class="skill-pill">Problem Solving</span>
-                <span class="skill-pill">Critical Thinking</span>
-                <span class="skill-pill">Client Communication</span>
-                <span class="skill-pill">Team Leadership</span>
-                <span class="skill-pill">Team Player</span>
-                <span class="skill-pill">Code Reviews</span>
-                <span class="skill-pill">Agile & Scrum Frameworks</span>
-                <span class="skill-pill">Machine Learning Basics</span>
-                <span class="skill-pill">Unit Testing</span>
-                <span class="skill-pill">API Integration</span>
-                <span class="skill-pill">Agile Methodologies</span>
-                <span class="skill-pill">Version Control</span>
-                <span class="skill-pill">Problem Solving</span>
-                <span class="skill-pill">Critical Thinking</span>
-                <span class="skill-pill">Client Communication</span>
-                <span class="skill-pill">Team Leadership</span>
-                <span class="skill-pill">Team Player</span>
-                <span class="skill-pill">Code Reviews</span>
-                <span class="skill-pill">Agile & Scrum Frameworks</span>
-                <span class="skill-pill">Machine Learning Basics</span>
-                <span class="skill-pill">Unit Testing</span>
-                <span class="skill-pill">API Integration</span>
-                <span class="skill-pill">Agile Methodologies</span>
-                <span class="skill-pill">Version Control</span>
-                <span class="skill-pill">Problem Solving</span>
-                <span class="skill-pill">Critical Thinking</span>
-                <span class="skill-pill">Client Communication</span>
-                <span class="skill-pill">Team Leadership</span>
-                <span class="skill-pill">Team Player</span>
-                <span class="skill-pill">Code Reviews</span>
-                <span class="skill-pill">Agile & Scrum Frameworks</span>
-                <span class="skill-pill">Machine Learning Basics</span>
-                <button class="add-skill-btn" id="addSkillBtn" title="Add New Skill">+</button>
-            </div>
+                <div class="add-skill-form">
+                    <input type="text" id="newSkillInput" placeholder="Add a missing skill (e.g. Git)..." autocomplete="off" />
+                    <button type="button" id="addSkillBtn" onclick="addSkill()">+ Add</button>
+                </div>
+            </section>
             <div class="cv-section-title">Projects</div>
             <div class="cv-item">
                 <div class="cv-item-header">
@@ -772,7 +827,38 @@
                 loadFromStorage();
                 editor.focus();
             });
+            // Form trigger logic to create tags dynamically
+        function addSkill() {
+            const input = document.getElementById('newSkillInput');
+            const skillText = input.value.trim();
             
+            if (skillText === "") {
+                return;
+            }
+            
+            const container = document.getElementById('skillsContainer');
+            const badge = document.createElement('span');
+            badge.className = 'skill-badge';
+            badge.innerHTML = `${skillText} <button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button>`;
+            
+            container.appendChild(badge);
+            input.value = "";
+            input.focus();
+        }
+
+        // Target and safely purge elements out of DOM tree
+        function removeSkill(buttonElement) {
+            const badge = buttonElement.parentElement;
+            badge.remove();
+        }
+
+        // Map standard Enter key capture to the skill button container
+        document.getElementById('newSkillInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addSkill();
+            }
+        });
 
         </script>
 </body>
