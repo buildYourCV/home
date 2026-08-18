@@ -277,7 +277,7 @@ code {
 }
 
 .home-chooser {
-  padding: 22px 0 32px;
+  padding: 55px 0 55px;
 }
 
 .option-grid {
@@ -820,7 +820,6 @@ code {
 
 .editor-panel,
 .output-panel {
-  height: 80vh;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -1044,7 +1043,7 @@ textarea {
 
 /* JSON / compiler editors */
 .code-editor {
-  min-height: 95%;
+  min-height: 62vh;
   font-family: var(--mono);
   font-size: 13px;
   line-height: 1.45;
@@ -1054,7 +1053,7 @@ textarea {
 }
 
 .console-output {
-  min-height: 95%;
+  min-height: 62vh;
   margin: 0;
   padding: 12px;
   background: #10233d;
@@ -1175,14 +1174,6 @@ textarea {
   padding: 20px 0;
   color: rgba(255, 255, 255, 0.78);
   background: linear-gradient(180deg, #163056, #0f2240);
-}
-
-body:has(#view-home.is-active:not([hidden])) .site-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
 }
 
 .site-footer a {
