@@ -1,866 +1,1186 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MS Word Professional CV Editor</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-    <link rel="stylesheet" href="./style/jsonToHtml.css">
-    <link rel="stylesheet" href="./style/bcv.css">
-    <!-- CodeMirror --><!-- CodeMirror addons -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BuildCV — CV Editor</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <style>
+    :root {
+      --navy: #1e3d6b;
+      --navy-deep: #0f2240;
+      --navy-mid: #2a5294;
+      --teal: #0f9d8e;
+      --teal-dark: #0b7c71;
+      --gold: #f0b429;
+      --coral: #e4543c;
+      --line: #d5deea;
+      --ink: #152036;
+      --muted: #5a6b80;
+      --header-h: 68px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.15/theme/dracula.min.css">
-    <style>
-        :root {
-            --word-blue: #2b579a;
-            --word-dark-blue: #1b3d70;
-            --word-bg: #f3f2f1;
-            --ribbon-bg: #f3f2f1;
-            --border-color: #d2d0ce;
-            --text-dark: #323130;
-            --hover-gray: #edebe9;
-            --active-gray: #e1dfdd;
-        }
+    * { box-sizing: border-box; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+    html, body {
+      margin: 0;
+      height: 100%;
+      font-family: var(--font);
+      color: var(--ink);
+    }
 
-        body {
-            background-color: var(--word-bg);
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+    body {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background:
+        radial-gradient(1100px 460px at 8% -8%, rgba(15, 157, 142, 0.16), transparent 55%),
+        radial-gradient(900px 380px at 100% 0%, rgba(228, 84, 60, 0.12), transparent 48%),
+        linear-gradient(180deg, #eaf0f8 0%, #f7f4ec 100%);
+    }
 
-        /* Top Office Window Bar */
-        .app-bar {
-            background-color: #7a7af0;
-            color: white;
-            padding: 6px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-            flex-shrink: 0;
-            user-select: none;
-        }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+    }
 
-        .app-title {
-            font-weight: 600;
-        }
+    :focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 2px;
+    }
 
-        .app-status {
-            font-style: italic;
-            opacity: 0.9;
-            font-size: 12px;
-        }
+    /* Site header — matches BuildCV */
+    .site-header {
+      flex-shrink: 0;
+      background: linear-gradient(115deg, #0f2240 0%, #1e3d6b 58%, #1a4f78 100%);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(15, 34, 64, 0.28);
+    }
 
-        /* MS Word Ribbon Layout */
-        .ribbon {
-            background-color: var(--ribbon-bg);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            user-select: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
+    .site-header::after {
+      content: "";
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, var(--coral), var(--gold), var(--teal));
+    }
 
-        .tabs {
-            display: flex;
-            background-color: #fff;
-            padding-left: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
+    .header-inner {
+      width: min(1280px, calc(100% - 28px));
+      margin: 0 auto;
+      min-height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
 
-        .tab {
-            padding: 8px 16px;
-            font-size: 13px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            color: #605e5c;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
 
-        .tab.active {
-            border-bottom: 3px solid var(--word-blue);
-            color: var(--word-blue);
-            font-weight: 600;
-        }
+    .brand-mark { display: flex; }
+    .brand-logo { display: block; width: 34px; height: 34px; border-radius: 8px; }
+    .brand-text span { color: var(--gold); }
 
-        .toolbar {
-            display: flex;
-            align-items: center;
-            padding: 8px 16px;
-            gap: 12px;
-            background: #fbfbfb;
-            flex-wrap: wrap;
-        }
+    .nav-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 10px 9px;
+    }
 
-        .tool-group {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            border-right: 1px solid var(--border-color);
-            padding-right: 12px;
-            height: 28px;
-        }
+    .nav-toggle-bar {
+      display: block;
+      height: 2px;
+      background: #fff;
+      margin: 5px 0;
+    }
 
-        .tool-group:last-child {
-            border-right: none;
-        }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
 
-        /* Standardized Action Controls */
-        .btn {
-            background: transparent;
-            border: 1px solid transparent;
-            padding: 4px 8px;
-            cursor: pointer;
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-dark);
-            min-width: 28px;
-            height: 28px;
-            transition: all 0.15s ease;
-        }
+    .nav-link, .dropdown-trigger {
+      color: rgba(255, 255, 255, 0.86);
+      text-decoration: none;
+      background: none;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+      padding: 8px 11px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
 
-        .btn:hover {
-            background-color: var(--hover-gray);
-        }
+    .nav-link:hover, .dropdown-trigger:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
 
-        .btn.active {
-            background-color: var(--active-gray);
-            border-color: #a19f9d;
-        }
+    .nav-link.is-active {
+      background: rgba(240, 180, 41, 0.22);
+      color: var(--gold);
+    }
 
-        .btn-primary {
-            background-color: var(--word-blue);
-            color: white;
-            padding: 4px 14px;
-            font-weight: 600;
-        }
+    .caret {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin-left: 6px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid currentColor;
+      vertical-align: middle;
+    }
 
-        .btn-primary:hover {
-            background-color: var(--word-dark-blue);
-            color: white;
-        }
+    .dropdown { position: relative; }
 
-        select {
-            padding: 4px 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 3px;
-            outline: none;
-            font-size: 13px;
-            background: white;
-            height: 28px;
-            cursor: pointer;
-        }
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      min-width: 230px;
+      margin: 0;
+      padding: 8px;
+      list-style: none;
+      background: #fff;
+      color: var(--ink);
+      border-radius: 10px;
+      box-shadow: 0 14px 34px rgba(15, 34, 64, 0.12);
+      border: 1px solid var(--line);
+      z-index: 80;
+    }
 
-        select:hover {
-            border-color: #a19f9d;
-        }
+    .dropdown-menu a, .dropdown-menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 9px 10px;
+      border: 0;
+      background: none;
+      font: inherit;
+      color: inherit;
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-        /* Workspace Sheet Simulation */
-        .workspace {
-            flex: 1;
-            overflow-y: auto;
-            padding: 30px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            position: relative;
-        }
+    .dropdown-menu a:hover, .dropdown-menu button:hover {
+      background: #e7f6f3;
+      color: var(--navy);
+    }
 
-        /* Perfect Real-World A4 Specifications */
-        .page {
-            background: white;
-            width: 210mm;
-            min-height: 297mm;
-            padding: 20mm;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
-            outline: none;
-            box-sizing: border-box;
-            color: #000;
-            font-family: 'Calibri', Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-            position: relative;
-            word-wrap: break-word;
-        }
+    /* Ribbon */
+    .ribbon {
+      flex-shrink: 0;
+      background: #f5f8fc;
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 2px 8px rgba(15, 34, 64, 0.06);
+    }
 
-        /* CV Blueprint Specific Formats */
-        .cv-header {
-            text-align: center;
-            margin-bottom: 24px;
-            border-bottom: 1px dashed #eee;
-            padding-bottom: 16px;
-        }
+    .ribbon-tabs {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 16px 0;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
 
-        .cv-name {
-            font-size: 28px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 6px 12px;
+      margin: 4px 12px 6px 0;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      color: #fff;
+      background: linear-gradient(180deg, #ff7d68, var(--coral));
+      box-shadow: 0 4px 12px rgba(228, 84, 60, 0.35);
+      white-space: nowrap;
+    }
 
-        .cv-contact {
-            font-size: 12px;
-            color: #444;
-            line-height: 1.4;
-        }
+    .btn-back:hover { background: #c9432e; color: #fff; }
+    .btn-back-icon { font-size: 1.1rem; line-height: 1; }
 
-        .cv-section-title {
-            font-size: 15px;
-            font-weight: bold;
-            color: var(--word-blue);
-            border-bottom: 2px solid var(--word-blue);
-            margin-top: 22px;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+    .ribbon-tab {
+      padding: 9px 16px;
+      border: 0;
+      background: none;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 3px solid transparent;
+    }
 
-        .cv-item {
-            margin-bottom: 14px;
-        }
+    .ribbon-tab:hover { color: var(--navy); background: #eaf2fb; }
 
-        .cv-item-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
+    .ribbon-tab.is-active {
+      color: var(--navy);
+      font-weight: 700;
+      border-bottom-color: var(--teal);
+    }
 
-        .cv-sub {
-            font-style: italic;
-            color: #333;
-            margin-bottom: 4px;
-        }
+    .toolbar {
+      display: none;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 8px 16px;
+    }
 
-        .cv-sub2 {
-            color: #333;
-            margin-bottom: 4px;
-        }
+    .toolbar.is-active { display: flex; }
 
-        ul {
-            margin-left: 24px;
-            margin-top: 4px;
-            margin-bottom: 6px;
-        }
+    .tool-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-right: 10px;
+      border-right: 1px solid var(--line);
+    }
 
-        li {
-            margin-bottom: 3px;
-        }
+    .tool-group:last-child { border-right: 0; margin-left: auto; padding-right: 0; }
 
-        p {
-            margin-bottom: 8px;
-        }
+    .rbtn {
+      min-width: 32px;
+      height: 32px;
+      padding: 0 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
 
-        /* Modern Pill Badges Styling for Skills */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
+    .rbtn:hover { background: #eaf2fb; }
 
-        .skill-pill {
-            background-color: #f3f2f1;
-            color: black;
-            border: 1px solid #d2d0ce;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-            user-select: none;
-            transition: all 0.2s ease;
-        }
+    .rbtn.is-on {
+      background: #dce8f6;
+      border-color: #b9cbe0;
+    }
 
-        .skill-pill:hover {
-            background-color: #2b579a;
-            color: white;
-            border-color: #2b579a;
-        }
+    .rbtn-primary {
+      background: linear-gradient(180deg, #17b3a3, var(--teal));
+      color: #fff;
+      border-color: var(--teal);
+      font-weight: 700;
+    }
 
-        .add-skill-btn {
-            background-color: #7a7af0 ; /* Professional blue from your root */
-            color: white;
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 15%; /* Makes it circular */
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s ease;
-            margin-left: 4px;
-        }
+    .rbtn-primary:hover { background: var(--teal-dark); color: #fff; }
 
-        .add-skill-btn:hover {
-            background-color: var(--word-dark-blue);
-        }
+    .rbtn-ghost {
+      border: 1px solid var(--navy);
+      color: var(--navy);
+    }
 
-        /* Ensure the button is hidden during print */
-        @media print {
-            .add-skill-btn {
-                display: none !important;
-            }
-        }
+    select.rselect, input[type="color"].rcolor {
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      font: inherit;
+      font-size: 13px;
+    }
 
+    select.rselect { padding: 0 8px; }
+    input[type="color"].rcolor { width: 36px; padding: 2px; cursor: pointer; }
 
-        /* Adjusts print layouts so color borders remain intact */
-        @media print {
-            .skill-pill {
-                background-color: #f3f2f1 !important;
-                color: #2b579a !important;
-                border: 1px solid #d2d0ce !important;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .cv-section-title {
-                font-size: 15px;
-                font-weight: bold;
-                color: var(--word-blue) !important;
-                border-bottom: 2px solid var(--word-blue) !important;
-                margin-top: 22px;
-                margin-bottom: 12px;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-        }
+    /* Canvas */
+    .workspace {
+      flex: 1;
+      overflow: auto;
+      padding: 28px 16px 48px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
 
+    .page-wrap {
+      transform-origin: top center;
+    }
 
-        /* Native System Print Pipeline Override */
-        @media print {
-            @page {
-                size: A4;
-                /* margin: 0; */
-                margin: 20mm !important; 
-            }
+    .page {
+      --cv-accent: #1e3d6b;
+      background: #fff;
+      width: 210mm;
+      min-height: 297mm;
+      padding: 18mm 16mm;
+      box-shadow: 0 12px 36px rgba(15, 34, 64, 0.16);
+      color: #111;
+      font-family: Calibri, Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      outline: none;
+      overflow-wrap: anywhere;
+      border-top: 8px solid var(--cv-accent);
+    }
 
-             @page :first {
-                margin-top: 0mm !important;
-            }
+    .page:focus { box-shadow: 0 12px 36px rgba(15, 34, 64, 0.16), 0 0 0 3px rgba(15, 157, 142, 0.25); }
 
-            body {
-                background: white;
-                overflow: visible;
-                height: auto;
-            }
+    .cv-header {
+      text-align: center;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--cv-accent);
+      padding-bottom: 16px;
+    }
 
-            .app-bar,
-            .ribbon {
-                display: none !important;
-            }
+    .cv-name {
+      font-size: 28px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      color: var(--cv-accent);
+    }
 
-            .workspace {
-                padding: 0;
-                overflow: visible;
-                display: block;
-                background: transparent;
-            }
+    .cv-contact { font-size: 12px; color: #444; line-height: 1.4; }
+    .cv-contact a { color: var(--teal-dark); }
 
-            .page {
-                box-shadow: none;
-                margin: 0;
-                width: 210mm;
-                min-height: 297mm;
-                padding: 20mm;
-                outline: none;
-            }
-        }
+    .cv-section-title {
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--cv-accent);
+      border-bottom: 2px solid var(--cv-accent);
+      margin-top: 22px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
 
-        /* --- Dynamic Skills Interactive Section Styles --- */
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        .skill-badge {
-            background-color: #f1f3f5;
-            color: #333;
-            padding: 4px 10px;
-            border-radius: 16px;
-            font-size: 14px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid #dee2e6;
-        }
-        .delete-btn {
-            background: none;
-            border: none;
-            color: #fa5252;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-        }
-        .delete-btn:hover {
-            color: #e03131;
-        }
-        .add-skill-form {
-            display: flex;
-            gap: 8px;
-            max-width: 350px;
-            margin-top: 10px;
-        }
-        #newSkillInput {
-            flex: 1;
-            padding: 6px 12px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        #addSkillBtn {
-            background-color: #228be6;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        #addSkillBtn:hover {
-            background-color: #1c7ed6;
-        }
+    .cv-item { margin-bottom: 14px; }
 
-        /* --- Print and PDF Export Formatting Rules --- */
-        @media print {
-            body {
-                margin: 0;
-                padding: 0;
-            }
-            .add-skill-form, .delete-btn {
-                display: none !important;
-            }
-            .skill-badge {
-                border: 1px solid #d2d0ce !important;
-                background: #f3f2f1 !important;
-                color: black !important;
-                padding: 4px 10px !important;
-                margin-right: 4px;
-                border-radius: px !important;
-            }
-            .skill-badge::after {
-                content: "";
-            }
-            .skill-badge:last-child::after {
-                content: "";
-            }        
-        }
-    </style>
+    .cv-item-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .cv-sub { font-style: italic; color: #333; margin-bottom: 4px; }
+    .cv-sub2 { color: #333; margin-bottom: 4px; }
+
+    .page ul { margin: 4px 0 6px 24px; padding: 0; }
+    .page li { margin-bottom: 3px; }
+    .page p { margin: 0 0 8px; }
+
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 15px;
+    }
+
+    .skill-badge {
+      background: #e6f4f2;
+      color: var(--cv-accent);
+      padding: 4px 10px;
+      border-radius: 16px;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #b7ddd7;
+    }
+
+    .delete-btn {
+      background: none;
+      border: 0;
+      color: var(--coral);
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .add-skill-form {
+      display: flex;
+      gap: 8px;
+      max-width: 380px;
+      margin-top: 10px;
+    }
+
+    #newSkillInput {
+      flex: 1;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font: inherit;
+      font-size: 14px;
+    }
+
+    #addSkillBtn {
+      background: linear-gradient(180deg, #17b3a3, var(--teal));
+      color: #fff;
+      border: 0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    #addSkillBtn:hover { background: var(--teal-dark); }
+
+    .status-bar {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 16px;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .status-bar a {
+      color: var(--navy);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .zoom-controls { display: flex; align-items: center; gap: 8px; }
+
+    .theme-picker {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .theme-label, .theme-custom span {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .theme-swatches { display: flex; flex-wrap: wrap; gap: 5px; }
+
+    .theme-swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px #c5d0d8;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .theme-swatch.is-selected { box-shadow: 0 0 0 2px var(--navy); }
+
+    .theme-custom {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .theme-custom input[type="color"] {
+      width: 32px;
+      height: 28px;
+      padding: 1px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .nav-toggle { display: block; }
+      .site-nav {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        background: #10243f;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px;
+        z-index: 90;
+      }
+      .site-header { position: relative; }
+      .site-nav.is-open { display: flex; }
+      .dropdown-menu { position: static; box-shadow: none; }
+      .tool-group:last-child { margin-left: 0; }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 14mm 12mm; }
+
+      html, body {
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+        display: block !important;
+      }
+
+      .site-header, .ribbon, .status-bar, .btn-back,
+      .add-skill-form, .delete-btn { display: none !important; }
+
+      .workspace {
+        padding: 0 !important;
+        overflow: visible !important;
+        display: block !important;
+      }
+
+      .page-wrap { transform: none !important; }
+
+      .page {
+        box-shadow: none !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-top: 8px solid var(--cv-accent) !important;
+      }
+
+      .skill-badge {
+        background: #e6f4f2 !important;
+        color: #1e3d6b !important;
+        border: 1px solid #b7ddd7 !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .cv-section-title, .cv-name {
+        color: var(--cv-accent, #1e3d6b) !important;
+        border-bottom-color: var(--cv-accent, #1e3d6b) !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <nav class="navbar navbar-default" style="margin-bottom: 0px;">
-        <div class="container-fluid">
-            <div class="navbar-header active">
-                <a class="navbar-brand" href="https://www.buildcv.co.in/" style="background-color: #dff3f5;"
-                    onclick="showHidePage('bcvHome')">Build CV</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="https://www.buildcv.co.in/">Home</a></li>
-                <!-- <li><a href="https://www.buildcv.co.in/">CV Editor</a></li>
-                <li><a href="https://www.buildcv.co.in/#">Get My CV</a></li>
-                <li><a href="https://www.buildcv.co.in/">Build CV Using JSON</a></li> -->
-                
-                <li class="dropdown">
-                    <a href="#">Interview Preparation &#9662;</a> <!-- ▼ symbol -->
-                    <ul class="dropdown-menu">
-                        <li><a href="https://www.buildcv.co.in/quiz" target="_blank">React & Beyond Quiz</a></li>
-                        <li><a href="https://www.buildcv.co.in/typescript" target="_blank">TypeScript</a></li>
-                        <li><a href="#" onclick="alert('Coming Soon !!')">Java</a></li>
-                    </ul>
-                </li>
-                
-                <!-- <li><a href="https://www.buildcv.co.in/javascript-compiler" target="_blank">JavaScript Online Compiler</a></li>
-                <li><a href="#" onclick="showHidePage('bcvAbout')">About</a></li> -->
-            </ul>
-            <div class="profileContact contact">
-                <a href="mailto:contact@buildcv.co.in">📧buildcv.co.in@zohomail.in</a>
-            </div>
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html#home" aria-label="BuildCV home">
+        <img class="brand-logo" src="assets/favicon.svg" width="34" height="34" alt="">
+        <span class="brand-text">Build<span>CV</span></span>
+      </a>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <a class="nav-link" href="index.html#home">Home</a>
+        <a class="nav-link" href="index.html#get-my-cv">Get My CV</a>
+        <a class="nav-link" href="index.html#build-json">Build CV Using JSON</a>
+        <a class="nav-link" href="index.html#javascript-compiler">Javascript Online Compiler</a>
+        <div class="dropdown" id="interview-dropdown">
+          <button class="nav-link dropdown-trigger" type="button" id="interview-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="interview-menu">
+            Interview Preparation <span class="caret" aria-hidden="true"></span>
+          </button>
+          <ul class="dropdown-menu" id="interview-menu" role="menu" hidden>
+            <li role="none"><a role="menuitem" href="quiz.html">React &amp; Beyond Quiz</a></li>
+            <li role="none"><a role="menuitem" href="typescript.html">TypeScript</a></li>
+            <li role="none"><a role="menuitem" href="python.pdf">Python</a></li>
+            <li role="none"><a role="menuitem" href="fastapi.pdf">FastAPI</a></li>
+            <li role="none"><button role="menuitem" type="button" id="java-coming-soon">Java</button></li>
+          </ul>
         </div>
-    </nav>
+        <a class="nav-link" href="index.html#about">About</a>
+        <a class="nav-link is-active" href="cvEditor.html" aria-current="page">CV Editor</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- App Window Header Bar -->
-    <div class="app-bar">
-        <div class="app-title">myCV(1).docx - Microsoft Word</div>
-        <div class="app-status" id="saveStatus">Changes saved automatically</div>
+  <div class="ribbon">
+    <div class="ribbon-tabs" role="tablist">
+      <a class="btn-back" id="back-to-options" href="index.html#home">
+        <span class="btn-back-icon" aria-hidden="true">←</span>
+        Back to options
+      </a>
+      <button class="ribbon-tab is-active" type="button" data-tab="home">Home</button>
+      <button class="ribbon-tab" type="button" data-tab="insert">Insert</button>
+      <button class="ribbon-tab" type="button" data-tab="layout">Layout</button>
     </div>
 
-    <!-- MS Word Navigation & Ribbon Control Cluster -->
-    <div class="ribbon">
-        <div class="tabs">
-            <div class="tab active">Home</div>
-            <div class="tab"
-                onclick="alert('Insert features are available inline. Click anywhere on the A4 page to write or paste layouts.')">
-                Insert</div>
-            <div class="tab" onclick="window.print()">Layout (Print Setup)</div>
-        </div>
-
-        <div class="toolbar">
-            <!-- Typographic Families -->
-            <div class="tool-group">
-                <select id="fontName" title="Font Family">
-                    <option value="Calibri">Calibri</option>
-                    <option value="Arial">Arial</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Georgia">Georgia</option>
-                    <option value="Courier New">Courier New</option>
-                </select>
-                <select id="fontSize" title="Font Size">
-                    <option value="12px">12pt</option>
-                    <option value="14px" selected>14pt</option>
-                    <option value="18px">18pt</option>
-                    <option value="24px">24pt</option>
-                    <option value="36px">36pt</option>
-                </select>
-            </div>
-
-            <!-- Font Styles -->
-            <div class="tool-group">
-                <button class="btn" id="boldBtn" title="Bold"><b>B</b></button>
-                <button class="btn" id="italicBtn" title="Italic"><i>I</i></button>
-                <button class="btn" id="underlineBtn" title="Underline"><u>U</u></button>
-                <button class="btn" id="strikeBtn" title="Strikethrough"><del>ab</del></button>
-            </div>
-
-            <!-- Alignment Settings -->
-            <div class="tool-group">
-                <button class="btn" id="leftBtn" data-align="left" title="Align Left">Left</button>
-                <button class="btn" id="centerBtn" data-align="center" title="Center">Center</button>
-                <button class="btn" id="rightBtn" data-align="right" title="Align Right">Right</button>
-                <button class="btn" id="justifyBtn" data-align="justify" title="Justify">Justify</button>
-            </div>
-
-            <div class="tool-group">
-                <button class="btn" id="bulletBtn" title="Bullet List">• List</button>
-            </div>
-
-            <div class="tool-group" style="margin-left: auto;">
-                <button class="btn btn-primary" style="background-color: #7a7af0;" onclick="exportPDF()" title="Export document to PDF file">Export to PDF
-                    / Print</button>
-                <button class="btn" onclick="resetTemplate()" style="color: #7a7af0; border: 1px solid #7a7af0;" title="Restore the base layout template">Reset
-                    Template</button>
-            </div>
-        </div>
+    <div class="toolbar is-active" id="toolbar-home" data-toolbar="home">
+      <div class="tool-group">
+        <button class="rbtn" type="button" data-cmd="undo" title="Undo (Ctrl+Z)">Undo</button>
+        <button class="rbtn" type="button" data-cmd="redo" title="Redo (Ctrl+Y)">Redo</button>
+      </div>
+      <div class="tool-group">
+        <label class="sr-only" for="fontName">Font</label>
+        <select class="rselect" id="fontName" title="Font Family">
+          <option value="Calibri">Calibri</option>
+          <option value="Arial">Arial</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Courier New">Courier New</option>
+        </select>
+        <label class="sr-only" for="fontSize">Size</label>
+        <select class="rselect" id="fontSize" title="Font Size">
+          <option value="2">10</option>
+          <option value="3" selected>12</option>
+          <option value="4">14</option>
+          <option value="5">18</option>
+          <option value="6">24</option>
+          <option value="7">36</option>
+        </select>
+      </div>
+      <div class="tool-group">
+        <button class="rbtn" type="button" id="boldBtn" data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+        <button class="rbtn" type="button" id="italicBtn" data-cmd="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+        <button class="rbtn" type="button" id="underlineBtn" data-cmd="underline" title="Underline (Ctrl+U)"><u>U</u></button>
+        <button class="rbtn" type="button" id="strikeBtn" data-cmd="strikeThrough" title="Strikethrough"><del>ab</del></button>
+        <input class="rcolor" id="foreColor" type="color" value="#152036" title="Text color" aria-label="Text color">
+        <input class="rcolor" id="hiliteColor" type="color" value="#fff59d" title="Highlight" aria-label="Highlight color">
+      </div>
+      <div class="tool-group">
+        <button class="rbtn" type="button" data-cmd="justifyLeft" title="Align left">Left</button>
+        <button class="rbtn" type="button" data-cmd="justifyCenter" title="Center">Center</button>
+        <button class="rbtn" type="button" data-cmd="justifyRight" title="Align right">Right</button>
+        <button class="rbtn" type="button" data-cmd="justifyFull" title="Justify">Justify</button>
+      </div>
+      <div class="tool-group">
+        <button class="rbtn" type="button" data-cmd="insertUnorderedList" title="Bullets">• List</button>
+        <button class="rbtn" type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+      </div>
+      <div class="tool-group">
+        <div data-theme-picker></div>
+      </div>
+      <div class="tool-group">
+        <button class="rbtn rbtn-primary" type="button" id="exportBtn" title="Print or save as PDF">Export to PDF / Print</button>
+        <button class="rbtn rbtn-ghost" type="button" id="resetBtn" title="Restore the original CV template">Reset Template</button>
+      </div>
     </div>
-    <div class="workspace">
-        <div class="page" id="editor" contenteditable="true" spellcheck="true">
-            <div class="cv-header">
-                <div class="cv-name">ABHISHEK KUMAR</div>
-                <div class="cv-contact">123 Street Address, City, State, Zip | +91-9154826149 | buildcv.co.in@zohomail.in |
-                    <a href="https://www.buildcv.co.in/#" target="_blank">https://www.buildcv.co.in/#</a>
-                </div>
-            </div>
 
-            <div class="cv-section-title">Professional Summary</div>
-            <p>Highly motivated and detail-oriented professional with over 5 years of experience in software
-                development. Proven track record of delivering robust applications, collaborating with cross-functional
-                teams, and optimizing system performance.</p>
+    <div class="toolbar" id="toolbar-insert" data-toolbar="insert">
+      <div class="tool-group">
+        <button class="rbtn" type="button" id="insertHeading">Section heading</button>
+        <button class="rbtn" type="button" id="insertLine">Horizontal line</button>
+        <button class="rbtn" type="button" data-cmd="insertUnorderedList">Bullet list</button>
+        <button class="rbtn" type="button" id="focusSkill">Add skill</button>
+      </div>
+      <p class="hint">Click inside the page, then insert. You can also paste from Word or a browser.</p>
+    </div>
 
-            <div class="cv-section-title">Experience</div>
-            <div class="cv-item">
-                <div class="cv-item-header">
-                    <span>Senior Software Engineer</span>
-                    <span>2024 - Present</span>
-                </div>
-                <div class="cv-sub">Tech Solutions Inc.</div>
-                <ul>
-                    <li>Led a team of 4 engineers to rebuild a legacy workflow processing engine.</li>
-                    <li>Reduced latency by 35% through query optimization and caching strategies.</li>
-                </ul>
-            </div>
+    <div class="toolbar" id="toolbar-layout" data-toolbar="layout">
+      <div class="tool-group">
+        <span>Zoom</span>
+        <button class="rbtn" type="button" data-zoom="75">75%</button>
+        <button class="rbtn" type="button" data-zoom="100">100%</button>
+        <button class="rbtn" type="button" data-zoom="125">125%</button>
+      </div>
+      <div class="tool-group">
+        <button class="rbtn rbtn-primary" type="button" id="exportBtn2">Print / PDF</button>
+      </div>
+      <p class="hint">A4 page. Use your browser print dialog and choose Save as PDF.</p>
+    </div>
+  </div>
 
-            <div class="cv-item">
-                <div class="cv-item-header">
-                    <span>Software Engineer</span>
-                    <span>2021 - 2024</span>
-                </div>
-                <div class="cv-sub">Innovate Web Labs</div>
-                <ul>
-                    <li>Developed and maintained responsive web applications using HTML, CSS, JavaScript, and React.
-                    </li>
-                    <li>Collaborated with design teams to polish user journeys, increasing engagement metrics by 15%.
-                    </li>
-                </ul>
-            </div>
-
-            <div class="cv-section-title">Education</div>
-            <div class="cv-item">
-                <div class="cv-item-header">
-                    <span>Bachelor of Science in Computer Science</span>
-                    <span>2017 - 2021</span>
-                </div>
-                <div class="cv-sub">State University</div>
-            </div>
-
-        <!-- Dynamic Skills Panel Interface -->
-            <section>
-                <div class="cv-section-title">Skills</div>
-                <div id="skillsContainer" class="skills-container">
-                    <!-- Populated with your core technical and soft skills -->
-                    <span class="skill-badge">React.JS<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Redux<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">JavaScript<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">TypeScript<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">RxJS<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">KafkaJS<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Node-redis<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Mediapipe<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">TensorFlow.js<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">C#<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">ASP.NET MVC<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">SQL Server<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Oracle<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">MySQL<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">API Integration<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Agile & Scrum Frameworks<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Problem Solving<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Critical Thinking<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Client Communication<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                    <span class="skill-badge">Team Leadership<button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button></span>
-                </div>
-
-                <div class="add-skill-form">
-                    <input type="text" id="newSkillInput" placeholder="Add a missing skill (e.g. Git)..." autocomplete="off" />
-                    <button type="button" id="addSkillBtn" onclick="addSkill()">+ Add</button>
-                </div>
-            </section>
-            <div class="cv-section-title">Projects</div>
-            <div class="cv-item">
-                <div class="cv-item-header">
-                    <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
-                    <span>Mar 2021 – Present</span>
-                </div>
-                <div class="cv-sub2">
-                    Developed virtual consultation applications (VVM for patients, VVP for
-                    clinicians) for Kaiser Permanente, enabling video-based doctor appointments
-                    via app or web.
-                </div> <br />
-                <div class="cv-item-header">
-                    <span>OnCall (React.JS, TypeScript, ASP.Net Web API, SQL
-                        Server, Oracle)
-                    </span>
-                    <span>Mar 2018 – Mar 2021 </span>
-                </div>
-                <div class="cv-sub2">
-                    Contributed to HxGN OnCall® Dispatch, a leading incident management
-                    system for public safety. Implemented interactive UI features for call-taking,
-                    dispatching, and resource management, integrating real-time maps, events,
-                    and unit data.
-
-                </div> <br />
-                <div class="cv-item-header">
-                    <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
-                    <span>Mar 2021 – Present</span>
-                </div>
-                <div class="cv-sub2">
-                    Developed virtual consultation applications (VVM for patients, VVP for
-                    clinicians) for Kaiser Permanente, enabling video-based doctor appointments
-                    via app or web.
-                </div> <br />
-                <div class="cv-item-header">
-                    <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
-                    <span>Mar 2021 – Present</span>
-                </div>
-                <div class="cv-sub2">
-                    Developed virtual consultation applications (VVM for patients, VVP for
-                    clinicians) for Kaiser Permanente, enabling video-based doctor appointments
-                    via app or web.
-                </div>
-            </div>
-            <div class="cv-section-title">Personal Information</div>
-            <div class="cv-item">
-                <div class="cv-sub2"><b >Gender: </b> Male</div>
-                <div class="cv-sub2"><b >Nationality: </b> Indian</div>
-                <div class="cv-sub2"><b >Hobbies: </b> Reading Tech Blogs, Problem Solving, Cricket</div>
-                <div class="cv-sub2"><b >Languages: </b> English, Hindi</div>
-            </div>
-
+  <div class="workspace">
+    <div class="page-wrap" id="page-wrap">
+      <div class="page" id="editor" contenteditable="true" spellcheck="true" role="textbox" aria-label="CV document">
+        <div class="cv-header">
+          <div class="cv-name">ABHISHEK KUMAR</div>
+          <div class="cv-contact">123 Street Address, City, State, Zip | +91-9154826149 | buildcv.co.in@zohomail.in |
+            <a href="https://www.buildcv.co.in/#" target="_blank">https://www.buildcv.co.in/#</a>
+          </div>
         </div>
-        <script>
-            const editor = document.getElementById('editor');
-            const saveStatus = document.getElementById('saveStatus');
 
-            // Core Text Wrapper engine replacing deprecated execCommand
-            function wrapSelection(tag, styleAttr = null, styleValue = null) {
-                const selection = window.getSelection();
-                if (!selection.rangeCount || selection.isCollapsed) return;
+        <div class="cv-section-title">Professional Summary</div>
+        <p>Highly motivated and detail-oriented professional with over 5 years of experience in software
+          development. Proven track record of delivering robust applications, collaborating with cross-functional
+          teams, and optimizing system performance.</p>
 
-                const range = selection.getRangeAt(0);
+        <div class="cv-section-title">Experience</div>
+        <div class="cv-item">
+          <div class="cv-item-header">
+            <span>Senior Software Engineer</span>
+            <span>2024 - Present</span>
+          </div>
+          <div class="cv-sub">Tech Solutions Inc.</div>
+          <ul>
+            <li>Led a team of 4 engineers to rebuild a legacy workflow processing engine.</li>
+            <li>Reduced latency by 35% through query optimization and caching strategies.</li>
+          </ul>
+        </div>
 
-                // Check if selection is already wrapped to toggle it off
-                let parent = range.commonAncestorContainer;
-                if (parent.nodeType === 3) parent = parent.parentNode;
+        <div class="cv-item">
+          <div class="cv-item-header">
+            <span>Software Engineer</span>
+            <span>2021 - 2024</span>
+          </div>
+          <div class="cv-sub">Innovate Web Labs</div>
+          <ul>
+            <li>Developed and maintained responsive web applications using HTML, CSS, JavaScript, and React.</li>
+            <li>Collaborated with design teams to polish user journeys, increasing engagement metrics by 15%.</li>
+          </ul>
+        </div>
 
-                if (parent.tagName === tag.toUpperCase() || (styleAttr && parent.style[styleAttr] === styleValue)) {
-                    const text = range.toString();
-                    range.deleteContents();
-                    range.insertNode(document.createTextNode(text));
-                } else {
-                    const element = document.createElement(tag);
-                    if (styleAttr && styleValue) {
-                        element.style[styleAttr] = styleValue;
-                    }
-                    try {
-                        element.appendChild(range.extractContents());
-                        range.insertNode(element);
-                    } catch (e) {
-                        document.execCommand('styleWithCSS', false, true);
-                    }
-                }
+        <div class="cv-section-title">Education</div>
+        <div class="cv-item">
+          <div class="cv-item-header">
+            <span>Bachelor of Science in Computer Science</span>
+            <span>2017 - 2021</span>
+          </div>
+          <div class="cv-sub">State University</div>
+        </div>
 
-                selection.removeAllRanges();
-                saveToStorage();
-            }
+        <section>
+          <div class="cv-section-title">Skills</div>
+          <div id="skillsContainer" class="skills-container">
+            <span class="skill-badge">React.JS<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Redux<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">JavaScript<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">TypeScript<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">RxJS<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">KafkaJS<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Node-redis<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Mediapipe<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">TensorFlow.js<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">C#<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">ASP.NET MVC<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">SQL Server<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Oracle<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">MySQL<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">API Integration<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Agile &amp; Scrum Frameworks<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Problem Solving<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Critical Thinking<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Client Communication<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+            <span class="skill-badge">Team Leadership<button type="button" class="delete-btn" contenteditable="false">&times;</button></span>
+          </div>
+          <div class="add-skill-form" contenteditable="false">
+            <input type="text" id="newSkillInput" placeholder="Add a missing skill (e.g. Git)..." autocomplete="off">
+            <button type="button" id="addSkillBtn">+ Add</button>
+          </div>
+        </section>
 
-            // Font Family and Size Applier
-            document.getElementById('fontName').addEventListener('change', function () {
-                wrapSelection('span', 'fontFamily', this.value);
-            });
+        <div class="cv-section-title">Projects</div>
+        <div class="cv-item">
+          <div class="cv-item-header">
+            <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
+            <span>Mar 2021 – Present</span>
+          </div>
+          <div class="cv-sub2">
+            Developed virtual consultation applications (VVM for patients, VVP for
+            clinicians) for Kaiser Permanente, enabling video-based doctor appointments
+            via app or web.
+          </div> <br>
+          <div class="cv-item-header">
+            <span>OnCall (React.JS, TypeScript, ASP.Net Web API, SQL
+              Server, Oracle)
+            </span>
+            <span>Mar 2018 – Mar 2021 </span>
+          </div>
+          <div class="cv-sub2">
+            Contributed to HxGN OnCall® Dispatch, a leading incident management
+            system for public safety. Implemented interactive UI features for call-taking,
+            dispatching, and resource management, integrating real-time maps, events,
+            and unit data.
+          </div> <br>
+          <div class="cv-item-header">
+            <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
+            <span>Mar 2021 – Present</span>
+          </div>
+          <div class="cv-sub2">
+            Developed virtual consultation applications (VVM for patients, VVP for
+            clinicians) for Kaiser Permanente, enabling video-based doctor appointments
+            via app or web.
+          </div> <br>
+          <div class="cv-item-header">
+            <span>Video Visit (React.JS, JavaScript, HTML, CSS)</span>
+            <span>Mar 2021 – Present</span>
+          </div>
+          <div class="cv-sub2">
+            Developed virtual consultation applications (VVM for patients, VVP for
+            clinicians) for Kaiser Permanente, enabling video-based doctor appointments
+            via app or web.
+          </div>
+        </div>
 
-            // Reliable Pill Injection Routine
+        <div class="cv-section-title">Personal Information</div>
+        <div class="cv-item">
+          <div class="cv-sub2"><b>Gender: </b> Male</div>
+          <div class="cv-sub2"><b>Nationality: </b> Indian</div>
+          <div class="cv-sub2"><b>Hobbies: </b> Reading Tech Blogs, Problem Solving, Cricket</div>
+          <div class="cv-sub2"><b>Languages: </b> English, Hindi</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            document.getElementById('fontSize').addEventListener('change', function () {
-                wrapSelection('span', 'fontSize', this.value);
-            });
+  <div class="status-bar">
+    <span>Words: <strong id="wordCount">0</strong> · Characters: <strong id="charCount">0</strong></span>
+    <span id="saveStatus">All changes saved locally</span>
+    <a href="mailto:buildcv.co.in@zohomail.in">buildcv.co.in@zohomail.in</a>
+    <span class="hint">Ctrl+B / Ctrl+I / Ctrl+U · Ctrl+Z undo · Ctrl+S saves automatically</span>
+    <div class="zoom-controls">
+      Zoom <strong id="zoomLabel">100%</strong>
+    </div>
+  </div>
 
-            // Formatting Button Event Handlers
-            document.getElementById('boldBtn').addEventListener('click', () => wrapSelection('strong'));
-            document.getElementById('italicBtn').addEventListener('click', () => wrapSelection('em'));
-            document.getElementById('underlineBtn').addEventListener('click', () => wrapSelection('u'));
-            document.getElementById('strikeBtn').addEventListener('click', () => wrapSelection('del'));
+  <script>
+    (function () {
+      var STORAGE_KEY = "ms_word_cv_content";
+      var editor = document.getElementById("editor");
+      var saveStatus = document.getElementById("saveStatus");
+      var pageWrap = document.getElementById("page-wrap");
+      var defaultHtml = editor.innerHTML;
+      var saveTimer = null;
+      var statusTimer = null;
+      var zoom = 100;
+      var THEME_KEY = "buildcv.theme.v1";
+      var THEMES = [
+        { id: "navy", label: "Navy", accent: "#1e3d6b" },
+        { id: "teal", label: "Teal", accent: "#0f9d8e" },
+        { id: "indigo", label: "Indigo", accent: "#4338ca" },
+        { id: "burgundy", label: "Burgundy", accent: "#9f1239" },
+        { id: "forest", label: "Forest", accent: "#166534" },
+        { id: "charcoal", label: "Charcoal", accent: "#1f2937" },
+        { id: "copper", label: "Copper", accent: "#c2410c" }
+      ];
 
-            // Alignment Blocks Engine
-            document.querySelectorAll('[data-align]').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const alignment = this.getAttribute('data-align');
-                    const selection = window.getSelection();
-                    if (!selection.rangeCount) return;
-
-                    let container = selection.getRangeAt(0).commonAncestorContainer;
-                    if (container.nodeType === 3) container = container.parentNode;
-
-                    let block = container.closest('p, div, li, h1, h2, h3');
-                    if (block && block !== editor) {
-                        block.style.textAlign = alignment;
-                    } else {
-                        const p = document.createElement('p');
-                        p.style.textAlign = alignment;
-                        p.appendChild(selection.getRangeAt(0).extractContents());
-                        selection.getRangeAt(0).insertNode(p);
-                    }
-                    saveToStorage();
-                });
-            });
-
-            // Bullet Lists Engine
-            document.getElementById('bulletBtn').addEventListener('click', () => {
-                const selection = window.getSelection();
-                if (!selection.rangeCount) return;
-
-                const range = selection.getRangeAt(0);
-                const ul = document.createElement('ul');
-                const li = document.createElement('li');
-
-                li.appendChild(range.extractContents());
-                ul.appendChild(li);
-                range.insertNode(ul);
-                saveToStorage();
-            });
-
-            // Render system standard print layout profile
-            function exportPDF() {
-                window.print();
-            }
-
-            // Restore default layout structures
-            function resetTemplate() {
-                if (confirm("This action will restore the base layout template. Do you want to proceed?")) {
-                    localStorage.removeItem('ms_word_cv_content');
-                    window.location.reload();
-                }
-            }
-
-            // Local Storage Sync Automation
-            function saveToStorage() {
-                localStorage.setItem('ms_word_cv_content', editor.innerHTML);
-                saveStatus.innerText = "All changes saved locally";
-                setTimeout(() => {
-                    saveStatus.innerText = "Changes saved automatically";
-                }, 2000);
-            }
-
-            function loadFromStorage() {
-                const savedContent = localStorage.getItem('ms_word_cv_content');
-                if (savedContent) {
-                    editor.innerHTML = savedContent;
-                }
-            }
-
-            editor.addEventListener('input', saveToStorage);
-
-            window.addEventListener('DOMContentLoaded', () => {
-                
-                loadFromStorage();
-                editor.focus();
-            });
-            // Form trigger logic to create tags dynamically
-        function addSkill() {
-            const input = document.getElementById('newSkillInput');
-            const skillText = input.value.trim();
-            
-            if (skillText === "") {
-                return;
-            }
-            
-            const container = document.getElementById('skillsContainer');
-            const badge = document.createElement('span');
-            badge.className = 'skill-badge';
-            badge.innerHTML = `${skillText} <button type="button" class="delete-btn" onclick="removeSkill(this)">&times;</button>`;
-            
-            container.appendChild(badge);
-            input.value = "";
-            input.focus();
+      function readTheme() {
+        try {
+          var raw = localStorage.getItem(THEME_KEY);
+          return raw ? JSON.parse(raw) : { id: "navy", color: "#1e3d6b" };
+        } catch (err) {
+          return { id: "navy", color: "#1e3d6b" };
         }
+      }
 
-        // Target and safely purge elements out of DOM tree
-        function removeSkill(buttonElement) {
-            const badge = buttonElement.parentElement;
-            badge.remove();
+      function applyTheme(next) {
+        var current = readTheme();
+        var preset = null;
+        var i;
+        if (next && next.id) {
+          for (i = 0; i < THEMES.length; i += 1) {
+            if (THEMES[i].id === next.id) preset = THEMES[i];
+          }
         }
-
-        // Map standard Enter key capture to the skill button container
-        document.getElementById('newSkillInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                addSkill();
-            }
+        var state = {
+          id: next && next.id ? next.id : current.id,
+          color: (next && next.color) || (preset && preset.accent) || current.color || "#1e3d6b"
+        };
+        if (state.id !== "custom" && preset) state.color = preset.accent;
+        try {
+          localStorage.setItem(THEME_KEY, JSON.stringify(state));
+        } catch (err) {}
+        editor.style.setProperty("--cv-accent", state.color);
+        document.querySelectorAll("[data-theme-picker] .theme-swatch").forEach(function (btn) {
+          var selected = btn.getAttribute("data-theme-id") === state.id;
+          btn.classList.toggle("is-selected", selected);
+          btn.setAttribute("aria-pressed", String(selected));
         });
+        document.querySelectorAll("[data-theme-picker] input[type='color']").forEach(function (input) {
+          if (input.value.toLowerCase() !== state.color.toLowerCase()) input.value = state.color;
+        });
+      }
 
-        </script>
+      function initThemePicker() {
+        var saved = readTheme();
+        document.querySelectorAll("[data-theme-picker]").forEach(function (picker) {
+          var html = '<div class="theme-picker" role="group" aria-label="Resume theme">';
+          html += '<span class="theme-label">Theme</span><div class="theme-swatches">';
+          THEMES.forEach(function (theme) {
+            html += '<button class="theme-swatch" type="button" data-theme-id="' + theme.id +
+              '" style="background:' + theme.accent + '" title="' + theme.label +
+              '" aria-label="' + theme.label + ' theme"></button>';
+          });
+          html += "</div><label class='theme-custom'><span>Color</span>";
+          html += '<input type="color" value="' + (saved.color || "#1e3d6b") +
+            '" aria-label="Custom resume color"></label></div>';
+          picker.innerHTML = html;
+          picker.addEventListener("click", function (event) {
+            var btn = event.target.closest(".theme-swatch");
+            if (!btn) return;
+            applyTheme({ id: btn.getAttribute("data-theme-id") });
+          });
+          var colorInput = picker.querySelector('input[type="color"]');
+          if (colorInput) {
+            colorInput.addEventListener("input", function () {
+              applyTheme({ id: "custom", color: colorInput.value });
+            });
+          }
+        });
+        applyTheme(saved);
+      }
+
+      function exec(command, value) {
+        editor.focus();
+        try {
+          document.execCommand("styleWithCSS", false, true);
+          document.execCommand(command, false, value || null);
+        } catch (err) {}
+        saveSoon();
+        updateToolbarState();
+      }
+
+      function saveSoon() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveNow, 250);
+      }
+
+      function saveNow() {
+        try {
+          localStorage.setItem(STORAGE_KEY, editor.innerHTML);
+        } catch (err) {
+          saveStatus.textContent = "Could not save locally";
+          return;
+        }
+        saveStatus.textContent = "Saved";
+        clearTimeout(statusTimer);
+        statusTimer = setTimeout(function () {
+          saveStatus.textContent = "All changes saved locally";
+        }, 1600);
+        updateCounts();
+      }
+
+      function sanitizeEditor() {
+        editor.querySelectorAll(".delete-btn").forEach(function (btn) {
+          btn.removeAttribute("onclick");
+          btn.setAttribute("contenteditable", "false");
+        });
+        var addBtn = document.getElementById("addSkillBtn");
+        if (addBtn) addBtn.removeAttribute("onclick");
+        var form = editor.querySelector(".add-skill-form");
+        if (form) form.setAttribute("contenteditable", "false");
+      }
+
+      function loadSaved() {
+        try {
+          var saved = localStorage.getItem(STORAGE_KEY);
+          if (saved) editor.innerHTML = saved;
+        } catch (err) {}
+        sanitizeEditor();
+        updateCounts();
+      }
+
+      function updateCounts() {
+        var text = (editor.innerText || "").replace(/\s+/g, " ").trim();
+        var words = text ? text.split(" ").length : 0;
+        document.getElementById("wordCount").textContent = String(words);
+        document.getElementById("charCount").textContent = String((editor.innerText || "").length);
+      }
+
+      function updateToolbarState() {
+        ["bold", "italic", "underline", "strikeThrough"].forEach(function (cmd) {
+          var btn = document.querySelector('[data-cmd="' + cmd + '"]');
+          if (!btn) return;
+          var on = false;
+          try { on = document.queryCommandState(cmd); } catch (err) {}
+          btn.classList.toggle("is-on", !!on);
+        });
+      }
+
+      function setZoom(value) {
+        zoom = Number(value) || 100;
+        pageWrap.style.transform = "scale(" + (zoom / 100) + ")";
+        document.getElementById("zoomLabel").textContent = zoom + "%";
+        document.querySelectorAll("[data-zoom]").forEach(function (btn) {
+          btn.classList.toggle("is-on", btn.getAttribute("data-zoom") === String(zoom));
+        });
+      }
+
+      function addSkill() {
+        var input = document.getElementById("newSkillInput");
+        var container = document.getElementById("skillsContainer");
+        if (!input || !container) return;
+        var skillText = input.value.trim();
+        if (!skillText) return;
+        var badge = document.createElement("span");
+        badge.className = "skill-badge";
+        badge.appendChild(document.createTextNode(skillText));
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "delete-btn";
+        btn.setAttribute("contenteditable", "false");
+        btn.innerHTML = "&times;";
+        badge.appendChild(btn);
+        container.appendChild(badge);
+        input.value = "";
+        input.focus();
+        saveNow();
+      }
+
+      document.querySelectorAll(".ribbon-tab").forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          var name = tab.getAttribute("data-tab");
+          document.querySelectorAll(".ribbon-tab").forEach(function (t) {
+            t.classList.toggle("is-active", t === tab);
+          });
+          document.querySelectorAll(".toolbar").forEach(function (bar) {
+            bar.classList.toggle("is-active", bar.getAttribute("data-toolbar") === name);
+          });
+        });
+      });
+
+      document.querySelector(".ribbon").addEventListener("mousedown", function (event) {
+        if (event.target.closest("input, select, textarea, .btn-back")) return;
+        event.preventDefault();
+      });
+
+      document.querySelectorAll("[data-cmd]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          exec(btn.getAttribute("data-cmd"));
+        });
+      });
+
+      document.getElementById("fontName").addEventListener("change", function () {
+        exec("fontName", this.value);
+      });
+
+      document.getElementById("fontSize").addEventListener("change", function () {
+        exec("fontSize", this.value);
+      });
+
+      document.getElementById("foreColor").addEventListener("input", function () {
+        exec("foreColor", this.value);
+      });
+
+      document.getElementById("hiliteColor").addEventListener("input", function () {
+        exec("hiliteColor", this.value);
+      });
+
+      document.getElementById("exportBtn").addEventListener("click", function () { window.print(); });
+      document.getElementById("exportBtn2").addEventListener("click", function () { window.print(); });
+
+      document.getElementById("resetBtn").addEventListener("click", function () {
+        if (!window.confirm("Restore the original CV template? Your current editor changes will be cleared.")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        editor.innerHTML = defaultHtml;
+        sanitizeEditor();
+        saveNow();
+      });
+
+      document.getElementById("insertHeading").addEventListener("click", function () {
+        exec("insertHTML", '<div class="cv-section-title">New Section</div><p>Start writing here.</p>');
+      });
+
+      document.getElementById("insertLine").addEventListener("click", function () {
+        exec("insertHorizontalRule");
+      });
+
+      document.getElementById("focusSkill").addEventListener("click", function () {
+        var input = document.getElementById("newSkillInput");
+        if (input) input.focus();
+      });
+
+      document.querySelectorAll("[data-zoom]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          setZoom(btn.getAttribute("data-zoom"));
+        });
+      });
+
+      editor.addEventListener("input", saveSoon);
+      editor.addEventListener("keyup", updateToolbarState);
+      editor.addEventListener("mouseup", updateToolbarState);
+      document.addEventListener("selectionchange", function () {
+        if (editor.contains(document.getSelection().anchorNode)) updateToolbarState();
+      });
+
+      editor.addEventListener("click", function (event) {
+        var del = event.target.closest(".delete-btn");
+        if (!del) return;
+        event.preventDefault();
+        var badge = del.closest(".skill-badge");
+        if (badge) badge.remove();
+        saveNow();
+      });
+
+      editor.addEventListener("click", function (event) {
+        if (event.target.id === "addSkillBtn") {
+          event.preventDefault();
+          addSkill();
+        }
+      });
+
+      editor.addEventListener("keydown", function (event) {
+        if (event.target.id === "newSkillInput" && event.key === "Enter") {
+          event.preventDefault();
+          addSkill();
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        var key = event.key.toLowerCase();
+        if (!(event.ctrlKey || event.metaKey)) return;
+        if (key === "s") {
+          event.preventDefault();
+          saveNow();
+        }
+        if (key === "b") {
+          event.preventDefault();
+          exec("bold");
+        }
+        if (key === "i") {
+          event.preventDefault();
+          exec("italic");
+        }
+        if (key === "u") {
+          event.preventDefault();
+          exec("underline");
+        }
+      });
+
+      var nav = document.getElementById("site-nav");
+      var toggle = document.getElementById("nav-toggle");
+      toggle.addEventListener("click", function () {
+        var open = !nav.classList.contains("is-open");
+        nav.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+      });
+
+      var interviewMenu = document.getElementById("interview-menu");
+      var interviewTrigger = document.getElementById("interview-trigger");
+      interviewTrigger.addEventListener("click", function (event) {
+        event.stopPropagation();
+        interviewMenu.hidden = !interviewMenu.hidden;
+        interviewTrigger.setAttribute("aria-expanded", String(!interviewMenu.hidden));
+      });
+      document.addEventListener("click", function (event) {
+        if (!document.getElementById("interview-dropdown").contains(event.target)) {
+          interviewMenu.hidden = true;
+          interviewTrigger.setAttribute("aria-expanded", "false");
+        }
+      });
+      document.getElementById("java-coming-soon").addEventListener("click", function () {
+        window.alert("Java interview preparation is coming soon!");
+        interviewMenu.hidden = true;
+      });
+
+      loadSaved();
+      initThemePicker();
+      setZoom(100);
+      editor.focus();
+    })();
+  </script>
 </body>
-
 </html>

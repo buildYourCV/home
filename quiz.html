@@ -1,189 +1,576 @@
 <!DOCTYPE html>
-<html lang="en" style="background: #0f1724;">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Quiz - Test Your Career Knowledge | BuildCV</title>
-    <meta name="description"
-    content="Challenge yourself with BuildCV's free resume & career quiz. Improve your job application skills and learn resume best practices in a fun way.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - Test Your Career Knowledge | BuildCV</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Challenge yourself with BuildCV's free resume & career quiz. Improve your job application skills and learn resume best practices in a fun way.">
+  <style>
+    :root {
+      --navy: #1e3d6b;
+      --navy-deep: #0f2240;
+      --navy-mid: #2a5294;
+      --teal: #0f9d8e;
+      --teal-dark: #0b7c71;
+      --gold: #f0b429;
+      --coral: #e4543c;
+      --line: #d5deea;
+      --ink: #152036;
+      --muted: #5a6b80;
+      --header-h: 68px;
+      --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-    <link rel="stylesheet" href="./style/jsonToHtml.css">
-    <link rel="stylesheet" href="./style/bcv.css">
-    <style>
-        .quiz-body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 60vh;
-        }
+    * { box-sizing: border-box; }
 
-        .quiz-container {
-            /* background: #fff; */
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-            padding: 20px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 700px;
-            text-align: center;
-        }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--font);
+      color: var(--ink);
+    }
 
-        h2 {
-            margin-bottom: 20px;
-            font-size: 22px;
-            color: #333;
-        }
+    body {
+      background:
+        radial-gradient(1100px 460px at 8% -8%, rgba(15, 157, 142, 0.16), transparent 55%),
+        radial-gradient(900px 380px at 100% 0%, rgba(228, 84, 60, 0.12), transparent 48%),
+        linear-gradient(180deg, #eaf0f8 0%, #f7f4ec 100%);
+    }
 
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 
-        .options button {
-            padding: 12px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            background: #eaeaea;
-            cursor: pointer;
-            transition: background 0.3s;
-            background: rgba(96, 165, 250, 0.12);
-            color: #60a5fa;
-    /* border: 1px solid rgba(96, 165, 250, 0.12); */
-        }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: linear-gradient(115deg, #0f2240 0%, #1e3d6b 58%, #1a4f78 100%);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(15, 34, 64, 0.28);
+    }
 
-        .options button:hover {
-            /* background: #d4d4d4; */
-            background: rgba(96, 165, 250, 0.12);
-            color: #e6eef8;
-            border: 1px solid rgba(96, 165, 250, 0.12);
-        }
+    .site-header::after {
+      content: "";
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, var(--coral), var(--gold), var(--teal));
+    }
 
-        .result {
-            font-size: 20px;
-            font-weight: bold;
-            margin: 20px 0;
-            color: #222;
-        }
-        
-    </style>
+    .header-inner {
+      width: min(1280px, calc(100% - 28px));
+      margin: 0 auto;
+      min-height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .brand-mark { display: flex; }
+    .brand-logo { display: block; width: 34px; height: 34px; border-radius: 8px; }
+    .brand-text span { color: var(--gold); }
+
+    .nav-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      padding: 10px 9px;
+    }
+
+    .nav-toggle-bar {
+      display: block;
+      height: 2px;
+      background: #fff;
+      margin: 5px 0;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link, .dropdown-trigger {
+      color: rgba(255, 255, 255, 0.86);
+      text-decoration: none;
+      background: none;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+      padding: 8px 11px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover, .dropdown-trigger:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    .nav-link.is-active {
+      background: rgba(240, 180, 41, 0.22);
+      color: var(--gold);
+    }
+
+    .caret {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin-left: 6px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid currentColor;
+      vertical-align: middle;
+    }
+
+    .dropdown { position: relative; }
+
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      min-width: 230px;
+      margin: 0;
+      padding: 8px;
+      list-style: none;
+      background: #fff;
+      color: var(--ink);
+      border-radius: 10px;
+      box-shadow: 0 14px 34px rgba(15, 34, 64, 0.12);
+      border: 1px solid var(--line);
+      z-index: 80;
+    }
+
+    .dropdown-menu a, .dropdown-menu button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 9px 10px;
+      border: 0;
+      background: none;
+      font: inherit;
+      color: inherit;
+      text-decoration: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .dropdown-menu a:hover, .dropdown-menu button:hover {
+      background: #e7f6f3;
+      color: var(--navy);
+    }
+
+    .page {
+      width: min(920px, calc(100% - 32px));
+      margin: 24px auto 48px;
+    }
+
+    .batch-panel, .quiz-container {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 14px 34px rgba(15, 34, 64, 0.12);
+    }
+
+    .batch-panel { padding: 18px 20px; margin-bottom: 18px; }
+
+    .batch-panel h1 {
+      margin: 0 0 6px;
+      font-size: 1.45rem;
+      color: var(--navy);
+    }
+
+    .batch-panel p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+
+    .batch-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 10px;
+    }
+
+    .batch-row:last-child { margin-bottom: 0; }
+
+    .batch-row a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      background: #eaf2fb;
+      border: 1px solid #c5d6ea;
+      cursor: pointer;
+    }
+
+    .batch-row a:hover { background: #dce8f6; }
+
+    .batch-row a.is-active {
+      background: linear-gradient(180deg, #17b3a3, var(--teal));
+      color: #fff;
+      border-color: var(--teal);
+    }
+
+    .quiz-container { padding: 28px 24px 32px; text-align: center; }
+
+    .quiz-container h2 {
+      margin: 0 0 18px;
+      font-size: 1.25rem;
+      line-height: 1.4;
+      color: var(--navy);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .options button {
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 16px;
+      text-align: left;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f5f8fc;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .options button:hover:not(:disabled) {
+      background: #e7f6f3;
+      border-color: var(--teal);
+      color: var(--navy);
+    }
+
+    .options button:disabled { cursor: default; }
+
+    .options button.is-correct {
+      background: #e6f7f4;
+      border-color: var(--teal);
+      color: var(--teal-dark);
+      font-weight: 700;
+    }
+
+    .options button.is-wrong {
+      background: #fde8e8;
+      border-color: var(--coral);
+      color: #9b2c2c;
+    }
+
+    .result {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 16px 0 8px;
+      color: var(--navy);
+    }
+
+    #progress {
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    #restartBtn {
+      display: none;
+      margin-top: 16px;
+      min-height: 42px;
+      padding: 8px 18px;
+      border: 0;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #17b3a3, var(--teal));
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #restartBtn:hover { background: var(--teal-dark); }
+
+    .site-footer {
+      padding: 18px 16px;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.78);
+      background: linear-gradient(180deg, #163056, #0f2240);
+    }
+
+    .site-footer a { color: var(--gold); }
+
+    @media (max-width: 860px) {
+      .nav-toggle { display: block; }
+      .site-nav {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        background: #10243f;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px;
+        z-index: 90;
+      }
+      .site-header { position: sticky; }
+      .header-inner { position: relative; }
+      .site-nav.is-open { display: flex; }
+      .dropdown-menu { position: static; box-shadow: none; }
+    }
+  </style>
 </head>
-
-<body style="background: #0f1724;">
-    <nav class="navbar navbar-default" style="border-radius: 0px;">
-        <div class="container-fluid">
-            <div class="navbar-header active">
-                <a class="navbar-brand" href="#" style="background-color: #dff3f5;"
-                    onclick="showHidePage('bcvHome')">Build CV</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="https://www.buildcv.co.in/" >Home</a></li>
-            </ul>
-            <div class="profileContact contact">
-                <a href="mailto:contact@buildcv.co.in">📧buildcv.co.in@zohomail.in</a>
-            </div>
+<body>
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html#home" aria-label="BuildCV home">
+        <img class="brand-logo" src="assets/favicon.svg" width="34" height="34" alt="">
+        <span class="brand-text">Build<span>CV</span></span>
+      </a>
+      <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <a class="nav-link" href="index.html#home">Home</a>
+        <a class="nav-link" href="index.html#get-my-cv">Get My CV</a>
+        <a class="nav-link" href="index.html#build-json">Build CV Using JSON</a>
+        <a class="nav-link" href="index.html#javascript-compiler">Javascript Online Compiler</a>
+        <div class="dropdown" id="interview-dropdown">
+          <button class="nav-link dropdown-trigger" type="button" id="interview-trigger" aria-expanded="false" aria-haspopup="true" aria-controls="interview-menu">
+            Interview Preparation <span class="caret" aria-hidden="true"></span>
+          </button>
+          <ul class="dropdown-menu" id="interview-menu" role="menu" hidden>
+            <li role="none"><a role="menuitem" href="quiz.html" aria-current="page">React &amp; Beyond Quiz</a></li>
+            <li role="none"><a role="menuitem" href="typescript.html">TypeScript</a></li>
+            <li role="none"><a role="menuitem" href="python.pdf">Python</a></li>
+            <li role="none"><a role="menuitem" href="fastapi.pdf">FastAPI</a></li>
+            <li role="none"><button role="menuitem" type="button" id="java-coming-soon">Java</button></li>
+          </ul>
         </div>
-    </nav>
-    <p style="display: flex; justify-content: center; cursor: pointer;" onclick="handleQuizBatch(event)">
-        <a data-view="batch1">Quiz 1</a>&nbsp;&nbsp;<a data-view="batch2">Quiz 2</a>&nbsp;&nbsp;<a data-view="batch3">Quiz 3</a>&nbsp;&nbsp;<a data-view="batch4">Quiz 4</a>&nbsp;&nbsp;<a data-view="batch5">Quiz 5</a>&nbsp;&nbsp;
-        <a data-view="batch6">Quiz 6</a>&nbsp;&nbsp;<a  data-view="batch7">Quiz 7</a>&nbsp;&nbsp;<a data-view="batch8">Quiz 8</a>&nbsp;&nbsp;<a  data-view="batch9">Quiz 9</a>&nbsp;&nbsp;<a  data-view="batch10">Quiz 10</a>
-    </p>
-    <p style="display: flex; justify-content: center; cursor: pointer;" onclick="handleQuizBatch(event)">
-         <a data-view="batch11">Quiz 11</a>&nbsp;&nbsp;<a data-view="batch12">Quiz 12</a>&nbsp;&nbsp;<a data-view="batch13">Quiz 13</a>&nbsp;&nbsp;<a data-view="batch14">Quiz 14</a>&nbsp;&nbsp;<a data-view="batch15">Quiz 15</a>&nbsp;&nbsp;
-        <a data-view="batch16">Quiz 16</a>&nbsp;&nbsp;<a  data-view="batch17">Quiz 17</a>&nbsp;&nbsp;<a data-view="batch18">Quiz 18</a>&nbsp;&nbsp;<a  data-view="batch19">Quiz 19</a>&nbsp;&nbsp;<a  data-view="batch20">Quiz 20</a>
-    </p>
-    <p style="display: flex; justify-content: center; cursor: pointer;" onclick="handleQuizBatch(event)">
-         <a data-view="batch21">Quiz 21</a>&nbsp;&nbsp;<a data-view="batch22">Quiz 22</a>&nbsp;&nbsp;<a data-view="batch23">Quiz 23</a>&nbsp;&nbsp;<a data-view="batch24">Quiz 24</a>&nbsp;&nbsp;<a data-view="batch25">Quiz 25</a>&nbsp;&nbsp;
-        <a data-view="batch26">Quiz 26</a>&nbsp;&nbsp;<a  data-view="batch27">Quiz 27</a>&nbsp;&nbsp;<a data-view="batch28">Quiz 28</a>&nbsp;&nbsp;<a  data-view="batch29">Quiz 29</a>&nbsp;&nbsp;<a  data-view="batch30">Quiz 30</a>
-    </p>
-    <div class="quiz-body" style="background: #0f1724;">
-        <div class="quiz-container">
-            <h2 id="question" style="color: #7a7af0;">Loading question...</h2>
-            <div class="options" id="options"></div>
-            <div id="result" class="result" style="color: #7a7af0;"></div>
-            <div id="progress" style="color: #7a7af0;"></div>
-            <button id="restartBtn" class="btn" style="display: none;">Restart Quiz</button>
-        </div>
+        <a class="nav-link" href="index.html#about">About</a>
+        <a class="nav-link" href="cvEditor.html">CV Editor</a>
+      </nav>
     </div>
-    <script>
-        let quizData = [];
-        let currentQ = 0;
-        let score = 0;
+  </header>
 
-        const questionEl = document.getElementById("question");
-        const optionsEl = document.getElementById("options");
-        const resultEl = document.getElementById("result");
-        const progressEl = document.getElementById("progress");
-        const restartBtn = document.getElementById("restartBtn");
+  <main class="page">
+    <section class="batch-panel">
+      <h1>React &amp; Beyond Quiz</h1>
+      <p>Choose a quiz batch, then pick an answer. Your questions still load from the original quiz data.</p>
+      <div class="batch-row" onclick="handleQuizBatch(event)">
+        <a href="#" data-view="batch1">Quiz 1</a>
+        <a href="#" data-view="batch2">Quiz 2</a>
+        <a href="#" data-view="batch3">Quiz 3</a>
+        <a href="#" data-view="batch4">Quiz 4</a>
+        <a href="#" data-view="batch5">Quiz 5</a>
+        <a href="#" data-view="batch6">Quiz 6</a>
+        <a href="#" data-view="batch7">Quiz 7</a>
+        <a href="#" data-view="batch8">Quiz 8</a>
+        <a href="#" data-view="batch9">Quiz 9</a>
+        <a href="#" data-view="batch10">Quiz 10</a>
+      </div>
+      <div class="batch-row" onclick="handleQuizBatch(event)">
+        <a href="#" data-view="batch11">Quiz 11</a>
+        <a href="#" data-view="batch12">Quiz 12</a>
+        <a href="#" data-view="batch13">Quiz 13</a>
+        <a href="#" data-view="batch14">Quiz 14</a>
+        <a href="#" data-view="batch15">Quiz 15</a>
+        <a href="#" data-view="batch16">Quiz 16</a>
+        <a href="#" data-view="batch17">Quiz 17</a>
+        <a href="#" data-view="batch18">Quiz 18</a>
+        <a href="#" data-view="batch19">Quiz 19</a>
+        <a href="#" data-view="batch20">Quiz 20</a>
+      </div>
+      <div class="batch-row" onclick="handleQuizBatch(event)">
+        <a href="#" data-view="batch21">Quiz 21</a>
+        <a href="#" data-view="batch22">Quiz 22</a>
+        <a href="#" data-view="batch23">Quiz 23</a>
+        <a href="#" data-view="batch24">Quiz 24</a>
+        <a href="#" data-view="batch25">Quiz 25</a>
+        <a href="#" data-view="batch26">Quiz 26</a>
+        <a href="#" data-view="batch27">Quiz 27</a>
+        <a href="#" data-view="batch28">Quiz 28</a>
+        <a href="#" data-view="batch29">Quiz 29</a>
+        <a href="#" data-view="batch30">Quiz 30</a>
+      </div>
+    </section>
 
-        function handleQuizBatch(e){
-            let selectedBatch = e?.target?.dataset?.view || 'batch1';
-            loadQuizData(selectedBatch);
+    <div class="quiz-container">
+      <h2 id="question">Loading question...</h2>
+      <div class="options" id="options"></div>
+      <div id="result" class="result"></div>
+      <div id="progress"></div>
+      <button id="restartBtn" type="button">Restart Quiz</button>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <a href="mailto:buildcv.co.in@zohomail.in">📧buildcv.co.in@zohomail.in</a>
+  </footer>
+
+  <script>
+    let quizData = [];
+    let currentQ = 0;
+    let score = 0;
+    let busy = false;
+    let activeBatch = "batch1";
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const resultEl = document.getElementById("result");
+    const progressEl = document.getElementById("progress");
+    const restartBtn = document.getElementById("restartBtn");
+
+    function setActiveBatch(batch) {
+      activeBatch = batch;
+      document.querySelectorAll(".batch-row a").forEach(function (link) {
+        link.classList.toggle("is-active", link.getAttribute("data-view") === batch);
+      });
+    }
+
+    function handleQuizBatch(e) {
+      e.preventDefault();
+      const selectedBatch = e.target && e.target.dataset && e.target.dataset.view;
+      if (!selectedBatch) return;
+      currentQ = 0;
+      score = 0;
+      busy = false;
+      restartBtn.style.display = "none";
+      resultEl.textContent = "";
+      setActiveBatch(selectedBatch);
+      loadQuizData(selectedBatch);
+    }
+
+    async function loadQuizData(selectedQuizBatch) {
+      selectedQuizBatch = selectedQuizBatch || "batch1";
+      questionEl.textContent = "Loading question...";
+      optionsEl.innerHTML = "";
+      try {
+        const res = await fetch("https://www.buildcv.co.in/quiz/" + selectedQuizBatch + ".json");
+        if (!res.ok) throw new Error("Could not load quiz");
+        quizData = await res.json();
+        if (!Array.isArray(quizData) || !quizData.length) {
+          questionEl.textContent = "No questions were found in this quiz.";
+          return;
         }
+        loadQuestion();
+      } catch (err) {
+        questionEl.textContent = "Failed to load questions!";
+        progressEl.textContent = "";
+      }
+    }
 
-        async function loadQuizData(selectedQuizBatch = 'batch1') {
-            try {
-                //https://www.buildcv.co.in/quiz/batch1.json
-                // const res = await fetch(`quiz/${selectedQuizBatch}.json`);
-                const res = await fetch(`https://www.buildcv.co.in/quiz/${selectedQuizBatch}.json`);
-                quizData = await res.json();
-                loadQuestion();
-            } catch (err) {
-                questionEl.textContent = "Failed to load questions!";
-            }
+    function loadQuestion() {
+      const current = quizData[currentQ];
+      if (!current) {
+        questionEl.textContent = "Failed to load questions!";
+        return;
+      }
+      busy = false;
+      resultEl.textContent = "";
+      questionEl.textContent = "Q" + (currentQ + 1) + ": " + current.question;
+      optionsEl.innerHTML = "";
+      current.options.forEach(function (opt) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = opt;
+        btn.onclick = function () { checkAnswer(opt, btn); };
+        optionsEl.appendChild(btn);
+      });
+      progressEl.textContent = "Question " + (currentQ + 1) + " of " + quizData.length;
+    }
+
+    function checkAnswer(selected, clickedBtn) {
+      if (busy) return;
+      busy = true;
+      const current = quizData[currentQ];
+      const correct = current && selected === current.answer;
+      if (correct) score++;
+
+      Array.prototype.forEach.call(optionsEl.querySelectorAll("button"), function (btn) {
+        btn.disabled = true;
+        if (btn.textContent === current.answer) btn.classList.add("is-correct");
+      });
+      if (clickedBtn && !correct) clickedBtn.classList.add("is-wrong");
+
+      window.setTimeout(function () {
+        currentQ++;
+        if (currentQ < quizData.length) {
+          loadQuestion();
+        } else {
+          showResult();
         }
+      }, 450);
+    }
 
-        function loadQuestion() {
-            resultEl.textContent = "";
-            const current = quizData[currentQ];
-            questionEl.textContent = `Q${currentQ + 1}: ${current.question}`;
-            optionsEl.innerHTML = "";
-            current.options.forEach((opt) => {
-                const btn = document.createElement("button");
-                btn.textContent = opt;
-                btn.onclick = () => checkAnswer(opt);
-                optionsEl.appendChild(btn);
-            });
+    function showResult() {
+      questionEl.textContent = "Quiz Completed 🎉";
+      optionsEl.innerHTML = "";
+      progressEl.textContent = "";
+      resultEl.textContent = "Your Score: " + score + " / " + quizData.length;
+      restartBtn.style.display = "inline-block";
+    }
 
-            progressEl.textContent = `Question ${currentQ + 1} of ${quizData.length}`;
-        }
+    restartBtn.addEventListener("click", function () {
+      currentQ = 0;
+      score = 0;
+      busy = false;
+      restartBtn.style.display = "none";
+      loadQuestion();
+    });
 
-        function checkAnswer(selected) {
-            if (selected === quizData[currentQ].answer) {
-                score++;
-            }
-            currentQ++;
-            if (currentQ < quizData.length) {
-                loadQuestion();
-            } else {
-                showResult();
-            }
-        }
+    var nav = document.getElementById("site-nav");
+    var toggle = document.getElementById("nav-toggle");
+    toggle.addEventListener("click", function () {
+      var open = !nav.classList.contains("is-open");
+      nav.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+    });
 
-        function showResult() {
-            questionEl.textContent = "Quiz Completed 🎉";
-            optionsEl.innerHTML = "";
-            progressEl.textContent = "";
-            resultEl.textContent = `Your Score: ${score} / ${quizData.length}`;
-            restartBtn.style.display = "inline-block";
-        }
+    var interviewMenu = document.getElementById("interview-menu");
+    var interviewTrigger = document.getElementById("interview-trigger");
+    interviewTrigger.addEventListener("click", function (event) {
+      event.stopPropagation();
+      interviewMenu.hidden = !interviewMenu.hidden;
+      interviewTrigger.setAttribute("aria-expanded", String(!interviewMenu.hidden));
+    });
+    document.addEventListener("click", function (event) {
+      if (!document.getElementById("interview-dropdown").contains(event.target)) {
+        interviewMenu.hidden = true;
+        interviewTrigger.setAttribute("aria-expanded", "false");
+      }
+    });
+    document.getElementById("java-coming-soon").addEventListener("click", function () {
+      window.alert("Java interview preparation is coming soon!");
+      interviewMenu.hidden = true;
+    });
 
-        restartBtn.addEventListener("click", () => {
-            currentQ = 0;
-            score = 0;
-            restartBtn.style.display = "none";
-            loadQuestion();
-        });
-
-        loadQuizData();
-    </script>
+    setActiveBatch("batch1");
+    loadQuizData();
+  </script>
 </body>
-
 </html>
