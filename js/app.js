@@ -27,7 +27,8 @@
       resume: "buildcv.resume.v1",
       json: "buildcv.json.v1",
       compiler: "buildcv.compiler.v1",
-      theme: "buildcv.theme.v1"
+      theme: "buildcv.theme.v1",
+      template: "buildcv.template.v3"
     }
   };
 
@@ -183,8 +184,8 @@
   }
 
   /**
-   * Clone the visible CV to the document body so print output has no leftover
-   * editor/header space, then open the browser print dialog.
+   * Clone the visible CV to the document body so print/download matches the
+   * live preview (including the active template), then open the print dialog.
    */
   BuildCV.printActiveResume = function () {
     var activeView = document.querySelector(".view.is-active");
@@ -198,16 +199,35 @@
 
     var clone = target.cloneNode(true);
     clone.id = "print-root";
-    clone.className = "cv-paper print-target";
-    clone.style.setProperty(
-      "--cv-accent",
-      getComputedStyle(target).getPropertyValue("--cv-accent") || "#1e3d6b"
-    );
+    clone.className = (target.className || "cv-paper") + " print-target";
+    clone.classList.remove("hidden");
+
+    var templateId =
+      target.getAttribute("data-template") ||
+      (BuildCV.getTemplateId ? BuildCV.getTemplateId() : "clarity");
+    clone.setAttribute("data-template", templateId);
+    if (target.hasAttribute("data-cv-surface")) {
+      clone.setAttribute("data-cv-surface", target.getAttribute("data-cv-surface") || "");
+    }
+
+    var accent =
+      getComputedStyle(target).getPropertyValue("--cv-accent").trim() || "#1e3d6b";
+    clone.style.setProperty("--cv-accent", accent);
+
+    // Keep template-critical inline styles from the live preview when present.
+    if (target.style && target.style.cssText) {
+      clone.style.cssText = target.style.cssText;
+      clone.style.setProperty("--cv-accent", accent);
+    }
 
     document.documentElement.classList.add("is-printing");
     document.body.classList.add("is-printing");
     document.body.appendChild(clone);
-    window.print();
+
+    // Let layout paint with print classes before the dialog opens.
+    requestAnimationFrame(function () {
+      window.print();
+    });
   };
 
   window.addEventListener("afterprint", clearPrintState);
@@ -360,6 +380,7 @@
 
     bindNavigation();
     BuildCV.initThemePickers();
+    if (BuildCV.initTemplatePickers) BuildCV.initTemplatePickers();
     if (!location.hash) {
       history.replaceState(null, "", "#home");
     }

@@ -173,5 +173,13 @@
       }
       BuildCV.printActiveResume();
     });
+
+    document.addEventListener(BuildCV.TEMPLATE_CHANGE_EVENT || "buildcv:templatechange", function () {
+      if (lastValid) {
+        BuildCV.mountResume(preview, lastValid);
+      } else if (preview) {
+        validateAndRender(false);
+      }
+    });
   });
 })();

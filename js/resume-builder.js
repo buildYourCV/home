@@ -152,6 +152,7 @@
 
   /**
    * Render an ATS-friendly CV. Empty sections are omitted.
+   * Layout variants come from BuildCV.getActiveTemplate() (see cv-templates.js).
    */
   BuildCV.renderResumeHtml = function (raw) {
     var data = BuildCV.normalizeResume(raw);
@@ -160,6 +161,9 @@
     var contact = [p.email, p.phone, p.location, p.website, p.linkedin, p.github]
       .map(function (item) { return String(item || "").trim(); })
       .filter(Boolean);
+    var template = BuildCV.getActiveTemplate ? BuildCV.getActiveTemplate() : { id: "clarity", layout: "stack" };
+    var useSidebar = template && (template.layout === "sidebar" || template.layout === "sidebar-right");
+    var sidebarRight = template && template.layout === "sidebar-right";
 
     if (!p.name.trim() && !p.title.trim() && !contact.length && !data.summary.trim() &&
         !data.skills.length && !hasContent(data.experience, ["company", "role"]) &&
@@ -170,32 +174,43 @@
       return '<p class="cv-empty">Your live preview will appear here as you add resume details.</p>';
     }
 
-    var html = "";
-    html += "<header>";
-    if (p.name.trim()) html += '<p class="cv-name">' + e(p.name) + "</p>";
-    if (p.title.trim()) html += '<p class="cv-title">' + e(p.title) + "</p>";
-    if (contact.length) {
-      html += '<div class="cv-contact">' + contact.map(function (item) {
-        return "<span>" + e(item) + "</span>";
+    function headerHtml() {
+      var html = '<header class="cv-header-block">';
+      if (p.name.trim()) html += '<p class="cv-name">' + e(p.name) + "</p>";
+      if (p.title.trim()) html += '<p class="cv-title">' + e(p.title) + "</p>";
+      if (contact.length) {
+        html += '<div class="cv-contact">' + contact.map(function (item) {
+          return "<span>" + e(item) + "</span>";
+        }).join("") + "</div>";
+      }
+      html += "</header>";
+      return html;
+    }
+
+    function summaryHtml() {
+      if (!data.summary.trim()) return "";
+      return '<section class="cv-section"><h2>Summary</h2><p>' + e(data.summary) + "</p></section>";
+    }
+
+    function tagsHtml(items, className) {
+      return '<div class="' + className + '">' + items.map(function (name) {
+        return '<span class="cv-tag">' + e(name) + "</span>";
       }).join("") + "</div>";
     }
-    html += "</header>";
 
-    if (data.summary.trim()) {
-      html += '<section class="cv-section"><h2>Summary</h2><p>' + e(data.summary) + "</p></section>";
+    function skillsHtml() {
+      if (!data.skills.length) return "";
+      return '<section class="cv-section"><h2>Skills</h2>' +
+        tagsHtml(data.skills.map(function (s) { return s.name; }), "cv-skills") +
+        "</section>";
     }
 
-    if (data.skills.length) {
-      html += '<section class="cv-section"><h2>Skills</h2><p>' +
-        e(data.skills.map(function (s) { return s.name; }).join(" · ")) +
-        "</p></section>";
-    }
-
-    if (hasContent(data.experience, ["company", "role", "description"])) {
-      html += '<section class="cv-section"><h2>Experience</h2>';
+    function experienceHtml() {
+      if (!hasContent(data.experience, ["company", "role", "description"])) return "";
+      var html = '<section class="cv-section"><h2>Experience</h2>';
       data.experience.forEach(function (item) {
         if (!item.company && !item.role && !item.description.length) return;
-        html += '<article class="cv-item">';
+        html += '<article class="cv-item cv-item--timeline">';
         html += '<div class="cv-item-head"><span>' + e(item.role || "Role") + "</span><span>" +
           e([item.startDate, item.endDate].filter(Boolean).join(" – ")) + "</span></div>";
         html += '<div class="cv-item-sub"><span>' + e([item.company, item.location].filter(Boolean).join(" · ")) +
@@ -206,33 +221,35 @@
           }).join("") + "</ul>";
         }
         if (item.technologies.length) {
-          html += '<p class="cv-tech">' + e(item.technologies.join(" · ")) + "</p>";
+          html += tagsHtml(item.technologies, "cv-tech");
         }
         html += "</article>";
       });
-      html += "</section>";
+      return html + "</section>";
     }
 
-    if (hasContent(data.projects, ["name", "description"])) {
-      html += '<section class="cv-section"><h2>Projects</h2>';
+    function projectsHtml() {
+      if (!hasContent(data.projects, ["name", "description"])) return "";
+      var html = '<section class="cv-section"><h2>Projects</h2>';
       data.projects.forEach(function (item) {
         if (!item.name && !item.description) return;
         html += '<article class="cv-item">';
         html += '<div class="cv-item-head"><span>' + e(item.name) + "</span><span>" + e(item.url) + "</span></div>";
         if (item.description) html += "<p>" + e(item.description) + "</p>";
         if (item.technologies.length) {
-          html += '<p class="cv-tech">' + e(item.technologies.join(" · ")) + "</p>";
+          html += tagsHtml(item.technologies, "cv-tech");
         }
         html += "</article>";
       });
-      html += "</section>";
+      return html + "</section>";
     }
 
-    if (hasContent(data.education, ["school", "degree"])) {
-      html += '<section class="cv-section"><h2>Education</h2>';
+    function educationHtml() {
+      if (!hasContent(data.education, ["school", "degree"])) return "";
+      var html = '<section class="cv-section"><h2>Education</h2>';
       data.education.forEach(function (item) {
         if (!item.school && !item.degree) return;
-        html += '<article class="cv-item">';
+        html += '<article class="cv-item cv-item--timeline">';
         html += '<div class="cv-item-head"><span>' + e([item.degree, item.field].filter(Boolean).join(" in ")) +
           "</span><span>" + e([item.startDate, item.endDate].filter(Boolean).join(" – ")) + "</span></div>";
         html += '<div class="cv-item-sub"><span>' + e([item.school, item.location].filter(Boolean).join(" · ")) +
@@ -240,40 +257,62 @@
         if (item.details) html += "<p>" + e(item.details) + "</p>";
         html += "</article>";
       });
-      html += "</section>";
+      return html + "</section>";
     }
 
-    if (hasContent(data.certifications, ["name"])) {
-      html += '<section class="cv-section"><h2>Certifications</h2><ul>';
+    function certificationsHtml() {
+      if (!hasContent(data.certifications, ["name"])) return "";
+      var html = '<section class="cv-section"><h2>Certifications</h2><ul>';
       data.certifications.forEach(function (item) {
         if (!item.name) return;
         html += "<li>" + e([item.name, item.issuer, item.date].filter(Boolean).join(" — ")) + "</li>";
       });
-      html += "</ul></section>";
+      return html + "</ul></section>";
     }
 
-    if (data.achievements.length) {
-      html += '<section class="cv-section"><h2>Achievements</h2><ul>';
+    function achievementsHtml() {
+      if (!data.achievements.length) return "";
+      var html = '<section class="cv-section"><h2>Achievements</h2><ul>';
       data.achievements.forEach(function (item) {
         html += "<li>" + e(item.text) + "</li>";
       });
-      html += "</ul></section>";
+      return html + "</ul></section>";
     }
 
-    if (data.languages.length) {
-      html += '<section class="cv-section"><h2>Languages</h2><p>' +
-        e(data.languages.map(function (item) {
-          return item.proficiency ? item.name + " (" + item.proficiency + ")" : item.name;
-        }).join(" · ")) +
-        "</p></section>";
+    function languagesHtml() {
+      if (!data.languages.length) return "";
+      var html = '<section class="cv-section"><h2>Languages</h2><div class="cv-langs">';
+      data.languages.forEach(function (item) {
+        html += '<div class="cv-lang">';
+        html += '<span class="cv-lang-name">' + e(item.name) + "</span>";
+        if (item.proficiency) {
+          html += '<span class="cv-lang-level">' + e(item.proficiency) + "</span>";
+        }
+        html += "</div>";
+      });
+      return html + "</div></section>";
     }
 
-    return html;
+    if (useSidebar) {
+      var asideHtml = '<aside class="cv-aside">' + skillsHtml() + languagesHtml() + certificationsHtml() + "</aside>";
+      var mainHtml = '<div class="cv-main">' + summaryHtml() + experienceHtml() + projectsHtml() +
+        educationHtml() + achievementsHtml() + "</div>";
+      return headerHtml() +
+        '<div class="cv-columns">' +
+        (sidebarRight ? mainHtml + asideHtml : asideHtml + mainHtml) +
+        "</div>";
+    }
+
+    return headerHtml() + summaryHtml() + skillsHtml() + experienceHtml() + projectsHtml() +
+      educationHtml() + certificationsHtml() + achievementsHtml() + languagesHtml();
   };
 
   BuildCV.mountResume = function (container, data) {
     if (!container) return;
     container.innerHTML = BuildCV.renderResumeHtml(data);
+    if (BuildCV.getTemplateId) {
+      container.setAttribute("data-template", BuildCV.getTemplateId());
+    }
   };
 
   var state = emptyResume();
@@ -947,6 +986,13 @@
   document.addEventListener("DOMContentLoaded", function () {
     formEl = document.getElementById("resume-form");
     previewEl = document.getElementById("home-cv-preview");
+
+    document.addEventListener(BuildCV.TEMPLATE_CHANGE_EVENT || "buildcv:templatechange", function () {
+      if (previewEl && formEl) {
+        BuildCV.mountResume(previewEl, state);
+      }
+    });
+
     if (!formEl || !previewEl) return;
     bindFormEvents();
     bindHomeActions();
