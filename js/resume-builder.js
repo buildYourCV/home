@@ -504,71 +504,108 @@
     return "";
   };
 
-  /**
-   * Extract a named file from a ZIP ArrayBuffer using DecompressionStream.
-   * DOCX files are ZIP archives; this keeps parsing self-contained.
-   */
-  async function unzipEntry(buffer, targetPath) {
-    var view = new DataView(buffer);
-    var bytes = new Uint8Array(buffer);
-    var offset = 0;
+  function looksLikeHeading(line) {
+    var key = String(line || "").replace(/[:\-–—|•.]+$/g, "").trim().toLowerCase();
+    return /^(summary|professional summary|profile|objective|about me|experience|work experience|professional experience|employment|work history|education|academic background|skills|technical skills|core skills|key skills|technologies|tech stack|projects|personal projects|key projects|certifications?|licenses?|achievements?|awards|accomplishments|languages|contact|contact information)$/i.test(key);
+  }
 
-    while (offset < bytes.length - 30) {
-      var sig = view.getUint32(offset, true);
-      if (sig === 0x04034b50) {
-        var flags = view.getUint16(offset + 6, true);
-        var method = view.getUint16(offset + 8, true);
-        var compSize = view.getUint32(offset + 18, true);
-        var nameLen = view.getUint16(offset + 26, true);
-        var extraLen = view.getUint16(offset + 28, true);
-        var name = new TextDecoder().decode(bytes.subarray(offset + 30, offset + 30 + nameLen));
-        var dataStart = offset + 30 + nameLen + extraLen;
+  function headingBucket(line) {
+    var key = String(line || "").toLowerCase();
+    if (/skill|technolog|tech stack/.test(key)) return "skills";
+    if (/educat|academic/.test(key)) return "education";
+    if (/project/.test(key)) return "projects";
+    if (/certif|license/.test(key)) return "certifications";
+    if (/achieve|award|accomplish/.test(key)) return "achievements";
+    if (/language/.test(key)) return "languages";
+    if (/experience|employment|work history/.test(key)) return "experience";
+    if (/summary|profile|objective|about/.test(key)) return "summary";
+    return null;
+  }
 
-        if (flags & 0x08) {
-          throw new Error("This DOCX uses a ZIP data descriptor that this parser does not support.");
+  function isContactLine(line) {
+    return /@|linkedin|github|https?:\/\/|\+?\d[\d\s().-]{7,}\d/i.test(line);
+  }
+
+  function splitExperienceBlocks(lines) {
+    var blocks = [];
+    var current = [];
+    var dateRe = /\b((?:19|20)\d{2}|\w{3,9}\s+(?:19|20)\d{2})\s*[-–—to]+\s*((?:19|20)\d{2}|present|current|now|\w{3,9}\s+(?:19|20)\d{2})\b/i;
+
+    lines.forEach(function (line) {
+      var looksNew =
+        current.length > 0 &&
+        (dateRe.test(line) || (/^[A-Z].{2,60}$/.test(line) && !/^[•\-\*]/.test(line) && current.length >= 2));
+
+      if (looksNew && dateRe.test(line) && current.length) {
+        blocks.push(current);
+        current = [line];
+        return;
+      }
+      if (looksNew && /^[A-Z]/.test(line) && current.length >= 3 && !/^[•\-\*]/.test(line)) {
+        var prev = current[current.length - 1];
+        if (dateRe.test(prev) || dateRe.test(current[0]) || dateRe.test(current[1] || "")) {
+          blocks.push(current);
+          current = [line];
+          return;
         }
+      }
+      current.push(line);
+    });
+    if (current.length) blocks.push(current);
+    return blocks.length ? blocks : [lines];
+  }
 
-        var compressed = bytes.subarray(dataStart, dataStart + compSize);
-        if (name === targetPath) {
-          if (method === 0) return compressed;
-          if (method === 8) {
-            if (typeof DecompressionStream === "undefined") {
-              throw new Error("This browser cannot decompress DOCX files without a library.");
-            }
-            var stream = new Blob([compressed]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
-            return new Uint8Array(await new Response(stream).arrayBuffer());
-          }
-          throw new Error("Unsupported DOCX compression method.");
-        }
-        offset = dataStart + compSize;
-      } else if (sig === 0x02014b50 || sig === 0x06054b50) {
+  function parseExperienceBlock(block) {
+    var dateRe = /\b((?:19|20)\d{2}|\w{3,9}\s+(?:19|20)\d{2})\s*[-–—to]+\s*((?:19|20)\d{2}|present|current|now|\w{3,9}\s+(?:19|20)\d{2})\b/i;
+    var role = "";
+    var company = "";
+    var startDate = "";
+    var endDate = "";
+    var location = "";
+    var description = [];
+    var used = {};
+
+    for (var i = 0; i < Math.min(block.length, 4); i++) {
+      var m = block[i].match(dateRe);
+      if (m) {
+        startDate = m[1];
+        endDate = m[2];
+        used[i] = true;
+        var rest = block[i].replace(dateRe, "").replace(/[|•·]/g, " ").trim();
+        if (rest && rest.length < 60) location = rest;
         break;
-      } else {
-        offset += 1;
       }
     }
-    throw new Error("Could not find word/document.xml inside the DOCX file.");
-  }
 
-  function xmlToText(xmlString) {
-    var doc = new DOMParser().parseFromString(xmlString, "application/xml");
-    if (doc.querySelector("parsererror")) {
-      throw new Error("The Word document XML could not be parsed.");
+    for (var j = 0; j < Math.min(block.length, 3); j++) {
+      if (used[j]) continue;
+      var line = block[j].trim();
+      if (/^[•\-\*]/.test(line)) continue;
+      if (!role) {
+        role = line;
+        used[j] = true;
+      } else if (!company) {
+        company = line;
+        used[j] = true;
+      }
     }
-    var lines = [];
-    doc.querySelectorAll("p, w\\:p").forEach(function (p) {
-      var text = (p.textContent || "").replace(/\s+/g, " ").trim();
-      if (text) lines.push(text);
+
+    block.forEach(function (line, idx) {
+      if (used[idx]) return;
+      var cleaned = line.replace(/^[•\-\*]\s*/, "").trim();
+      if (cleaned) description.push(cleaned);
     });
-    if (!lines.length) {
-      var fallback = (doc.documentElement.textContent || "").replace(/\s+/g, " ").trim();
-      if (fallback) lines.push(fallback);
-    }
-    return lines;
-  }
 
-  function looksLikeHeading(line) {
-    return /^(summary|profile|objective|experience|work experience|employment|education|skills|projects|certifications?|achievements?|awards|languages)$/i.test(line.trim());
+    return {
+      id: BuildCV.uid(),
+      company: company,
+      role: role,
+      location: location,
+      startDate: startDate,
+      endDate: endDate,
+      description: description,
+      technologies: []
+    };
   }
 
   /**
@@ -577,84 +614,116 @@
    */
   BuildCV.parseResumeLines = function (lines) {
     var resume = emptyResume();
-    if (!lines.length) return resume;
+    if (!lines || !lines.length) return resume;
 
-    resume.personal.name = lines[0];
     var joined = lines.join("\n");
     var email = joined.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
     var phone = joined.match(/(\+?\d[\d\s().-]{7,}\d)/);
-    var linkedin = joined.match(/https?:\/\/\S*linkedin\S*/i);
-    var github = joined.match(/https?:\/\/\S*github\S*/i);
+    var linkedin = joined.match(/https?:\/\/[^\s]*linkedin[^\s]*/i);
+    var github = joined.match(/https?:\/\/[^\s]*github[^\s]*/i);
+    var website = joined.match(/https?:\/\/(?![^\s]*(?:linkedin|github))[^\s]+/i);
 
     if (email) resume.personal.email = email[0];
     if (phone) resume.personal.phone = phone[0].trim();
-    if (linkedin) resume.personal.linkedin = linkedin[0];
-    if (github) resume.personal.github = github[0];
+    if (linkedin) resume.personal.linkedin = linkedin[0].replace(/[.,);]+$/, "");
+    if (github) resume.personal.github = github[0].replace(/[.,);]+$/, "");
+    if (website) resume.personal.website = website[0].replace(/[.,);]+$/, "");
+
+    var headerEnd = 0;
+    for (var h = 0; h < Math.min(lines.length, 8); h++) {
+      if (looksLikeHeading(lines[h])) break;
+      headerEnd = h + 1;
+    }
+
+    var headerLines = lines.slice(0, headerEnd).filter(function (line) {
+      return line && !isContactLine(line);
+    });
+    if (headerLines[0]) resume.personal.name = headerLines[0];
+    if (headerLines[1] && headerLines[1].length < 80) resume.personal.title = headerLines[1];
 
     var current = "summary";
-    var buckets = { summary: [], experience: [], education: [], skills: [], projects: [], certifications: [], achievements: [], languages: [] };
+    var buckets = {
+      summary: [],
+      experience: [],
+      education: [],
+      skills: [],
+      projects: [],
+      certifications: [],
+      achievements: [],
+      languages: []
+    };
 
-    lines.slice(1).forEach(function (line) {
-      var key = line.trim().toLowerCase();
-      if (looksLikeHeading(key)) {
-        if (/skill/.test(key)) current = "skills";
-        else if (/educat/.test(key)) current = "education";
-        else if (/project/.test(key)) current = "projects";
-        else if (/certif/.test(key)) current = "certifications";
-        else if (/achieve|award/.test(key)) current = "achievements";
-        else if (/language/.test(key)) current = "languages";
-        else if (/experience|employment/.test(key)) current = "experience";
-        else current = "summary";
+    lines.slice(headerEnd).forEach(function (line) {
+      if (looksLikeHeading(line)) {
+        var bucket = headingBucket(line);
+        if (bucket) current = bucket;
         return;
       }
+      if (isContactLine(line) && current === "summary" && !buckets.summary.length) return;
       if (buckets[current]) buckets[current].push(line);
     });
 
-    resume.summary = buckets.summary.join(" ");
-    resume.skills = buckets.skills.join(", ").split(/[,•|]/).map(function (name) {
+    resume.summary = buckets.summary.join(" ").trim();
+    resume.skills = buckets.skills.join(", ").split(/[,•|·/;]+/).map(function (name) {
       return { id: BuildCV.uid(), name: name.trim() };
     }).filter(function (s) { return s.name; });
 
     if (buckets.experience.length) {
-      resume.experience = [{
-        id: BuildCV.uid(),
-        company: "",
-        role: "",
-        location: "",
-        startDate: "",
-        endDate: "",
-        description: buckets.experience,
-        technologies: []
-      }];
+      resume.experience = splitExperienceBlocks(buckets.experience).map(parseExperienceBlock);
     }
+
     if (buckets.education.length) {
-      resume.education = [{
-        id: BuildCV.uid(),
-        school: buckets.education[0] || "",
-        degree: "",
-        field: "",
-        location: "",
-        startDate: "",
-        endDate: "",
-        details: buckets.education.slice(1).join(" ")
-      }];
+      var eduBlocks = splitExperienceBlocks(buckets.education);
+      resume.education = eduBlocks.map(function (block) {
+        var dateRe = /\b((?:19|20)\d{2}|\w{3,9}\s+(?:19|20)\d{2})\s*[-–—to]+\s*((?:19|20)\d{2}|present|current|now|\w{3,9}\s+(?:19|20)\d{2})\b/i;
+        var school = block[0] || "";
+        var degree = block[1] || "";
+        var startDate = "";
+        var endDate = "";
+        var details = [];
+        block.forEach(function (line, idx) {
+          var m = line.match(dateRe);
+          if (m) {
+            startDate = m[1];
+            endDate = m[2];
+            return;
+          }
+          if (idx > 1) details.push(line);
+        });
+        return {
+          id: BuildCV.uid(),
+          school: school,
+          degree: degree,
+          field: "",
+          location: "",
+          startDate: startDate,
+          endDate: endDate,
+          details: details.join(" ")
+        };
+      });
     }
+
     if (buckets.projects.length) {
-      resume.projects = [{
-        id: BuildCV.uid(),
-        name: "Imported project details",
-        url: "",
-        description: buckets.projects.join(" "),
-        technologies: []
-      }];
+      var projBlocks = splitExperienceBlocks(buckets.projects);
+      resume.projects = projBlocks.map(function (block) {
+        var urlMatch = block.join(" ").match(/https?:\/\/[^\s]+/i);
+        return {
+          id: BuildCV.uid(),
+          name: block[0] || "Project",
+          url: urlMatch ? urlMatch[0].replace(/[.,);]+$/, "") : "",
+          description: block.slice(1).join(" "),
+          technologies: []
+        };
+      });
     }
+
     resume.certifications = buckets.certifications.map(function (text) {
       return { id: BuildCV.uid(), name: text, issuer: "", date: "" };
     });
     resume.achievements = buckets.achievements.map(function (text) {
       return { id: BuildCV.uid(), text: text };
     });
-    resume.languages = buckets.languages.join(", ").split(/[,•|]/).map(function (name) {
+    resume.languages = buckets.languages.join(", ").split(/[,•|·/;]+/).map(function (name) {
       return { id: BuildCV.uid(), name: name.trim(), proficiency: "" };
     }).filter(function (l) { return l.name; });
 
@@ -662,17 +731,14 @@
   };
 
   /**
-   * Isolated DOCX processing entry point. Replace this function to plug in another parser.
+   * DOCX import entry point — uses BuildCV/js/docx-parser.js.
    */
   BuildCV.importDocx = async function (file) {
-    var buffer = await file.arrayBuffer();
-    var xmlBytes = await unzipEntry(buffer, "word/document.xml");
-    var xml = new TextDecoder("utf-8").decode(xmlBytes);
-    var lines = xmlToText(xml);
-    if (!lines.length) {
-      throw new Error("No readable text was found in the DOCX file.");
+    if (!BuildCV.parseDocx) {
+      throw new Error("DOCX parser is not loaded. Ensure js/docx-parser.js is included.");
     }
-    return BuildCV.parseResumeLines(lines);
+    var parsed = await BuildCV.parseDocx(file);
+    return BuildCV.parseResumeLines(parsed.paragraphs || parsed.lines || []);
   };
 
   function bindFormEvents() {
