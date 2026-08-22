@@ -25,7 +25,7 @@ Recommended supporting structure:
 ```text
 /
 ├── index.html
-├── style/
+├── css/
 │   └── style.css
 ├── js/
 │   └── app.js
@@ -481,7 +481,7 @@ Suggested structure:
 
 ```text
 index.html
-style/
+css/
   style.css
 js/
   app.js

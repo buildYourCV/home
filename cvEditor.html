@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BuildCV — CV Editor</title>
-  <link rel="icon" href="images/" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/cv-templates.css">
   <style>
     :root {
       --navy: #1e3d6b;
@@ -586,7 +587,7 @@
   <header class="site-header" id="site-header">
     <div class="header-inner">
       <a class="brand" href="index.html#home" aria-label="BuildCV home">
-        <img class="brand-logo" src="images/favicon.svg" width="34" height="34" alt="">
+        <img class="brand-logo" src="assets/favicon.svg" width="34" height="34" alt="">
         <span class="brand-text">Build<span>CV</span></span>
       </a>
       <button class="nav-toggle" type="button" id="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
@@ -674,6 +675,9 @@
         <div data-theme-picker></div>
       </div>
       <div class="tool-group">
+        <button class="rbtn" type="button" data-template-open title="Select a resume template">Select template</button>
+      </div>
+      <div class="tool-group">
         <button class="rbtn rbtn-primary" type="button" id="exportBtn" title="Print or save as PDF">Export to PDF / Print</button>
         <button class="rbtn rbtn-ghost" type="button" id="resetBtn" title="Restore the original CV template">Reset Template</button>
       </div>
@@ -697,6 +701,9 @@
         <button class="rbtn" type="button" data-zoom="125">125%</button>
       </div>
       <div class="tool-group">
+        <button class="rbtn" type="button" data-template-open title="Select a resume template">Select template</button>
+      </div>
+      <div class="tool-group">
         <button class="rbtn rbtn-primary" type="button" id="exportBtn2">Print / PDF</button>
       </div>
       <p class="hint">A4 page. Use your browser print dialog and choose Save as PDF.</p>
@@ -705,7 +712,7 @@
 
   <div class="workspace">
     <div class="page-wrap" id="page-wrap">
-      <div class="page" id="editor" contenteditable="true" spellcheck="true" role="textbox" aria-label="CV document">
+      <div class="page" id="editor" data-cv-surface contenteditable="true" spellcheck="true" role="textbox" aria-label="CV document">
         <div class="cv-header">
           <div class="cv-name">ABHISHEK KUMAR</div>
           <div class="cv-contact">123 Street Address, City, State, Zip | +91-9154826149 | buildcv.co.in@zohomail.in |
@@ -846,6 +853,7 @@
     </div>
   </div>
 
+  <script src="js/cv-templates.js"></script>
   <script>
     (function () {
       var STORAGE_KEY = "ms_word_cv_content";
@@ -1178,6 +1186,9 @@
 
       loadSaved();
       initThemePicker();
+      if (window.BuildCV && BuildCV.initTemplatePickers) {
+        BuildCV.initTemplatePickers();
+      }
       setZoom(100);
       editor.focus();
     })();
